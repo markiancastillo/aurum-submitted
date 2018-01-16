@@ -1,8 +1,6 @@
 <?php
-	#include 'header.php';
-	include 'config.php';
-	include 'security.php';
-
+	$pageTitle = "Create New User";
+	include('includes/header.php');
 	#for new accounts, default username: firstname.lastname
 	#for new accounts, default password: change.lastname
 	#for new accounts, status is set to: "pending" - will require password change on first login. After first password change, status will be 'Active'
@@ -61,3 +59,12 @@
 		}
 	}
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	
+</body>
+</html>

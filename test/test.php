@@ -1,5 +1,5 @@
 <?php
-	$plaintext = 'My secret message 1234';
+	$plaintext = 'change.akyatpanaog';
 	$password = '3sc3RLrpd17';
 	$method = 'aes-256-cbc';
 	
