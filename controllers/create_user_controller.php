@@ -46,25 +46,5 @@
 					   VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$params_insert = array($defUsername, $defPassword, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpCivilStatus, $inpEmail, $inpPosition, $inpBaseRate, "Pending", $inpDepartment);
 		$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
-
-		if($stmt_insert === false)
-		{
-			#die(print_r(sqlsrv_errors(), true));
-			echo "Record creation failed! Please check your input and try again.";
-		}
-		else 
-		{
-			#insert successful!
-			echo "Successfully created a new record!";
-		}
 	}
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	
-</body>
-</html>

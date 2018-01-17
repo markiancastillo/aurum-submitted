@@ -32,10 +32,5 @@
 				header('location: index.php');
 			}
 		}
-		else
-		{
-			#unsuccessful login
-			echo "Error! Incorrrect username or password.";
-		}
 	}
 ?>
