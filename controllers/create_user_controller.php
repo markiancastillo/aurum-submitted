@@ -6,37 +6,31 @@
 	#for new accounts, default username: firstname.lastname
 	#for new accounts, default password: change.lastname
 	#for new accounts, status is set to: "pending" - will require password change on first login. After first password change, status will be 'Active'
-
-	#get the list of departments
-	$sql_departments = "SELECT departmentID, departmentName FROM departments ORDER BY departmentName";
-	$stmt_departments = sqlsrv_query($con, $sql_departments);
+	
 	$list_departments = "";
-	while($row = sqlsrv_fetch_array($stmt_departments))
+	$dept = getDepartments($con);
+	while($row = sqlsrv_fetch_array($dept))
 	{
 		$departmentID = $row['departmentID'];
 		$departmentName = $row['departmentName'];
 		$list_departments .= "<option value='$departmentID'>$departmentName</option>";
 	}
 
-	#get list of positions
-	$sql_positions = "SELECT positionID, positionName FROM positions ORDER BY positionName";
-	$stmt_positions = sqlsrv_query($con, $sql_positions);
 	$list_positions = "";
-	while($row2 = sqlsrv_fetch_array($stmt_positions))
+	$pos = getPositions($con);
+	while($row = sqlsrv_fetch_array($pos))
 	{
-		$positionID = $row2['positionID'];
-		$positionName = $row2['positionName'];
+		$positionID = $row['positionID'];
+		$positionName = $row['positionName'];
 		$list_positions .= "<option value='$positionID'>$positionName</option>";
 	}
 
-	#get list of civil statuses
-	$sql_cstatus = "SELECT cstatusID, cstatusName FROM civilstatuses";
-	$stmt_cstatus = sqlsrv_query($con, $sql_cstatus);
 	$list_cstatus = "";
-	while($row3 = sqlsrv_fetch_array($stmt_cstatus))
+	$cs = getCivilStatuses($con);
+	while($row = sqlsrv_fetch_array($cs))
 	{
-		$cstatusID = $row3['cstatusID'];
-		$cstatusName = $row3['cstatusName'];
+		$cstatusID = $row['cstatusID'];
+		$cstatusName = $row['cstatusName'];
 		$list_cstatus .= "<option value='$cstatusID'>$cstatusName</option>";
 	}
 
@@ -72,12 +66,3 @@
 		$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
 	}
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	
-</body>
-</html>

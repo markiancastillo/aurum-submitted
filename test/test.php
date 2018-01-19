@@ -1,9 +1,5 @@
 <?php
-include('test1.php');
-	session_start();
-	include($_SERVER['DOCUMENT_ROOT'] . '/aurum/controllers/function.php');
-	loadHeader();
-	$plaintext = 'change.akyatpanaog';
+	$plaintext = 'wew';
 	$password = '3sc3RLrpd17';
 	$method = 'aes-256-cbc';
 	
@@ -16,6 +12,7 @@ include('test1.php');
 	
 	// av3DYGLkwBsErphcyYp+imUW4QKs19hUnFyyYcXwURU=
 	$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $password, OPENSSL_RAW_DATA, $iv));
+	#$encrypted = "n6RHVJVfFATh9PsZjyzW+w==";
 	
 	// My secret message 1234
 	$decrypted = openssl_decrypt(base64_decode($encrypted), $method, $password, OPENSSL_RAW_DATA, $iv);
@@ -24,17 +21,4 @@ include('test1.php');
 	echo 'cipher= ' . $method . "<br />";
 	echo 'encrypted to: ' . $encrypted . "<br />";
 	echo 'decrypted to: ' . $decrypted . "<br />";
-
-	#$string_test = "pending";
-	$num_test = $_SESSION['posID'];
-	if($num_test == 1 || $num_test == 6 || $num_test == 8)
-	{
-		echo "true";
-	}
-	else 
-	{
-		echo "false";
-	}
-
-	echo "<br />" . $_SESSION['posID'];
 ?>

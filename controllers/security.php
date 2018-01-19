@@ -1,6 +1,6 @@
 <?php
 	#encryption syntax: base64_encode(openssl_encrypt($text_to_be_encrypted, $method, $password, OPENSSL_RAW_DATA, $iv));
-	#decryption syntax: base64_encode(openssl_encrypt($text_to_be_decrypted, $method, $password, OPENSSL_RAW_DATA, $iv));
+	#decryption syntax: openssl_decrypt(base64_decode($$text_to_be_decrypted), $method, $password, OPENSSL_RAW_DATA, $iv);
 	
 	$password = '3sc3RLrpd17';
 	$method = 'aes-256-cbc';

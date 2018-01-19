@@ -37,7 +37,8 @@
     		<li class="dropdown">
     		  	<a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo $displayName; ?> <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
-    		      	<li><a href="">My Account</a></li>
+    		      	<li><a href="<?php echo app_path?>account.php">My Account</a></li>
+    		      	<li class="divider"></li>
     		      	<li><a href="<?php echo app_path?>controllers/logout.php">Logout</a></li>
     		  	</ul>
     		</li>

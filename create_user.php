@@ -138,7 +138,7 @@
 			<div class="col-lg-6 col-lg-offset-6">
 				<div class="form-group">
 					<div class="col-lg-4 col-lg-offset-7">
-						<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success btn-block pull-right">Create Account</button>
+						<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-block pull-right">Create Account</button>
 					</div>
 				</div>
 			</div>
