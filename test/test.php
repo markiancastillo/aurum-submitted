@@ -1,4 +1,8 @@
 <?php
+include('test1.php');
+	session_start();
+	include($_SERVER['DOCUMENT_ROOT'] . '/aurum/controllers/function.php');
+	loadHeader();
 	$plaintext = 'change.akyatpanaog';
 	$password = '3sc3RLrpd17';
 	$method = 'aes-256-cbc';
@@ -20,4 +24,17 @@
 	echo 'cipher= ' . $method . "<br />";
 	echo 'encrypted to: ' . $encrypted . "<br />";
 	echo 'decrypted to: ' . $decrypted . "<br />";
+
+	#$string_test = "pending";
+	$num_test = $_SESSION['posID'];
+	if($num_test == 1 || $num_test == 6 || $num_test == 8)
+	{
+		echo "true";
+	}
+	else 
+	{
+		echo "false";
+	}
+
+	echo "<br />" . $_SESSION['posID'];
 ?>

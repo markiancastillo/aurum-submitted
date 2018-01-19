@@ -1,5 +1,5 @@
 <?php
-	include('controllers/header_controller.php');
+	include('controllers/header_admin_controller.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,11 +25,19 @@
 		<ul class="nav navbar-nav">
     		<li><a href="<?php echo app_path?>index.php">Dashboard</a></li>
     		<li class="dropdown">
-    		  	<a class="dropdown-toggle" data-toggle="dropdown">Page 1 <span class="caret"></span></a>
+    		  	<a class="dropdown-toggle" data-toggle="dropdown">User Management <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
-    		  		<li><a href="">Page 1-1</a></li>
-    		      	<li><a href="">Page 1-2</a></li>
+    		  		<li><a href="">View Accounts</a></li>
+    		      	<li><a href="<?php echo app_path?>create_user.php">Create an Account</a></li>
     		      	<li><a href="">Page 1-3</a></li>
+    		  	</ul>
+    		</li>
+    		<li class="dropdown">
+    		  	<a class="dropdown-toggle" data-toggle="dropdown">Administration <span class="caret"></span></a>
+    		  	<ul class="dropdown-menu">
+    		      	<li><a href="">Manage Services</a></li>
+    		      	<li><a href="">Manage Positions</a></li>
+    		      	<li><a href="">Page 2-3</a></li>
     		  	</ul>
     		</li>
 		</ul>
@@ -37,7 +45,7 @@
     		<li class="dropdown">
     		  	<a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo $displayName; ?> <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
-    		      	<li><a href="">My Account</a></li>
+    		      	<li><a href="<?php echo app_path?>account.php">My Account</a></li>
     		      	<li><a href="<?php echo app_path?>controllers/logout.php">Logout</a></li>
     		  	</ul>
     		</li>

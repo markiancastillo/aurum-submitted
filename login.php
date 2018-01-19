@@ -27,8 +27,24 @@
 <div class="container">
 	<div class="row">
 		<h1 class="text-center">User Login</h1>
+		
 		<div class="col-lg-6 col-lg-offset-3">
 			<div class="well">
+				<?php
+					if(isset($_POST['btnLogin']))
+					{
+						if($login_row_count == 0)
+						{
+							#username/password combination is invalid
+							echo "
+								<div class='alert alert-danger alert-dismissable fade in'>
+									<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+									Login failed. Incorrect username and/or password.
+								</div>
+							";
+						}
+					}
+				?>
 				<form class="form-horizontal" method="POST">
 					<div class="form-group">
 						<label class="control-label col-lg-3">Username</label>

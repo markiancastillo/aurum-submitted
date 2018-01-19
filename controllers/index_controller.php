@@ -1,4 +1,5 @@
 <?php
 	$pageTitle = "Dashboard";
-	include('includes/header.php');
+	include('function.php');
+	include(loadHeader());
 ?>

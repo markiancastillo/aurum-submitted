@@ -7,7 +7,7 @@
 		$inpUsername = base64_encode(openssl_encrypt($_POST['inpUsername'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpPassword = base64_encode(openssl_encrypt($_POST['inpPassword'], $method, $password, OPENSSL_RAW_DATA, $iv));
 
-		$sql_login = "SELECT accountID, departmentID FROM accounts WHERE accountUsername = ? AND accountPassword = ?";
+		$sql_login = "SELECT accountID, positionID, accountStatus FROM accounts WHERE accountUsername = ? AND accountPassword = ? AND accountStatus != 'Archived'";
 		$params_login = array($inpUsername, $inpPassword);
 		$options_login = array("Scrollable"=>'static');
 		$stmt_login = sqlsrv_query($con, $sql_login, $params_login, $options_login);
@@ -18,24 +18,27 @@
 		{
 			#login was successful
 			session_start();
-			#bind the accountID and departmentID into the sesison
-			#accountID will identify the user that is logged in
-			#departmentID will determine the user's access 
+			#bind the accountID and positionID into the sesison
+			#accountID -- identifies the account/user
+			#positionID -- identifies the access level
 			while($row = sqlsrv_fetch_array($stmt_login))
 			{
 				$accID = $row['accountID'];
-				$depID = $row['departmentID'];
+				$posID = $row['positionID'];
+				$accountStatus = $row['accountStatus'];
 	
 				$_SESSION['accID'] = $accID;
-				$_SESSION['depID'] = $depID;
+				$_SESSION['posID'] = $posID;
 
-				header('location: index.php');
+				if($accountStatus === 'Active')
+				{
+					header('location: index.php');
+				}
+				else if($accountStatus === 'Pending')
+				{
+					header('location: change_password.php');
+				}
 			}
-		}
-		else
-		{
-			#unsuccessful login
-			echo "Error! Incorrrect username or password.";
 		}
 	}
 ?>
