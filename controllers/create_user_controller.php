@@ -72,3 +72,12 @@
 		$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
 	}
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	
+</body>
+</html>
