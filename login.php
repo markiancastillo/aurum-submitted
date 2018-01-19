@@ -31,6 +31,7 @@
 		<div class="col-lg-6 col-lg-offset-3">
 			<div class="well">
 				<?php
+<<<<<<< HEAD
 					if(isset($_POST['btnLogin']))
 					{
 						if($login_row_count == 0)
@@ -43,6 +44,15 @@
 								</div>
 							";
 						}
+=======
+					if(isset($_POST['btnLogin']) && $login_row_count == 0)
+					{
+						echo "
+							<div class='alert alert-danger'>
+								Incorrect username and/or password.
+							</div>
+						";
+>>>>>>> 23d19e135cf5ff6a790ff86b24291c388c48499e
 					}
 				?>
 				<form class="form-horizontal" method="POST">
