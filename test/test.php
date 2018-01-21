@@ -1,5 +1,5 @@
 <?php
-	$plaintext = 'wew';
+	$plaintext = 'janedoe';
 	$password = '3sc3RLrpd17';
 	$method = 'aes-256-cbc';
 	
@@ -12,7 +12,7 @@
 	
 	// av3DYGLkwBsErphcyYp+imUW4QKs19hUnFyyYcXwURU=
 	$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $password, OPENSSL_RAW_DATA, $iv));
-	#$encrypted = "n6RHVJVfFATh9PsZjyzW+w==";
+	#$encrypted = "Oeh5CvHO2GmFOR5Zjf35jQ==";
 	
 	// My secret message 1234
 	$decrypted = openssl_decrypt(base64_decode($encrypted), $method, $password, OPENSSL_RAW_DATA, $iv);
@@ -21,4 +21,14 @@
 	echo 'cipher= ' . $method . "<br />";
 	echo 'encrypted to: ' . $encrypted . "<br />";
 	echo 'decrypted to: ' . $decrypted . "<br />";
+
+	echo 'string compare: ' . strcasecmp("M", "M") . '<br>';
+	if(strcasecmp("m", "M") == 0)
+	{
+		echo "MMMM";
+	}
+	else 
+	{
+		echo "WWWW";
+	}
 ?>

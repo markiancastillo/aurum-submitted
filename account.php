@@ -13,8 +13,15 @@
 		<?php
 			if(isset($_POST['btnUpdate']))
 			{
-				#echo validateUsername($inpAcc, $con, $inpUsername);
-				#echo updateAccount($con, $inpAcc, $inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpEmail, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpCivilStatus, $inpPosition, $inpDepartment, $inpBaseRate);
+				echo $msgDisplay;
+			}
+			
+			if(isset($_REQUEST['updated']))
+			{
+				echo "<div class='alert alert-success alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						Account information successfully updated.
+					</div>";
 			}
 		?>
 		<form class="form-horizontal" method="POST">
@@ -66,8 +73,8 @@
 					<label class="control-label col-lg-3">Sex</label>
 					<div class="col-lg-8">
 						<select id="inpSex" name="inpSex" class="form-control">
-							<option value="M" <?php echo $accountSex == 'M' ? 'selected' : '' ?>>Male</option>
-							<option value="F" <?php echo $accountSex == 'F' ? 'selected' : '' ?>>Female</option>
+							<option value="M" <?php echo $selectedM; ?>>Male</option>
+							<option value="F" <?php echo $selectedF; ?>>Female</option>
 						</select>
 					</div>
 				</div>
@@ -124,7 +131,7 @@
 				<div class="form-group">
 					<label class="control-label col-lg-3">Base Rate</label>
 					<div class="col-lg-8">
-						<input type="number" id="inpBaseRate" name="inpBaseRate" class="form-control" min=1 step=".01" value='<?php echo $accountBaseRate; ?>' disabled="true" />
+						<input type="number" id="inpBaseRate" name="inpBaseRate" class="form-control" min=1 step=".01" value='<?php echo $accountBaseRate; ?>' <?php echo determineAccess(); ?> />
 					</div>
 				</div>
 			</div>

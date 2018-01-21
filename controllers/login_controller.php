@@ -36,7 +36,8 @@
 				}
 				else if($accountStatus === 'Pending')
 				{
-					header('location: change_password.php');
+					#header('location: change_password.php');
+					header('location: index.php');
 				}
 			}
 		}

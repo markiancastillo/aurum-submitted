@@ -66,4 +66,19 @@
 		$stmt_cstatus = sqlsrv_query($con, $sql_cstatus);
 		return $stmt_cstatus;
 	}
+
+	#check for the validity of the input username
+	#(if it is available or is taken)
+	function validateUsername($con, $inpUsername)
+	{
+		$sql_valUsername = "SELECT accountID, accountUsername FROM accounts 
+							WHERE accountUsername = ?";
+		$params_valUsername = array($inpUsername);				
+		$options_valUsername = array('Scrollable'=>'static');
+		$stmt_valUsername = sqlsrv_query($con, $sql_valUsername, $params_valUsername, $options_valUsername);
+		$username_row_count = sqlsrv_num_rows($stmt_valUsername);
+
+		$valUsername = ($username_row_count > 0) ? "existing" : "available";
+		return $valUsername;
+	}
 ?>

@@ -31,6 +31,18 @@
 		$selectedposID = $row['positionID'];
 		$selecteddeptID = $row['departmentID'];
 	}
+
+	#get selected sex
+	if(strcasecmp(trim($accountSex), "M") == 0)
+	{
+		$selectedM = "selected";
+		$selectedF = "";
+	}
+	else 
+	{
+		$selectedM = "";
+		$selectedF = "selected";
+	}
 	
 	#get selected department
 	$list_departments = "";
@@ -92,15 +104,93 @@
 		#if position, department, and base rate is read-only
 		#for the current user, exclude from update
 		#otherwise, include them
-		if(determineAccess() === "disabled") 
-		{
+		$msgDisplay = "";
+		$msgSuccess = "<div class='alert alert-success alert-dismissable fade in'>
+							<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+							Account information successfully updated.
+						</div>";
+		$msgError = "<div class='alert alert-danger alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						That username already exists. Please choose a different one.
+					</div>";
 
+		if(determineAccess() === "disabled")
+		{
+			#user is not an admin -- has disabled fields in the form
+			#do not include position, department, and base rate in update
+			if(empty($inpUsername) || $inpUsername === base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
+			{
+				#username field is left blank
+				#do not update the username
+				$sql_update = "UPDATE accounts 
+							   SET accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, cstatusID = ?
+							   WHERE accountID = ?";
+				$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpCivilStatus, $inpAcc);
+				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
+
+				header('location: account.php?updated=yes');
+			}
+			else
+			{
+				#username field has an input - include it in the update
+				#validate first if username is available or not
+				if(strcmp(validateUsername($con, $inpUsername), "available") == 0)
+				{
+					#username is valid 
+					$sql_update = "UPDATE accounts 
+							   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, cstatusID = ?
+							   WHERE accountID = ?";
+					$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpCivilStatus, $inpAcc);
+					$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
+
+					header('location: account.php?updated=yes');
+				}
+				else 
+				{
+					#the input username already exists. display an eror message
+					$msgDisplay = $msgError;
+				}
+			}
 		}
 		else
 		{
+			#user is an admin -- no fields disabled
+			#include position, department, and base rate in update
 			$inpPosition = $_POST['inpPosition'];
 		 	$inpDepartment = $_POST['inpDepartment'];
 		 	$inpBaseRate = $_POST['inpBaseRate'];
-		}	
+
+			if(empty($inpUsername) || $inpUsername === base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
+			{
+				$sql_update = "UPDATE accounts 
+							   SET accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, accountBaseRate = ?, cstatusID = ?, positionID = ?, departmentID = ? 
+							   WHERE accountID = ?";
+				$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, $inpCivilStatus, $inpPosition, $inpDepartment, $inpAcc);
+				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
+
+				header('location: account.php?updated=yes');
+			}
+			else
+			{	
+				#username field has an input
+				#validate if the username is available		 		
+		 		if(strcmp(validateUsername($con, $inpUsername), "available") == 0)
+				{
+					#username is available
+					$sql_update = "UPDATE accounts 
+							   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, accountBaseRate = ?, cstatusID = ?, positionID = ?, departmentID = ? 
+							   WHERE accountID = ?";
+					$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, $inpCivilStatus, $inpPosition, $inpDepartment, $inpAcc);
+					$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
+
+					header('location: account.php?updated=yes');
+				}
+				else 
+				{
+					#username already exists
+					$msgDisplay = $msgError;
+				}
+			}
+		}
 	}
 ?>
