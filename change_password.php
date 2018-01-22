@@ -27,26 +27,37 @@
 <div class="container">
 	<div class="row">
 		<h1 class="text-center">Change Password</h1>
-
 		<div class="col-lg-6 col-lg-offset-3">
 			<div class="well">
+				<?php
+					if(isset($_POST['btnLogin']))
+					{
+						if($login_row_count == 0)
+						{
+							#username/password combination is invalid
+							echo "
+								
+							";
+						}
+					}
+				?>
 				<form class="form-horizontal" method="POST">
 					<div class="form-group">
 						<label class="control-label col-lg-3">Current Password</label>
 						<div class="col-lg-8">
-							<input type="password" id="inpCurrent" name="inpCurrent" class="form-control" maxlength="50" required="true" />
+							<input type="password" id="inpCurrent" name="inpCurrent" class="form-control" maxlength="50" placeholder="Your current password" required="true" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-lg-3">New Password</label>
 						<div class="col-lg-8">
-							<input type="password" id="inpNew" name="inpNew" class="form-control" maxlength="50" required="true" />
+							<input type="password" id="inpNew" name="inpNew" class="form-control" maxlength="50" placeholder="Your desired new password" required="true" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-lg-3">Confirm Password</label>
 						<div class="col-lg-8">
-							<input type="password" id="inpConfirm" name="inpConfirm" class="form-control" maxlength="50" required="true" />
+							<input type="password" id="inpConfirm" name="inpConfirm" class="form-control" maxlength="50" placeholder="Type your new password again" required="true" />
 						</div>
 					</div>
 					<div class="form-group">

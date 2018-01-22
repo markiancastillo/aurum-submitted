@@ -77,6 +77,16 @@
 		$list_cstatus .= "<option value='$cstatusID' $selectedVal>$cstatusName</option>";
 	}
 
+	#get contact number information (main number only)
+	$sql_getNumber = "SELECT contactNumber FROM contacts 
+					  WHERE ctypeID = ? AND accountID = ?";
+	$params_getNumber = array(1, $_SESSION['accID']);
+	$stmt_getNumber = sqlsrv_query($con, $sql_getNumber, $params_getNumber);
+	while($rowNum = sqlsrv_fetch_array($stmt_getNumber))
+	{
+		$contactNumber = openssl_decrypt(base64_decode($rowNum['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv);
+	}
+
 	#validations:
 	#username - at least 6 characters, not taken. Add tooltip
 	#email - must be a valid email
@@ -94,6 +104,7 @@
 		$inpLN = base64_encode(openssl_encrypt($_POST['inpLN'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpBDay = $_POST['inpBDay'];
 		$inpEmail = base64_encode(openssl_encrypt($_POST['inpEmail'], $method, $password, OPENSSL_RAW_DATA, $iv));
+		$inpNumber = base64_encode(openssl_encrypt($_POST['inpNumber'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpSex = $_POST['inpSex'];
 		$inpSSS = base64_encode(openssl_encrypt($_POST['inpSSS'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpTIN = base64_encode(openssl_encrypt($_POST['inpTIN'], $method, $password, OPENSSL_RAW_DATA, $iv));
@@ -128,6 +139,8 @@
 				$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpCivilStatus, $inpAcc);
 				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
 
+				updateNumber($con, $inpNumber, $inpAcc);
+
 				header('location: account.php?updated=yes');
 			}
 			else
@@ -142,6 +155,8 @@
 							   WHERE accountID = ?";
 					$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpCivilStatus, $inpAcc);
 					$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
+
+					updateNumber($con, $inpNumber, $inpAcc);
 
 					header('location: account.php?updated=yes');
 				}
@@ -168,6 +183,8 @@
 				$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, $inpCivilStatus, $inpPosition, $inpDepartment, $inpAcc);
 				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
 
+				updateNumber($con, $inpNumber, $inpAcc);
+
 				header('location: account.php?updated=yes');
 			}
 			else
@@ -182,6 +199,8 @@
 							   WHERE accountID = ?";
 					$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, $inpCivilStatus, $inpPosition, $inpDepartment, $inpAcc);
 					$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
+
+					updateNumber($con, $inpNumber, $inpAcc);
 
 					header('location: account.php?updated=yes');
 				}

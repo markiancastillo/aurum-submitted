@@ -1,5 +1,5 @@
 <?php
-	$plaintext = 'janedoe';
+	$plaintext = '09171239876';
 	$password = '3sc3RLrpd17';
 	$method = 'aes-256-cbc';
 	

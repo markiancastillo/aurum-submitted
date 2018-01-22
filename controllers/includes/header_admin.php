@@ -27,7 +27,7 @@
     		<li class="dropdown">
     		  	<a class="dropdown-toggle" data-toggle="dropdown">User Management <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
-    		  		<li><a href="">View Accounts</a></li>
+    		  		<li><a href="<?php echo app_path?>list_account.php">View Accounts List</a></li>
     		      	<li><a href="<?php echo app_path?>create_user.php">Create an Account</a></li>
     		      	<li><a href="">Page 1-3</a></li>
     		  	</ul>
@@ -35,8 +35,8 @@
     		<li class="dropdown">
     		  	<a class="dropdown-toggle" data-toggle="dropdown">Administration <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
-    		      	<li><a href="">Manage Services</a></li>
-    		      	<li><a href="">Manage Positions</a></li>
+    		      	<li><a href="">Manage Services List</a></li>
+    		      	<li><a href="">Manage Positions List</a></li>
     		      	<li><a href="">Page 2-3</a></li>
     		  	</ul>
     		</li>

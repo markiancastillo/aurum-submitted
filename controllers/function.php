@@ -67,6 +67,14 @@
 		return $stmt_cstatus;
 	}
 
+	function updateNumber($con, $inpNumber, $inpAcc)
+	{
+		$sql_updContact = "UPDATE contacts SET contactNumber = ? WHERE accountID = ?";
+		$params_updContact = array($inpNumber, $inpAcc);
+		$stmt_updContact = sqlsrv_query($con, $sql_updContact, $params_updContact);
+		return $stmt_updContact;
+	}
+
 	#check for the validity of the input username
 	#(if it is available or is taken)
 	function validateUsername($con, $inpUsername)

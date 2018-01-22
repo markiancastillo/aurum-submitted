@@ -70,6 +70,18 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="control-label col-lg-3">Contact Number</label>
+					<div class="col-lg-8">
+						<div class="input-group">
+							<input type="text" id="inpNumber" name="inpNumber" class="form-control" maxlength="25" value='<?php echo $contactNumber; ?>' />
+							<div class="input-group-btn">
+								<a href="contact.php" class="btn btn-default">Manage</a>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="control-label col-lg-3">Sex</label>
 					<div class="col-lg-8">
 						<select id="inpSex" name="inpSex" class="form-control">
