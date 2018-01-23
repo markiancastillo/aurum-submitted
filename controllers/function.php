@@ -107,45 +107,6 @@
 		return $stmt_cTypes;
 	}
 
-	function sendMail()
-	{
-		$mail = new phpmailer;
-		$mail->isSMTP();
-		$mail->Host = "smtp.gmail.com";
-		$mail->SMTPAuth = true;
-		$mail->Username = "miac.11221127@gmail.com";
-		$mail->Password = "damong_talahiban";
-		$mail->SMTPSecure = 'ssl';
-		$mail->Port = "465";
-	
-		$mail->setfrom('miac.11221127@gmail.com', 'Profile-Bot');
-		$mail->isHTML(true);
-
-		$mail->addAddress('miac.11221127@gmail.com', 'Portfolio-Bot');
-		$mail->Subject = "Portfolio Contact";
-		$mail->Body = "
-			Someone contacted you via you portfolio website!
-			<br />
-			<br />
-			<strong>Client Email:</strong> $email <br />
-			<strong>Client Name:</strong> $name <br />
-			<strong>Message:</strong> <br />
-			$message
-			<br /><br />
-			<strong>Sent: </strong>" . date('Y-m-d h:i:s a') . "<br />
-			";
-
-		if(!$mail->send()) 
-		{
-  			echo 'Message could not be sent.';
-    		echo 'Mailer Error: ' . $mail->ErrorInfo;
-		} 
-		else 
-		{
-    		echo 'Message has been sent';
-		}
-	}
-
 	function updateNumber($con, $inpNumber, $inpAcc)
 	{
 		#if contact number field in 'my account' page is getting an input for the first time,
