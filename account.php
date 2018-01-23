@@ -73,9 +73,9 @@
 					<label class="control-label col-lg-3">Contact Number</label>
 					<div class="col-lg-8">
 						<div class="input-group">
-							<input type="text" id="inpNumber" name="inpNumber" class="form-control" maxlength="25" value='<?php echo $contactNumber; ?>' />
+							<input type="text" id="inpNumber" name="inpNumber" class="form-control" maxlength="25" placeholder="Set a primary contact number" value='<?php echo $contactNumber; ?>' />
 							<div class="input-group-btn">
-								<a href="contact.php" class="btn btn-default">Manage</a>
+								<a href="account_number.php" class="btn btn-default">Manage</a>
 							</div>
 						</div>
 						

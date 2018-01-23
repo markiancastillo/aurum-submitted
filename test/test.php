@@ -12,7 +12,7 @@
 	
 	// av3DYGLkwBsErphcyYp+imUW4QKs19hUnFyyYcXwURU=
 	$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $password, OPENSSL_RAW_DATA, $iv));
-	#$encrypted = "Oeh5CvHO2GmFOR5Zjf35jQ==";
+	#$encrypted = "Gw6jfiwL5tyaOh/N/VpWXw==";
 	
 	// My secret message 1234
 	$decrypted = openssl_decrypt(base64_decode($encrypted), $method, $password, OPENSSL_RAW_DATA, $iv);

@@ -77,8 +77,9 @@
 		$list_cstatus .= "<option value='$cstatusID' $selectedVal>$cstatusName</option>";
 	}
 
+	$contactNumber = "";
 	#get contact number information (main number only)
-	$sql_getNumber = "SELECT contactNumber FROM contacts 
+	$sql_getNumber = "SELECT TOP 1 (contactNumber) FROM contacts 
 					  WHERE ctypeID = ? AND accountID = ?";
 	$params_getNumber = array(1, $_SESSION['accID']);
 	$stmt_getNumber = sqlsrv_query($con, $sql_getNumber, $params_getNumber);

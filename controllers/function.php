@@ -43,6 +43,39 @@
 
 	}
 
+	#get account details 
+	function getAccounts($con, $reqID)
+	{
+		$sql_account = "SELECT a.accountFN, a.accountMN, a.accountLN, a.accountBirthdate, a.accountSex, a.accountSSSNo, a.accountTINNo, a.accountBIRNo, a.accountHDMFNo, a.accountEmail, a.accountBaseRate, a.accountStatus, c.cstatusName, p.positionName, d.departmentName 
+	                	FROM accounts a 
+	                	INNER JOIN civilstatuses c ON a.cstatusID = c.cstatusID 
+	                	INNER JOIN positions p ON a.positionID = p.positionID
+	                	INNER JOIN departments d ON a.departmentID = d.departmentID 
+	                	WHERE accountID = ?";
+		$params_account = array($reqID);
+		$stmt_account = sqlsrv_query($con, $sql_account, $params_account);
+		return $stmt_account;	                	
+	}
+
+	function getAddress($con, $reqID)
+	{
+		$sql_address = "SELECT addressL1, addressL2, addressCity, addressZip FROM addresses 
+						WHERE accountID = ?";
+		$params_address = array($reqID);
+		$stmt_address = sqlsrv_query($con, $sql_address, $params_address);
+		return $stmt_address;
+	}
+
+	function getContacts($con, $reqID)
+	{
+		$sql_contacts = "SELECT n.contactNumber, t.ctypeName FROM contacts n 
+						 INNER JOIN contacttypes t ON n.ctypeID = t.ctypeID 
+						 WHERE accountID = ?";
+		$params_contacts = array($reqID);
+		$stmt_contacts = sqlsrv_query($con, $sql_contacts, $params_contacts);
+		return $stmt_contacts;
+	}
+
 	#get the list of departments
 	function getDepartments($con)
 	{
@@ -67,12 +100,86 @@
 		return $stmt_cstatus;
 	}
 
+	function getContactTypes($con)
+	{
+		$sql_cTypes = "SELECT ctypeID, ctypeName FROM contacttypes";
+		$stmt_cTypes = sqlsrv_query($con, $sql_cTypes);
+		return $stmt_cTypes;
+	}
+
+	function sendMail()
+	{
+		$mail = new phpmailer;
+		$mail->isSMTP();
+		$mail->Host = "smtp.gmail.com";
+		$mail->SMTPAuth = true;
+		$mail->Username = "miac.11221127@gmail.com";
+		$mail->Password = "damong_talahiban";
+		$mail->SMTPSecure = 'ssl';
+		$mail->Port = "465";
+	
+		$mail->setfrom('miac.11221127@gmail.com', 'Profile-Bot');
+		$mail->isHTML(true);
+
+		$mail->addAddress('miac.11221127@gmail.com', 'Portfolio-Bot');
+		$mail->Subject = "Portfolio Contact";
+		$mail->Body = "
+			Someone contacted you via you portfolio website!
+			<br />
+			<br />
+			<strong>Client Email:</strong> $email <br />
+			<strong>Client Name:</strong> $name <br />
+			<strong>Message:</strong> <br />
+			$message
+			<br /><br />
+			<strong>Sent: </strong>" . date('Y-m-d h:i:s a') . "<br />
+			";
+
+		if(!$mail->send()) 
+		{
+  			echo 'Message could not be sent.';
+    		echo 'Mailer Error: ' . $mail->ErrorInfo;
+		} 
+		else 
+		{
+    		echo 'Message has been sent';
+		}
+	}
+
 	function updateNumber($con, $inpNumber, $inpAcc)
 	{
-		$sql_updContact = "UPDATE contacts SET contactNumber = ? WHERE accountID = ?";
-		$params_updContact = array($inpNumber, $inpAcc);
-		$stmt_updContact = sqlsrv_query($con, $sql_updContact, $params_updContact);
-		return $stmt_updContact;
+		#if contact number field in 'my account' page is getting an input for the first time,
+		#insert number instead and set its type as 'Main'
+
+		#check first if input from form doesnt exist yet
+		#if so, insert the input and set its type to 'Primary' 
+		$sql_chkContact = "SELECT COUNT(contactID) AS contactCount FROM contacts 
+						   WHERE ctypeID = ? AND accountID = ?";
+		$params_chkContact = array(1, $inpAcc);
+		$stmt_chkContact = sqlsrv_query($con, $sql_chkContact, $params_chkContact);
+
+		while($row = sqlsrv_fetch_array($stmt_chkContact))
+		{
+			$contactCount = $row['contactCount'];
+		}
+
+		if($contactCount <= 0)
+		{
+			#insert a new record
+			$sql_insContact = "INSERT INTO contacts (contactNumber, ctypeID, accountID) 
+							   VALUES (?, ?, ?)";
+			$params_insContact = array($inpNumber, 1, $inpAcc);
+			$stmt_insContact = sqlsrv_query($con, $sql_insContact, $params_insContact);
+			return $stmt_insContact;
+		}
+		else
+		{
+			#update data
+			$sql_updContact = "UPDATE contacts SET contactNumber = ? WHERE accountID = ?";
+			$params_updContact = array($inpNumber, $inpAcc);
+			$stmt_updContact = sqlsrv_query($con, $sql_updContact, $params_updContact);
+			return $stmt_updContact;
+		}
 	}
 
 	#check for the validity of the input username

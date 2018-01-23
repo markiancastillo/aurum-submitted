@@ -28,6 +28,8 @@
 		$departmentName = $row['departmentName'];
 
 		$accountName = $accountLN . ", " . $accountFN . " " . $accountMN;
+
+		$disableButton = strcasecmp(trim($accountStatus), "Archived") == 0 ? "disabled" : "";
 		
 		$displayList .= "
 			<tr>
@@ -36,9 +38,8 @@
 				<td class='text-center'>$departmentName</td>
 				<td class='text-center'>$accountStatus</td>
 				<td class='text-center'>
-					<a href='view_account.php' class='btn btn-sm btn-info'>View</a>
-					<a href='edit_account.php' class='btn btn-sm btn-warning'>Edit</a> | 
-					<a href='archive_account.php' class='btn btn-sm btn-danger'>Archive</a>
+					<a href='view_account.php?id=$accountID' class='btn btn-sm btn-default'>View Details</a>
+					<a href='archive_account.php?id=$accountID' class='btn btn-sm btn-danger' $disableButton>Archive</a>
 				</td>
 			</tr>
 		";
