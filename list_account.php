@@ -9,8 +9,15 @@
 <div class="container">
 	<div class="row">
 		<h1 class="text-center">List of Accounts</h1>
-		<h3><?php #echo $_SESSION['accID']; ?></h3>
-		<table class="table table-hover">
+
+		<div class="form-group">
+			<div class="input-group col-lg-8 col-lg-offset-2">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+				<input type="text" name="keySearch" id="keySearch" class="form-control" onkeyup="searchList()" placeholder="Search for a name...">
+			</div>
+		</div>
+		<br />
+		<table id="listAccounts" name="listAccounts" class="table table-hover">
 			<thead>
 				<th class="text-center"></th>
 				<th class="text-center">Account Owner</th>

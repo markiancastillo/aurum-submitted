@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="<?php echo $_SERVER['DOCUMENT_ROOT'] ?>css/font-awesome.min.css" />
 	<link rel="stylesheet" href="<?php echo $_SERVER['DOCUMENT_ROOT'] ?>js/bootstrap.min.js" />
 	<link rel="stylesheet" href="<?php echo $_SERVER['DOCUMENT_ROOT'] ?>js/jquery.min.js" />
+
 </head>
 <body>
 <nav class="navbar navbar-inverse">

@@ -81,12 +81,13 @@
 
 	$contactNumber = "";
 	#get contact number information (main number only)
-	$sql_getNumber = "SELECT TOP 1 (contactNumber) FROM contacts 
+	$sql_getNumber = "SELECT TOP 1 contactID, contactNumber FROM contacts 
 					  WHERE ctypeID = ? AND accountID = ?";
 	$params_getNumber = array(1, $_SESSION['accID']);
 	$stmt_getNumber = sqlsrv_query($con, $sql_getNumber, $params_getNumber);
 	while($rowNum = sqlsrv_fetch_array($stmt_getNumber))
 	{
+		$numberID = $rowNum['contactID'];
 		$contactNumber = openssl_decrypt(base64_decode($rowNum['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv);
 	}
 
@@ -98,16 +99,16 @@
 	if(isset($_POST['btnUpdate']))
 	{
 		#check if user uploaded a photo
-		if(!isset($_FILES['inpPhoto']['name']) || $_FILES['image']['error'])
+		if(!isset($_FILES['inpPhoto']) || $_FILES['inpPhoto']['error'])
 		{
-			#user did not select a photo to upload
+			#there is no new input for account photo
 			#do not update it in the database
-			$sometext = "no photo selected. photo left as is.";
 		}
 		else
 		{
-			#update the user's photo with the new one
-			$sometext = "new photo detected. running updatePhoto function";
+			#update the photo with the new input
+			$imgName = $_FILES["inpPhoto"]["name"];
+			uploadPhoto($con, $accID, $imgName);
 		}
 
 		#get the data from the form
@@ -139,7 +140,7 @@
 						   WHERE accountID = ?";
 			$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
 			$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-			updateNumber($con, $inpNumber, $inpAcc);
+			updMainNumber($con, $numberID, $inpNumber, $inpAcc);
 			header('location: account.php?updated=yes');
 		}
 		else
@@ -154,7 +155,7 @@
 						   WHERE accountID = ?";
 				$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
 				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-				updateNumber($con, $inpNumber, $inpAcc);
+				updMainNumber($con, $numberID, $inpNumber, $inpAcc);
 				header('location: account.php?updated=yes');
 			}
 			else 

@@ -1,0 +1,28 @@
+<script>
+function searchList() 
+{
+	var searchKeyword, searchFilter, searchTable, searchRow, td, i;
+	searchKeyword = document.getElementById("keySearch");
+	searchFilter = searchKeyword.value.toUpperCase();
+	searchTable = document.getElementById("listAccounts");
+	searchRow = searchTable.getElementsByTagName("tr");
+
+	//Loop through the rows in the table
+	//Hide those who don't match the search query
+	for (i = 0; i < searchRow.length; i++) 
+	{
+		td = searchRow[i].getElementsByTagName("td")[1];
+		if (td) 
+		{
+			if (td.innerHTML.toUpperCase().indexOf(searchFilter) > -1) 
+			{
+				searchRow[i].style.display = "";
+			} 
+			else 
+			{
+				searchRow[i].style.display = "none";
+			}
+		}
+	}
+}
+</script>

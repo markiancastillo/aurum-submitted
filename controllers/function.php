@@ -115,7 +115,7 @@
 		return $stmt_positions;
 	}
 
-	function updateNumber($con, $inpNumber, $inpAcc)
+	function updMainNumber($con, $numberID, $inpNumber, $inpAcc)
 	{
 		#if contact number field in 'my account' page is getting an input for the first time,
 		#insert number instead and set its type as 'Main'
@@ -144,25 +144,31 @@
 		else
 		{
 			#update data
-			$sql_updContact = "UPDATE contacts SET contactNumber = ? WHERE accountID = ?";
-			$params_updContact = array($inpNumber, $inpAcc);
+			$sql_updContact = "UPDATE contacts SET contactNumber = ? WHERE contactID = ? AND accountID = ?";
+			$params_updContact = array($inpNumber, $numberID, $inpAcc);
 			$stmt_updContact = sqlsrv_query($con, $sql_updContact, $params_updContact);
 			return $stmt_updContact;
 		}
 	}
 
-	function uploadPhoto($con, $accID)
+	function uploadPhoto($con, $accID, $imgName)
 	{
+		include('security.php');
 		#directory where the image will be stored
-		$upload = $_SERVER["DOCUMENT_ROOT"] . "/aurum/images/";
-		#gets the original name of the file
-		$image = $_FILES["inpPhoto"]["name"];
+		$imgDir = $_SERVER["DOCUMENT_ROOT"] . "/aurum/images/";
 		#filename will be uploader's ID + image name
-		#e.g. 1photo.png
-		$newImage = $accID . "_" . basename($image);
-		$file = $upload . $newImage;
+		#e.g. 1_photo.png
+		#this makes them unique for each user and prevents
+		#overwriting of files with the same name
+		$imgNew = $accID . "_" . basename($imgName);
+		$imgFile = $imgDir . $imgNew;
 
-		move_uploaded_file($_FILES["inpPhoto"]["tmp_name"], $file);
+		move_uploaded_file($_FILES["inpPhoto"]["tmp_name"], $imgFile);
+
+		$encrypt_img = base64_encode(openssl_encrypt($imgNew, $method, $password, OPENSSL_RAW_DATA, $iv));
+		$sql_upload = "UPDATE accounts SET accountPhoto = ? WHERE accountID = ?";
+		$params_upload = array($encrypt_img, $accID);
+		$stmt_upload = sqlsrv_query($con, $sql_upload, $params_upload);
 	}
 
 	#check for the validity of the input username

@@ -12,7 +12,7 @@
 		<?php
 			if(isset($_POST['btnUpdate']))
 			{
-				echo $msgDisplay;
+				#echo $msgDisplay;
 
 			}
 			
@@ -22,7 +22,6 @@
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						Account information successfully updated.
 					</div>";
-					echo "photo: " . $sometext;
 			}
 		?>
 		<div class="col-lg-12">
@@ -31,7 +30,7 @@
 				<li><a data-toggle="pill" href="#cinfo">Contact Information</a></li>
 				<li><a data-toggle="pill" href="#linfo">Legal Information</a></li>	
 			</ul>
-	  		<form class="form-horizontal" method="POST">
+	  		<form class="form-horizontal" method="POST" enctype="multipart/form-data">
 				<div class="tab-content">
 					<div id="pinfo" class="tab-pane fade in active">
 						<h3>Personal Information</h3>
