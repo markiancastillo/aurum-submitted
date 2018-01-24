@@ -30,9 +30,9 @@
 	function determineAccess()
 	{
 		$posID = $_SESSION['posID'];
-		if($posID == 1 || $posID == 6 || $posID == 8)
+		if($posID == 8)
 		{
-			#account has administrative access
+			#if the user is from HR, grant them access to edit the fields
 			$access = "";
 		}
 		else
@@ -66,6 +66,14 @@
 		return $stmt_address;
 	}
 
+	#get the list of civil statuses
+	function getCivilStatuses($con)
+	{
+		$sql_cstatus = "SELECT cstatusID, cstatusName FROM civilstatuses";
+		$stmt_cstatus = sqlsrv_query($con, $sql_cstatus);
+		return $stmt_cstatus;
+	}
+
 	function getContacts($con, $reqID)
 	{
 		$sql_contacts = "SELECT n.contactNumber, t.ctypeName FROM contacts n 
@@ -76,6 +84,13 @@
 		return $stmt_contacts;
 	}
 
+	function getContactTypes($con)
+	{
+		$sql_cTypes = "SELECT ctypeID, ctypeName FROM contacttypes";
+		$stmt_cTypes = sqlsrv_query($con, $sql_cTypes);
+		return $stmt_cTypes;
+	}
+
 	#get the list of departments
 	function getDepartments($con)
 	{
@@ -84,27 +99,20 @@
 		return $stmt_departments;
 	}
 
+	#get the user's photo
+	function getPhoto($accountPhoto)
+	{
+		include ('security.php');
+		$displayPhoto = ($accountPhoto === NULL || $accountPhoto === openssl_decrypt(base64_decode(''), $method, $password, OPENSSL_RAW_DATA, $iv)) ? "placeholder.png" : $accountPhoto;
+		return $displayPhoto;
+	}
+
 	#get the list of positions
 	function getPositions($con)
 	{
 		$sql_positions = "SELECT positionID, positionName FROM positions ORDER BY positionName";
 		$stmt_positions = sqlsrv_query($con, $sql_positions);
 		return $stmt_positions;
-	}
-
-	#get the list of civil statuses
-	function getCivilStatuses($con)
-	{
-		$sql_cstatus = "SELECT cstatusID, cstatusName FROM civilstatuses";
-		$stmt_cstatus = sqlsrv_query($con, $sql_cstatus);
-		return $stmt_cstatus;
-	}
-
-	function getContactTypes($con)
-	{
-		$sql_cTypes = "SELECT ctypeID, ctypeName FROM contacttypes";
-		$stmt_cTypes = sqlsrv_query($con, $sql_cTypes);
-		return $stmt_cTypes;
 	}
 
 	function updateNumber($con, $inpNumber, $inpAcc)
@@ -143,6 +151,20 @@
 		}
 	}
 
+	function uploadPhoto($con, $accID)
+	{
+		#directory where the image will be stored
+		$upload = $_SERVER["DOCUMENT_ROOT"] . "/aurum/images/";
+		#gets the original name of the file
+		$image = $_FILES["inpPhoto"]["name"];
+		#filename will be uploader's ID + image name
+		#e.g. 1photo.png
+		$newImage = $accID . "_" . basename($image);
+		$file = $upload . $newImage;
+
+		move_uploaded_file($_FILES["inpPhoto"]["tmp_name"], $file);
+	}
+
 	#check for the validity of the input username
 	#(if it is available or is taken)
 	function validateUsername($con, $inpUsername)
@@ -156,5 +178,14 @@
 
 		$valUsername = ($username_row_count > 0) ? "existing" : "available";
 		return $valUsername;
+	}
+
+	function logEvent($con, $accID, $txtEvent)
+	{
+		$sql_log = "INSERT INTO logs(logAccount, logEvent, logDate) 
+					VALUES (?, ?, CURRENT_TIMESTAMP)";
+		#$timestamp = date('Y-m-d H:i:s');
+		$params_log = array($accID, $txtEvent);
+		$stmt_log = sqlsrv_query($con, $sql_log, $params_log);
 	}
 ?>

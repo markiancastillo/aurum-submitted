@@ -4,6 +4,7 @@
 
 	ob_start(); # Quick fix to 'Warning: Cannot modify header information - headers already sent by...'
     
+    ini_set('file_uploads', 'on'); #changes a setting in php.ini
     # sets path of application folder
     $protocol  = empty($_SERVER['HTTPS']) ? 'http' : 'https';
     $port      = $_SERVER['SERVER_PORT'];

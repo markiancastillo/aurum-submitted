@@ -2,11 +2,11 @@
 	$pageTitle = "Create New User";
 	include('function.php');
 	include(loadHeader());
-
+	$accID = $_SESSION['accID'];
 	#for new accounts, default username: firstname.lastname
 	#for new accounts, default password: change.lastname
 	#for new accounts, status is set to: "pending" - will require password change on first login. After first password change, status will be 'Active'
-	
+
 	$list_departments = "";
 	$dept = getDepartments($con);
 	while($row = sqlsrv_fetch_array($dept))
@@ -64,5 +64,8 @@
 					   VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$params_insert = array($defUsername, $defPassword, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, "Pending", $inpCivilStatus, $inpPosition, $inpDepartment);
 		$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
+
+		$txtEvent = "User with ID # " . $accID . " created a new account for: " . trim($_POST['inpFN']) . " " . trim($_POST['inpMN']) . " " . trim($_POST['inpLN']) . ".";
+		logEvent($con, $accID, $txtEvent);
 	}
 ?>

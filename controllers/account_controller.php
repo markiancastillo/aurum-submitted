@@ -3,19 +3,21 @@
 	include('function.php');
 	include(loadHeader());
 
+	$accID = $_SESSION['accID'];
 	#get account information
-	$sql_account = "SELECT a.accountUsername, a.accountFN, a.accountMN, a.accountLN, a.accountBirthdate, a.accountSex, a.accountSSSNo, a.accountTINNo, a.accountBIRNo, a.accountHDMFNo, a.accountEmail, a.accountBaseRate, c.cstatusID, p.positionID, d.departmentID 
+	$sql_account = "SELECT a.accountUsername, a.accountPhoto, a.accountFN, a.accountMN, a.accountLN, a.accountBirthdate, a.accountSex, a.accountSSSNo, a.accountTINNo, a.accountBIRNo, a.accountHDMFNo, a.accountEmail, a.accountBaseRate, c.cstatusID, p.positionID, d.departmentID 
 	                FROM accounts a 
 	                INNER JOIN civilstatuses c ON a.cstatusID = c.cstatusID 
 	                INNER JOIN positions p ON a.positionID = p.positionID
 	                INNER JOIN departments d ON a.departmentID = d.departmentID
 	                WHERE a.accountID = ?";
-	$params_account = array($_SESSION['accID']);
+	$params_account = array($accID);
 	$options_account = array("Scrollable"=>'static');             
 	$stmt_account = sqlsrv_query($con, $sql_account, $params_account, $options_account);
 	while($row = sqlsrv_fetch_array($stmt_account))
 	{
 		$accountUsername = openssl_decrypt(base64_decode($row['accountUsername']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountPhoto = openssl_decrypt(base64_decode($row['accountPhoto']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
@@ -92,11 +94,21 @@
 	#username - at least 6 characters, not taken. Add tooltip
 	#email - must be a valid email
 	#SSS, TIN, BIR, HDMF - based on a valid number
-
+	$sometext = "";
 	if(isset($_POST['btnUpdate']))
 	{
-		#pass the current account ID for updating
-		$inpAcc = $_SESSION['accID'];
+		#check if user uploaded a photo
+		if(!isset($_FILES['inpPhoto']['name']) || $_FILES['image']['error'])
+		{
+			#user did not select a photo to upload
+			#do not update it in the database
+			$sometext = "no photo selected. photo left as is.";
+		}
+		else
+		{
+			#update the user's photo with the new one
+			$sometext = "new photo detected. running updatePhoto function";
+		}
 
 		#get the data from the form
 		$inpUsername = base64_encode(openssl_encrypt($_POST['inpUN'], $method, $password, OPENSSL_RAW_DATA, $iv));
@@ -107,15 +119,7 @@
 		$inpEmail = base64_encode(openssl_encrypt($_POST['inpEmail'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpNumber = base64_encode(openssl_encrypt($_POST['inpNumber'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpSex = $_POST['inpSex'];
-		$inpSSS = base64_encode(openssl_encrypt($_POST['inpSSS'], $method, $password, OPENSSL_RAW_DATA, $iv));
-		$inpTIN = base64_encode(openssl_encrypt($_POST['inpTIN'], $method, $password, OPENSSL_RAW_DATA, $iv));
-		$inpBIR = base64_encode(openssl_encrypt($_POST['inpBIR'], $method, $password, OPENSSL_RAW_DATA, $iv));
-		$inpHDMF = base64_encode(openssl_encrypt($_POST['inpHDMF'], $method, $password, OPENSSL_RAW_DATA, $iv));
-		$inpCivilStatus = $_POST['inpCivilStatus'];
 		
-		#if position, department, and base rate is read-only
-		#for the current user, exclude from update
-		#otherwise, include them
 		$msgDisplay = "";
 		$msgSuccess = "<div class='alert alert-success alert-dismissable fade in'>
 							<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -126,91 +130,41 @@
 						That username already exists. Please choose a different one.
 					</div>";
 
-		if(determineAccess() === "disabled")
+		if(empty($inpUsername) || $inpUsername === base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
 		{
-			#user is not an admin -- has disabled fields in the form
-			#do not include position, department, and base rate in update
-			if(empty($inpUsername) || $inpUsername === base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
-			{
-				#username field is left blank
-				#do not update the username
-				$sql_update = "UPDATE accounts 
-							   SET accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, cstatusID = ?
-							   WHERE accountID = ?";
-				$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpCivilStatus, $inpAcc);
-				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-
-				updateNumber($con, $inpNumber, $inpAcc);
-
-				header('location: account.php?updated=yes');
-			}
-			else
-			{
-				#username field has an input - include it in the update
-				#validate first if username is available or not
-				if(strcmp(validateUsername($con, $inpUsername), "available") == 0)
-				{
-					#username is valid 
-					$sql_update = "UPDATE accounts 
-							   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, cstatusID = ?
-							   WHERE accountID = ?";
-					$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpCivilStatus, $inpAcc);
-					$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-
-					updateNumber($con, $inpNumber, $inpAcc);
-
-					header('location: account.php?updated=yes');
-				}
-				else 
-				{
-					#the input username already exists. display an eror message
-					$msgDisplay = $msgError;
-				}
-			}
+			#if the username field is left blank
+			#do not update the username
+			$sql_update = "UPDATE accounts 
+						   SET accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountEmail = ?
+						   WHERE accountID = ?";
+			$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
+			$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
+			updateNumber($con, $inpNumber, $inpAcc);
+			header('location: account.php?updated=yes');
 		}
 		else
 		{
-			#user is an admin -- no fields disabled
-			#include position, department, and base rate in update
-			$inpPosition = $_POST['inpPosition'];
-		 	$inpDepartment = $_POST['inpDepartment'];
-		 	$inpBaseRate = $_POST['inpBaseRate'];
-
-			if(empty($inpUsername) || $inpUsername === base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
+			#username field has an input - include it in the update
+			#validate first if username is available or not
+			if(strcmp(validateUsername($con, $inpUsername), "available") == 0)
 			{
+				#username is valid 
 				$sql_update = "UPDATE accounts 
-							   SET accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, accountBaseRate = ?, cstatusID = ?, positionID = ?, departmentID = ? 
-							   WHERE accountID = ?";
-				$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, $inpCivilStatus, $inpPosition, $inpDepartment, $inpAcc);
+						   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountEmail = ? 
+						   WHERE accountID = ?";
+				$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
 				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-
 				updateNumber($con, $inpNumber, $inpAcc);
-
 				header('location: account.php?updated=yes');
 			}
-			else
-			{	
-				#username field has an input
-				#validate if the username is available		 		
-		 		if(strcmp(validateUsername($con, $inpUsername), "available") == 0)
-				{
-					#username is available
-					$sql_update = "UPDATE accounts 
-							   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountSSSNo = ?, accountTINNo = ?, accountBIRNo = ?, accountHDMFNo = ?, accountEmail = ?, accountBaseRate = ?, cstatusID = ?, positionID = ?, departmentID = ? 
-							   WHERE accountID = ?";
-					$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, $inpCivilStatus, $inpPosition, $inpDepartment, $inpAcc);
-					$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-
-					updateNumber($con, $inpNumber, $inpAcc);
-
-					header('location: account.php?updated=yes');
-				}
-				else 
-				{
-					#username already exists
-					$msgDisplay = $msgError;
-				}
+			else 
+			{
+				#the input username already exists. display an eror message
+				$msgDisplay = $msgError;
 			}
 		}
+
+		$txtEvent = "User with ID # " . $accID . " updated their account information.";
+		logEvent($con, $accID, $txtEvent);
 	}
 ?>

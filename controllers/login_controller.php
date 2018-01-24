@@ -41,7 +41,5 @@
 				}
 			}
 		}
-
-		echo $inpUsername . " " . $inpPassword;
 	}
 ?>

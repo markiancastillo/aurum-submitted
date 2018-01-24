@@ -12,6 +12,7 @@
 		<h3><?php #echo $_SESSION['accID']; ?></h3>
 		<table class="table table-hover">
 			<thead>
+				<th class="text-center"></th>
 				<th class="text-center">Account Owner</th>
 				<th class="text-center">Position</th>
 				<th class="text-center">Department</th>
