@@ -47,48 +47,40 @@
 	}
 	
 	#get selected department
-	$list_departments = "";
 	$dept = getDepartments($con);
-	while($row = sqlsrv_fetch_array($dept))
-	{
-		$departmentID = $row['departmentID'];
-		$departmentName = $row['departmentName'];
-		$selectedVal = $selecteddeptID === $departmentID ? 'selected' : '';
-		$list_departments .= "<option value='$departmentID' $selectedVal>$departmentName</option>";
-	}
 
 	#get selected position
-	$list_positions = "";
 	$pos = getPositions($con);
-	while($row = sqlsrv_fetch_array($pos))
-	{
-		$positionID = $row['positionID'];
-		$positionName = $row['positionName'];
-		$selectedVal = $selectedposID === $positionID ? 'selected' : '';
-		$list_positions .= "<option value='$positionID' $selectedVal>$positionName</option>";
-	}
 
 	#get selected civil status
-	$list_cstatus = "";
 	$cs = getCivilStatuses($con);
-	while($row = sqlsrv_fetch_array($cs))
-	{
-		$cstatusID = $row['cstatusID'];
-		$cstatusName = $row['cstatusName'];
-		$selectedVal = $selectedcsID === $cstatusID ? 'selected' : '';
-		$list_cstatus .= "<option value='$cstatusID' $selectedVal>$cstatusName</option>";
-	}
+	
 
 	$contactNumber = "";
 	#get contact number information (main number only)
 	$sql_getNumber = "SELECT TOP 1 contactID, contactNumber FROM contacts 
 					  WHERE ctypeID = ? AND accountID = ?";
-	$params_getNumber = array(1, $_SESSION['accID']);
+	$params_getNumber = array(1, $accID);
 	$stmt_getNumber = sqlsrv_query($con, $sql_getNumber, $params_getNumber);
 	while($rowNum = sqlsrv_fetch_array($stmt_getNumber))
 	{
 		$numberID = $rowNum['contactID'];
 		$contactNumber = openssl_decrypt(base64_decode($rowNum['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv);
+	}
+
+	#get adress
+	$addressL1 = ""; $addressL2 = ""; $addressCity = ""; $addressZip = "";
+	$sql_getAddress = "SELECT TOP 1 addressID, addressL1, addressL2, addressCity, addressZip FROM addresses 
+					   WHERE accountID = ?";
+	$params_getAddress = array($accID);
+	$stmt_getAddress = sqlsrv_query($con, $sql_getAddress, $params_getAddress);
+	while($rowAddress = sqlsrv_fetch_array($stmt_getAddress))
+	{
+		$addressID = $rowAddress['addressID'];
+		$addressL1 = openssl_decrypt(base64_decode($rowAddress['addressL1']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$addressL2 = openssl_decrypt(base64_decode($rowAddress['addressL2']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$addressCity = openssl_decrypt(base64_decode($rowAddress['addressCity']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$addressZip = trim($rowAddress['addressZip']);
 	}
 
 	#validations:
@@ -120,6 +112,11 @@
 		$inpEmail = base64_encode(openssl_encrypt($_POST['inpEmail'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpNumber = base64_encode(openssl_encrypt($_POST['inpNumber'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpSex = $_POST['inpSex'];
+
+		$inpAddressL1 = base64_encode(openssl_encrypt($_POST['inpAddressL1'], $method, $password, OPENSSL_RAW_DATA, $iv));
+		$inpAddressL2 = base64_encode(openssl_encrypt($_POST['inpAddressL2'], $method, $password, OPENSSL_RAW_DATA, $iv));
+		$inpCity = base64_encode(openssl_encrypt($_POST['inpCity'], $method, $password, OPENSSL_RAW_DATA, $iv));
+		$inpZip = $_POST['inpZip'];
 		
 		$msgDisplay = "";
 		$msgSuccess = "<div class='alert alert-success alert-dismissable fade in'>
@@ -140,7 +137,13 @@
 						   WHERE accountID = ?";
 			$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
 			$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-			updMainNumber($con, $numberID, $inpNumber, $inpAcc);
+			updMainNumber($con, $numberID, $inpNumber, $accID);
+
+			updAddress($con, $accID, $addressID, $inpAddressL1, $inpAddressL2, $inpCity, $inpZip);
+
+			$txtEvent = "User with ID # " . $accID . " updated their account information.";
+			logEvent($con, $accID, $txtEvent);
+
 			header('location: account.php?updated=yes');
 		}
 		else
@@ -155,7 +158,13 @@
 						   WHERE accountID = ?";
 				$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
 				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
-				updMainNumber($con, $numberID, $inpNumber, $inpAcc);
+				updMainNumber($con, $numberID, $inpNumber, $accID);
+
+				updAddress($con, $accID, $addressID, $inpAddressL1, $inpAddressL2, $inpCity, $inpZip);
+
+				$txtEvent = "User with ID # " . $accID . " updated their account information.";
+				logEvent($con, $accID, $txtEvent);
+
 				header('location: account.php?updated=yes');
 			}
 			else 
@@ -164,8 +173,5 @@
 				$msgDisplay = $msgError;
 			}
 		}
-
-		$txtEvent = "User with ID # " . $accID . " updated their account information.";
-		logEvent($con, $accID, $txtEvent);
 	}
 ?>

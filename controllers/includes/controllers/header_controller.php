@@ -13,7 +13,7 @@
 
     define('app_path', "${protocol}://${domain}${disp_port}" . '/aurum/');
 	
-	#session_start();
+#	session_start();
 	if(isset($_SESSION['accID']))
 	{
 		$accID = $_SESSION['accID'];
@@ -30,8 +30,8 @@
 
 		$displayName = $accLN . ', ' . $accFN;
 	}
-	else 
-	{
-		#header('location: ' . app_path . 'controllers/logout.php');
-	}
+#	else 
+#	{
+#		header('location: ' . app_path . 'controllers/login.php');
+#	}
 ?>

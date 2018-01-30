@@ -53,6 +53,9 @@
 			$params_archive = array("Archived", $reqID);
 			$stmt_archive = sqlsrv_query($con, $sql_archive, $params_archive);
 
+			$txtEvent = "User with ID #" . $accID . " archived the account with ID #" . $reqID . ".";
+			logEvent($con, $accID, $txtEvent);
+
 			header('location: list_account.php');
 		}
 		else 

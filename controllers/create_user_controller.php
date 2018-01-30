@@ -65,7 +65,7 @@
 		$params_insert = array($defUsername, $defPassword, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, "Pending", $inpCivilStatus, $inpPosition, $inpDepartment);
 		$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
 
-		$txtEvent = "User with ID # " . $accID . " created a new account for: " . trim($_POST['inpFN']) . " " . trim($_POST['inpMN']) . " " . trim($_POST['inpLN']) . ".";
+		$txtEvent = "User with ID #" . $accID . " created a new account for: " . trim($_POST['inpFN']) . " " . trim($_POST['inpMN']) . " " . trim($_POST['inpLN']) . ".";
 		logEvent($con, $accID, $txtEvent);
 	}
 ?>

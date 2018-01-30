@@ -2,8 +2,8 @@
 	include('function.php');
 	include('config.php');
 	include('security.php');
-	session_start();
 
+	$msgDisplay = "";
 	if(isset($_POST['btnChange']))
 	{
 		$accID = $_SESSION['accID'];
@@ -17,7 +17,6 @@
 		$options_checkpw = array('Scrollable'=>'static');
 		$stmt_checkpw = sqlsrv_query($con, $sql_checkpw, $params_checkpw, $options_checkpw);
 
-		$msgDiaplay = "";
 		$msgError = "<div class='alert alert-danger alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						Please make sure that the new password and confirm password match.
@@ -25,7 +24,7 @@
 		$msgPWError = "<div class='alert alert-danger alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						Your input for current password is incorrect. Please try again.
-					</div>";
+					</div>";		
 
 		while($row = sqlsrv_fetch_array($stmt_checkpw))
 		{
@@ -43,7 +42,10 @@
 					$params_updpw = array($inpNew, $accID);
 					$stmt_updpw = sqlsrv_query($con, $sql_updpw, $params_updpw);
 
-					header('location: index.php');
+					$txtEvent = "User with ID #" . $accID . " updated their password.";
+					logEvent($con, $accID, $txtEvent);
+
+					header('location: index.php?success=yes');
 				}
 				else
 				{
@@ -55,7 +57,5 @@
 				$msgDisplay = $msgPWError;
 			}
 		}
-		$txtEvent = "User with ID # " . $accID . " updated their password.";
-		logEvent($con, $accID, $txtEvent);
 	}
 ?>

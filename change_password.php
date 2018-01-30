@@ -30,16 +30,7 @@
 		<div class="col-lg-6 col-lg-offset-3">
 			<div class="well">
 				<?php
-					if(isset($_POST['btnLogin']))
-					{
-						if($login_row_count == 0)
-						{
-							#username/password combination is invalid
-							echo "
-								
-							";
-						}
-					}
+					echo $msgDisplay;
 				?>
 				<form class="form-horizontal" method="POST">
 					<div class="form-group">

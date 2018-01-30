@@ -1,9 +1,18 @@
 <?php
+	#determine if session is set
+	#if not, redirect to login page
+	session_start();
+	if(!isset($_SESSION['accID']))
+	{
+		#there is no session active: redirect to login
+		header('location: login.php');
+	}
+
 	#determine which header to load based on
 	#the logged in account's positionID
 	function loadHeader()
 	{
-		session_start();
+		#session_start();
 		if(isset($_SESSION['accID']))
 		{
 			$accID = $_SESSION['accID'];
@@ -46,7 +55,7 @@
 	#get account details 
 	function getAccounts($con, $reqID)
 	{
-		$sql_account = "SELECT a.accountFN, a.accountMN, a.accountLN, a.accountBirthdate, a.accountSex, a.accountSSSNo, a.accountTINNo, a.accountBIRNo, a.accountHDMFNo, a.accountEmail, a.accountBaseRate, a.accountStatus, c.cstatusName, p.positionName, d.departmentName 
+		$sql_account = "SELECT a.accountPhoto, a.accountFN, a.accountMN, a.accountLN, a.accountBirthdate, a.accountSex, a.accountSSSNo, a.accountTINNo, a.accountBIRNo, a.accountHDMFNo, a.accountEmail, a.accountBaseRate, a.accountStatus, a.cstatusID, c.cstatusName, a.positionID, p.positionName, a.departmentID, d.departmentName 
 	                	FROM accounts a 
 	                	INNER JOIN civilstatuses c ON a.cstatusID = c.cstatusID 
 	                	INNER JOIN positions p ON a.positionID = p.positionID
@@ -74,6 +83,19 @@
 		return $stmt_cstatus;
 	}
 
+	function getSelectedCS($cs, $selectedcsID)
+	{
+		$list_cstatus = "";
+		while($row = sqlsrv_fetch_array($cs))
+		{
+			$cstatusID = $row['cstatusID'];
+			$cstatusName = $row['cstatusName'];
+			$selectedVal = $selectedcsID === $cstatusID ? 'selected' : '';
+			$list_cstatus .= "<option value='$cstatusID' $selectedVal>$cstatusName</option>";
+		}
+		return $list_cstatus;
+	}
+
 	function getContacts($con, $reqID)
 	{
 		$sql_contacts = "SELECT n.contactNumber, t.ctypeName FROM contacts n 
@@ -99,6 +121,19 @@
 		return $stmt_departments;
 	}
 
+	function getSelectedDepartment($dept, $selecteddeptID)
+	{
+		$list_departments = "";
+		while($row = sqlsrv_fetch_array($dept))
+		{
+			$departmentID = $row['departmentID'];
+			$departmentName = $row['departmentName'];
+			$selectedVal = $selecteddeptID === $departmentID ? 'selected' : '';
+			$list_departments .= "<option value='$departmentID' $selectedVal>$departmentName</option>";
+		}
+		return $list_departments;
+	}
+
 	#get the user's photo
 	function getPhoto($accountPhoto)
 	{
@@ -113,6 +148,46 @@
 		$sql_positions = "SELECT positionID, positionName FROM positions ORDER BY positionName";
 		$stmt_positions = sqlsrv_query($con, $sql_positions);
 		return $stmt_positions;
+	}
+
+	function getSelectedPosition($pos, $selectedposID)
+	{
+		$list_positions = "";
+		while($row = sqlsrv_fetch_array($pos))
+		{
+			$positionID = $row['positionID'];
+			$positionName = $row['positionName'];
+			$selectedVal = $selectedposID === $positionID ? 'selected' : '';
+			$list_positions .= "<option value='$positionID' $selectedVal>$positionName</option>";
+		}
+		return $list_positions;
+	}
+
+	function updAddress($con, $accID, $addressID, $inpAddressL1, $inpAddressL2, $inpCity, $inpZip)
+	{
+		$sql_countAddress = "SELECT COUNT(addressID) AS addressCount FROM addresses 
+							 WHERE accountID = ?";
+		$params_countAddress = array($accID);
+		$stmt_countAddress = sqlsrv_query($con, $sql_countAddress, $params_countAddress);
+		while($row = sqlsrv_fetch_array($stmt_countAddress))
+		{
+			$addressCount = $row['addressCount'];
+		}
+
+		if($addressCount == 0)
+		{
+			#address doesnt exist yet; insert address
+			$sql_address = "INSERT INTO addresses (addressL1, addressL2, addressCity, addressZip, accountID) VALUES (?, ?, ?, ?, ?)";
+			$params_address = array($inpAddressL1, $inpAddressL2, $inpCity, $inpZip, $accID);
+		}
+		else
+		{
+			#address existing; update address 
+			$sql_address = "UPDATE addresses SET addressL1 = ?, addressL2 = ?, addressCity = ?, addressZip = ? WHERE addressID = ? AND accountID = ?";
+			$params_address = array($inpAddressL1, $inpAddressL2, $inpCity, $inpZip, $addressID, $accID);
+		}
+		$stmt_address = sqlsrv_query($con, $sql_address, $params_address);
+		return $stmt_address;
 	}
 
 	function updMainNumber($con, $numberID, $inpNumber, $inpAcc)
@@ -169,6 +244,17 @@
 		$sql_upload = "UPDATE accounts SET accountPhoto = ? WHERE accountID = ?";
 		$params_upload = array($encrypt_img, $accID);
 		$stmt_upload = sqlsrv_query($con, $sql_upload, $params_upload);
+	}
+
+	#check if there is a session active
+	function validateSession()
+	{
+		session_start();
+		if(!isset($_SESSION['accID']))
+		{
+			#there is no session active: redirect to login
+			header('location: login.php');
+		}
 	}
 
 	#check for the validity of the input username

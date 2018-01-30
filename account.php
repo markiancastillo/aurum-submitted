@@ -95,7 +95,7 @@
 								<label class="control-label col-lg-3">Position</label>
 								<div class="col-lg-8">
 									<select id="inpPosition" name="inpPosition" class="form-control" required="true" <?php echo determineAccess(); ?>>
-										<?php echo $list_positions; ?>
+										<?php echo getSelectedPosition($pos, $selectedposID); ?>
 									</select>
 								</div>
 							</div>
@@ -103,7 +103,7 @@
 								<label class="control-label col-lg-3">Department</label>
 								<div class="col-lg-8">
 									<select id="inpDepartment" name="inpDepartment" class="form-control" required="true" <?php echo determineAccess(); ?>>
-										<?php echo $list_departments; ?>
+										<?php echo getSelectedDepartment($dept, $selecteddeptID); ?>
 									</select>
 								</div>
 							</div>
@@ -120,7 +120,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-lg-3">Contact Number</label>
+								<label class="control-label col-lg-3">Primary Contact Number</label>
 								<div class="col-lg-8">
 									<div class="input-group">
 										<input type="text" id="inpNumber" name="inpNumber" class="form-control" maxlength="25" placeholder="Set a primary contact number" value='<?php echo $contactNumber; ?>' />
@@ -132,7 +132,35 @@
 							</div>							
 						</div>
 						<div class="col-lg-6">
-
+							<div class="form-group">
+								<label class="control-label col-lg-3">Address</label>
+								<div class="col-lg-8">
+									<input type="text" id="inpAddressL1" name="inpAddressL1" class="form-control" maxlength="80" placeholder="Address Line 1" value='<?php echo $addressL1; ?>' />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-8">
+									<input type="text" id="inpAddressL2" name="inpAddressL2" class="form-control" maxlength="80" placeholder="Address Line 2" value='<?php echo $addressL2; ?>' />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-8">
+									<input type="text" id="inpCity" name="inpCity" class="form-control" maxlength="30" placeholder="City" value='<?php echo $addressCity; ?>' />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-3"></label>
+								<div class="col-lg-8">
+									<input type="text" id="inpZip" name="inpZip" class="form-control" maxlength="15" placeholder="Zip/Area Code" value='<?php echo $addressZip; ?>' />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-8 col-lg-offset-3">
+									<a href="account_address.php" class="btn btn-default btn-block">Manage Address</a>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div id="linfo" class="tab-pane fade">
@@ -143,7 +171,7 @@
 								<label class="control-label col-lg-3">Civil Status</label>
 								<div class="col-lg-8">
 									<select id="inpCivilStatus" name="inpCivilStatus" class="form-control" disabled>
-										<?php echo $list_cstatus; ?>
+										<?php echo getSelectedCS($cs, $selectedcsID); ?>
 									</select>
 								</div>
 							</div>

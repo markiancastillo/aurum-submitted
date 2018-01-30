@@ -61,6 +61,10 @@
 		$params_insNumber = array($inpNumber, $inpType, $activeAcc);
 		$stmt_insNumber = sqlsrv_query($con, $sql_insNumber, $params_insNumber);
 
+		$accID = $activeAcc;
+		$txtEvent = "User with ID # " . $accID . " added a number in their contact information.";
+		logEvent($con, $accID, $txtEvent);
+
 		header('location: account_number.php?updated=yes');
 	}
 ?>
