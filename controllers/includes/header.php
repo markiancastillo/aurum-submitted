@@ -26,10 +26,10 @@
 		<ul class="nav navbar-nav">
     		<li><a href="<?php echo app_path?>index.php">Dashboard</a></li>
     		<li class="dropdown">
-    		  	<a class="dropdown-toggle" data-toggle="dropdown">Page 1 <span class="caret"></span></a>
+    		  	<a class="dropdown-toggle" data-toggle="dropdown">Legal Billing <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
-    		  		<li><a href="">Page 1-1</a></li>
-    		      	<li><a href="">Page 1-2</a></li>
+    		  		<li><a href="application_billing.php">Legal Billing Application</a></li>
+    		      	<li><a href="list_reimbursement.php">View Reimbursement Applications</a></li>
     		      	<li><a href="">Page 1-3</a></li>
     		  	</ul>
     		</li>

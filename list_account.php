@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<br />
-		<table id="listAccounts" name="listAccounts" class="table table-hover">
+		<table id="listTable" name="listTable" class="table table-hover">
 			<thead>
 				<th class="text-center"></th>
 				<th class="text-center">Account Owner</th>

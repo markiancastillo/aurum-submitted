@@ -4,7 +4,7 @@ function searchList()
 	var searchKeyword, searchFilter, searchTable, searchRow, td, i;
 	searchKeyword = document.getElementById("keySearch");
 	searchFilter = searchKeyword.value.toUpperCase();
-	searchTable = document.getElementById("listAccounts");
+	searchTable = document.getElementById("listTable");
 	searchRow = searchTable.getElementsByTagName("tr");
 
 	//Loop through the rows in the table

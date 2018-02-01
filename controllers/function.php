@@ -235,7 +235,7 @@
 		#e.g. 1_photo.png
 		#this makes them unique for each user and prevents
 		#overwriting of files with the same name
-		$imgNew = $accID . "_" . basename($imgName);
+		$imgNew = $accID . "-" . basename($imgName);
 		$imgFile = $imgDir . $imgNew;
 
 		move_uploaded_file($_FILES["inpPhoto"]["tmp_name"], $imgFile);
@@ -244,6 +244,24 @@
 		$sql_upload = "UPDATE accounts SET accountPhoto = ? WHERE accountID = ?";
 		$params_upload = array($encrypt_img, $accID);
 		$stmt_upload = sqlsrv_query($con, $sql_upload, $params_upload);
+	}
+
+	function uploadProof($con, $accID, $inpCase, $imgName)
+	{
+		include('security.php');
+		#directory where the image will be stored
+		$imgDir = $_SERVER["DOCUMENT_ROOT"] . "/aurum/images/proof/";
+		#filename will be uploader's ID + image name
+		#e.g. 1_photo.png
+		#this makes them unique for each user and prevents
+		#overwriting of files with the same name
+		$imgNew = $accID . "-" . $inpCase . "-" . date('YmdHis') . "-" . basename($imgName);
+		$imgFile = $imgDir . $imgNew;
+
+		move_uploaded_file($_FILES["inpReceipt"]["tmp_name"], $imgFile);
+
+		$encrypt_img = base64_encode(openssl_encrypt($imgNew, $method, $password, OPENSSL_RAW_DATA, $iv));
+		return $imgNew;
 	}
 
 	#check if there is a session active
