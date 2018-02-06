@@ -19,7 +19,8 @@
 				</form>
 			</div>
 			<div class="col-lg-6">
-				<a href="application_reimbursement.php" class="btn btn-primary pull-right">Reimbursement Application</a>
+				<a href="application_reimbursement.php" class="btn btn-primary">Reimbursement Application</a>
+				<a href="application_servicefee.php" class="btn btn-primary">Service Fee Application</a>
 			</div>
 		</div>
 	</div>

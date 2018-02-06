@@ -3,6 +3,8 @@
 	include('function.php');
 	include(loadHeader());
 
+	$reqID = $_REQUEST['id'];
+	
 	#get the data for the form
 	$sql_details = "SELECT a.accountLN, a.accountFN, a.accountMN, c.caseTitle, e.expenseDate, e.expenseProof, e.expenseAmount, t.etypeName, e.expenseRemarks 
 					FROM expenses e 
@@ -26,6 +28,34 @@
 		$expenseRemarks = $row['expenseRemarks'];
 
 		#assign expenseProof to variable accountPhoto for reuse of function
-		$accountPhoto = $row['expenseProof'];
+		$accountPhoto = openssl_decrypt(base64_decode($row['expenseProof']), $method, $password, OPENSSL_RAW_DATA, $iv);
+	}
+
+	if(isset($_POST['btnApprove']))
+	{
+		#update the status of the reimbursement
+		#request to "approved"
+		$sql_approve = "UPDATE expenses SET expenseStatus = 'Approved' where expenseID = ?";
+		$params_approve = array($reqID);
+		$stmt_approve = sqlsrv_query($con, $sql_approve, $params_approve);
+
+		$txtEvent = "User with ID # " . $accID . " approved reimbursement request # " . $reqID . ".";
+		logEvent($con, $accID, $txtEvent);
+
+		header('location: list_reimbursement.php?id=' . $reqID . '&approved=yes');
+	}
+
+	if(isset($_POST['btnDeny']))
+	{
+		#update the status of the reimbursement
+		#request to "denied"
+		$sql_disapprove = "UPDATE expenses SET expenseStatus = 'Disapproved' WHERE expenseID = ?";
+		$params_disapprove = array($reqID);
+		$stmt_approve = sqlsrv_query($con, $sql_disapprove, $params_disapprove);
+
+		$txtEvent = "User with ID # " . $accID . " denied reimbursement request # " . $reqID . ".";
+		logEvent($con, $accID, $txtEvent);
+
+		header('location: list_reimbursement.php?id=' . $reqID . '&approved=no');
 	}
 ?>

@@ -10,17 +10,19 @@
 	<div class="row">
 		<h1 class="text-center">My Account</h1>
 		<?php
-			if(isset($_POST['btnUpdate']))
-			{
-				#echo $msgDisplay;
-
-			}
-			
 			if(isset($_REQUEST['updated']))
 			{
 				echo "<div class='alert alert-success alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						Account information successfully updated.
+					</div>";
+			}
+
+			if(isset($_REQUEST['error']))
+			{
+				echo "<div class='alert alert-danger alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						That username already exists. Please choose a different one.
 					</div>";
 			}
 		?>

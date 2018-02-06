@@ -87,7 +87,15 @@
 	#username - at least 6 characters, not taken. Add tooltip
 	#email - must be a valid email
 	#SSS, TIN, BIR, HDMF - based on a valid number
-	$sometext = "";
+	$msgDisplay = "";
+	$msgSuccess = "<div class='alert alert-success alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						Account information successfully updated.
+					</div>";
+	$msgError = "<div class='alert alert-danger alert-dismissable fade in'>
+					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+					That username already exists. Please choose a different one.
+				</div>";
 	if(isset($_POST['btnUpdate']))
 	{
 		#check if user uploaded a photo
@@ -117,16 +125,6 @@
 		$inpAddressL2 = base64_encode(openssl_encrypt($_POST['inpAddressL2'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpCity = base64_encode(openssl_encrypt($_POST['inpCity'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpZip = $_POST['inpZip'];
-		
-		$msgDisplay = "";
-		$msgSuccess = "<div class='alert alert-success alert-dismissable fade in'>
-							<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-							Account information successfully updated.
-						</div>";
-		$msgError = "<div class='alert alert-danger alert-dismissable fade in'>
-						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-						That username already exists. Please choose a different one.
-					</div>";
 
 		if(empty($inpUsername) || $inpUsername === base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
 		{
@@ -170,8 +168,9 @@
 			else 
 			{
 				#the input username already exists. display an eror message
-				$msgDisplay = $msgError;
+				#$msgDisplay = $msgError;
+				header('location: account.php?error=yes');
 			}
 		}
-	}
+	}	
 ?>

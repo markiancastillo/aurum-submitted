@@ -134,6 +134,58 @@
 		return $list_departments;
 	}
 
+	#get the list of expense types
+	function getExpenseTypes($con)
+	{
+		$sql_etypes = "SELECT etypeID, etypeName FROM expensetypes";
+		$stmt_etypes = sqlsrv_query($con, $sql_etypes);
+		
+		$list_etypes = "";
+		while($rowTypes = sqlsrv_fetch_array($stmt_etypes))
+		{
+			$etypeID = $rowTypes['etypeID'];
+			$etypeName = $rowTypes['etypeName'];
+			$list_etypes .= "<option value='$etypeID'>$etypeName</option>";
+		}
+
+		return $list_etypes;
+	}
+
+	#get the list of service types
+	function getServiceTypes($con)
+	{
+		$sql_stypes = "SELECT stypeID, stypeName FROM servicetypes";
+		$stmt_stypes = sqlsrv_query($con, $sql_stypes);
+
+		$list_stypes = "";
+		while($rowSTypes = sqlsrv_fetch_array($stmt_stypes))
+		{
+			$stypeID = $rowSTypes['stypeID'];
+			$stypeName = $rowSTypes['stypeName'];
+			$list_stypes .= "<option value='$stypeID'>$stypeName</option>";
+		}
+		return $list_stypes;
+	}
+
+	#get the list of cases 
+	function getCases($con, $accID)
+	{
+		$sql_cases = "SELECT caseID, caseTitle FROM cases 
+					  WHERE accountID = ?";
+		$params_cases = array($accID);
+		$stmt_cases = sqlsrv_query($con, $sql_cases, $params_cases);
+
+		$list_cases = "";
+		while($rowCases = sqlsrv_fetch_array($stmt_cases))
+		{
+			$caseID = $rowCases['caseID'];
+			$caseTitle = $rowCases['caseTitle'];
+			$list_cases .= "<option value='$caseID'>$caseTitle</option>";
+		}
+
+		return $list_cases;
+	}
+
 	#get the user's photo
 	function getPhoto($accountPhoto)
 	{
@@ -261,7 +313,7 @@
 		move_uploaded_file($_FILES["inpReceipt"]["tmp_name"], $imgFile);
 
 		$encrypt_img = base64_encode(openssl_encrypt($imgNew, $method, $password, OPENSSL_RAW_DATA, $iv));
-		return $imgNew;
+		return $encrypt_img;
 	}
 
 	#check if there is a session active

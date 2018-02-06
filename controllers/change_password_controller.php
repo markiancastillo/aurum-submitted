@@ -42,7 +42,7 @@
 					$params_updpw = array($inpNew, $accID);
 					$stmt_updpw = sqlsrv_query($con, $sql_updpw, $params_updpw);
 
-					$txtEvent = "User with ID #" . $accID . " updated their password.";
+					$txtEvent = "User with ID # " . $accID . " updated their password.";
 					logEvent($con, $accID, $txtEvent);
 
 					header('location: index.php?success=yes');

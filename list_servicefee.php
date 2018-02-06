@@ -1,5 +1,5 @@
 <?php
-	include('controllers/list_reimbursement_controller.php');
+	include('controllers/list_servicefee_controller.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<h1 class="text-center">Reimbursement Applications</h1>
+			<h1 class="text-center">Service Fee Applications</h1>
 
 			<div class="form-group">
 				<div class="input-group col-lg-8 col-lg-offset-2">
@@ -27,7 +27,7 @@
 						echo "
 						<div class='alert alert-success alert-dismissable fade in'>
 							<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-							Successfully approved the request!
+							Successfully approved the service fee request!
 						</div>";
 					}
 					else if(strcasecmp($msgApprove, "no") == 0)
@@ -35,7 +35,7 @@
 						echo "
 						<div class='alert alert-warning alert-dismissable fade in'>
 							<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-							Successfully disapproved the request.
+							Successfully disapproved the service fee request.
 						</div>";
 					}
 				}
@@ -46,7 +46,7 @@
 					<th class="text-center">Requestor Name</th>
 					<th class="text-center">Case</th>
 					<th class="text-center">Amount</th>
-					<th class="text-center">Expense Type</th>
+					<th class="text-center">Service Type</th>
 					<th class="text-center">Remarks</th>
 					<th class="text-center">Actions</th>
 				</thead>
@@ -63,7 +63,7 @@
 							}
 							else 
 							{
-								echo $list_reimbursements;
+								echo $list_servicefees;
 							}
 						?>
 					</tr>
