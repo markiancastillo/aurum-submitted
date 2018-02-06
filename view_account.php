@@ -25,7 +25,7 @@
 							<div class="form-group">
 								<label class="control-label col-lg-3">Photo</label>
 								<div class="col-lg-8">
-									<img class="img-responsive" src='images/<?php echo getPhoto($accountPhoto); ?>' width="40%" alt='<?php echo getPhoto($accountPhoto); ?>' />
+									<img class="img-responsive" src='images/profile/<?php echo getPhoto($accountPhoto); ?>' width="40%" alt='<?php echo getPhoto($accountPhoto); ?>' />
 								</div>
 							</div>
 							<div class="form-group">

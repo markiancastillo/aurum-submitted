@@ -37,7 +37,7 @@
 
 		$displayList .= "
 			<tr>
-				<td class='text-center'><img src='images/$image' width='50px' alt='img'></td>
+				<td class='text-center'><img src='images/profile/$image' width='50px' alt='img'></td>
 				<td class='text-center'>$accountName</td>
 				<td class='text-center'>$positionName</td>
 				<td class='text-center'>$departmentName</td>

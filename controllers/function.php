@@ -282,7 +282,7 @@
 	{
 		include('security.php');
 		#directory where the image will be stored
-		$imgDir = $_SERVER["DOCUMENT_ROOT"] . "/aurum/images/";
+		$imgDir = $_SERVER["DOCUMENT_ROOT"] . "/aurum/images/profile/";
 		#filename will be uploader's ID + image name
 		#e.g. 1_photo.png
 		#this makes them unique for each user and prevents
