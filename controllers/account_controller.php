@@ -126,14 +126,40 @@
 		$inpCity = base64_encode(openssl_encrypt($_POST['inpCity'], $method, $password, OPENSSL_RAW_DATA, $iv));
 		$inpZip = $_POST['inpZip'];
 
+		#check if the user has input on the email field
+		if(!isset($inpEmail) || trim($inpEmail) == base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
+		{
+			#the email field is left empty
+			#do not update
+		}
+		else 
+		{
+			#email has an input
+			#validate if the input email is not taken
+			$emailCount = validateEmail($con, $inpEmail);
+			if($emailCount > 0)
+			{
+				#input emial already exists
+				#display an error
+				header('location: account.php?email=error');
+			}
+			else 
+			{
+				#input email is unique; update the record
+				$sql_updEmail = "UPDATE accounts SET accountEmail = ? WHERE accountID = ?";
+				$params_updEmail = array($inpEmail, $accID);
+				$stmt_updEmail = sqlsrv_query($con, $sql_updEmail, $params_updEmail);
+			}
+		}
+
 		if(empty($inpUsername) || $inpUsername === base64_encode(openssl_encrypt('', $method, $password, OPENSSL_RAW_DATA, $iv)))
 		{
 			#if the username field is left blank
 			#do not update the username
 			$sql_update = "UPDATE accounts 
-						   SET accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountEmail = ?
+						   SET accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?
 						   WHERE accountID = ?";
-			$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
+			$params_update = array($inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $accID);
 			$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
 			updMainNumber($con, $numberID, $inpNumber, $accID);
 
@@ -152,9 +178,9 @@
 			{
 				#username is valid 
 				$sql_update = "UPDATE accounts 
-						   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?, accountEmail = ? 
+						   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ? 
 						   WHERE accountID = ?";
-				$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpEmail, $accID);
+				$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $accID);
 				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
 				updMainNumber($con, $numberID, $inpNumber, $accID);
 
@@ -169,8 +195,8 @@
 			{
 				#the input username already exists. display an eror message
 				#$msgDisplay = $msgError;
-				header('location: account.php?error=yes');
-			}
+				header('location: account.php?username=error');
+			} 
 		}
 	}	
 ?>

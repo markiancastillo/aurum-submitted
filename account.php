@@ -18,11 +18,19 @@
 					</div>";
 			}
 
-			if(isset($_REQUEST['error']))
+			if(isset($_REQUEST['username']))
 			{
 				echo "<div class='alert alert-danger alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						That username already exists. Please choose a different one.
+					</div>";
+			}
+
+			if(isset($_REQUEST['email']))
+			{
+				echo "<div class='alert alert-danger alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						That email address already exists. Please choose a different one.
 					</div>";
 			}
 		?>
@@ -118,7 +126,7 @@
 							<div class="form-group">
 								<label class="control-label col-lg-3">Email Address</label>
 								<div class="col-lg-8">
-									<input type="email" id="inpEmail" name="inpEmail" class="form-control" maxlength="100" value='<?php echo $accountEmail; ?>' />
+									<input type="email" id="inpEmail" name="inpEmail" class="form-control" maxlength="100" placeholder='<?php echo $accountEmail; ?>' />
 								</div>
 							</div>
 							<div class="form-group">

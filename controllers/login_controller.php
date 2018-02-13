@@ -2,6 +2,12 @@
 	include('config.php');
 	include('security.php');
 
+	$msgDisplay = "";
+	$msgSuccess = "<div class='alert alert-success alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						Your password was successfully updated. Try logging in with your new password.
+					</div>";
+
 	if(isset($_POST['btnLogin']))
 	{
 		$inpUsername = base64_encode(openssl_encrypt($_POST['inpUsername'], $method, $password, OPENSSL_RAW_DATA, $iv));
@@ -41,5 +47,10 @@
 				}
 			}
 		}
+	}
+
+	if(isset($_GET['reset']))
+	{
+		$msgDisplay = $msgSuccess;
 	}
 ?>

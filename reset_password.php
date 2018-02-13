@@ -1,10 +1,10 @@
 <?php
-	include('controllers/forgot_password_controller.php');
+	include('controllers/reset_password_controller.php');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Forgot Password</title>
+	<title>Reset Password</title>
 	<!-- CDN -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -25,20 +25,20 @@
 <body>
 <div class="container">
 	<div class="row">
-		<h1 class="text-center">Password Reset Request</h1>
+		<h1 class="text-center">Reset Your Password</h1>
 		<div class="col-lg-6 col-lg-offset-3 well">
 			<?php echo $msgDisplay; ?>
 			<form class="form-horizontal" method="POST">
 				<div class="form-group">
-					<label class="control-label col-lg-3">Email Address</label>
+					<label class="control-label col-lg-3">New Password</label>
 					<div class="col-lg-8">
-						<input type="email" id="inpEmail" name="inpEmail" class="form-control" maxlength="50" placeholder="A valid email address" required="true" />
+						<input type="password" id="inpPW" name="inpPW" class="form-control" maxlength="50" placeholder="Enter a strong password" required="true" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-3">Re-enter Email</label>
+					<label class="control-label col-lg-3">Confirm Password</label>
 					<div class="col-lg-8">
-						<input type="email" id="inpCEmail" name="inpCEmail" class="form-control" maxlength="50" placeholder="Enter your email again" required="true" />
+						<input type="password" id="inpCPW" name="inpCPW" class="form-control" maxlength="50" placeholder="Enter your password again" required="true" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -46,7 +46,7 @@
 						<a href="login.php" id="btnBack" name="btnBack" class="btn btn-default btn-block pull-left">Cancel</a>
 					</div>
 					<div class="col-lg-5">
-						<button type="submit" id="btnReset" name="btnReset" class="btn btn-primary btn-block pull-right">Reset Password</button>
+						<button type="submit" id="btnChange" name="btnChange" class="btn btn-success btn-block pull-right">Update Password</button>
 					</div>
 				</div>
 			</form>

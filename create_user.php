@@ -11,7 +11,7 @@
 		<h1 class="text-center">Create a New User Account</h1>
 		<hr />
 		<?php 
-			if(isset($_POST['btnSubmit']))
+			/*if(isset($_POST['btnSubmit']))
 			{
 				if($stmt_insert === false)
 				{
@@ -31,7 +31,8 @@
 						</div>
 					";
 				}
-			}
+			}*/
+			echo $msgDisplay;
 		?>
 		<form class="form-horizontal" method="POST">
 			<div class="col-lg-6">

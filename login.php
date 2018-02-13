@@ -44,6 +44,7 @@
 							";
 						}
 					}
+					echo $msgDisplay;
 				?>
 				<form class="form-horizontal" method="POST">
 					<div class="form-group">
@@ -59,7 +60,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-lg-3 col-lg-offset-8">
+						<div class="col-lg-7 col-lg-offset-1">
+							<a href="forgot_password.php" class="pull-left">Forgot Password?</a>
+						</div>
+						<div class="col-lg-3">
 							<button type="submit" id="btnLogin" name="btnLogin" class="btn btn-success btn-block pull-right">Login</button>
 						</div>
 					</div>
