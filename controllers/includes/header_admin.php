@@ -43,6 +43,20 @@
                     <li><a href="account_servicefee.php">My Service Fee Applications</a></li>                        
                 </ul>
             </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Projects<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="create_project.php">Manage Services List</a></li>
+                    <li><a href="">Manage Positions List</a></li>
+                    <li><a href="">Page 2-3</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Attendance<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="attendance.php">Update attendance</a></li>
+                </ul>
+            </li>
     		<li class="dropdown">
     		  	<a class="dropdown-toggle" data-toggle="dropdown">Administration <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">

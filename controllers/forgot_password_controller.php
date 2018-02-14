@@ -1,7 +1,7 @@
 <?php
 	include('config.php');
 	include('security.php');
-	require $_SERVER['DOCUMENT_ROOT'] . '/aurum/PHPMailer/PHPMailerAutoload.php';
+	require $_SERVER['DOCUMENT_ROOT'] . '/aurum/lib/PHPMailer/PHPMailerAutoload.php';
 	#require '../PHPMailer/PHPMailerAutoload.php';
 
 	$msgDisplay = "";
