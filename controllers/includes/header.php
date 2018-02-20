@@ -29,7 +29,7 @@
     		  	<a class="dropdown-toggle" data-toggle="dropdown">Legal Billing <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
     		  		<li><a href="application_billing.php">Legal Billing Application</a></li>
-    		      	<li><a href="">Page 1-2</a></li>
+    		      	<li><a href="process_billing.php" <?php echo $displayBilling; ?>>Process Billing</a></li>
     		      	<li><a href="">Page 1-3</a></li>
     		      	<li class="divider"></li>
                     <li><a href="account_reimbursement.php">My Reimbursement Applications</a></li>

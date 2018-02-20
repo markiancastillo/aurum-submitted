@@ -18,7 +18,7 @@
 	{
 		$accID = $_SESSION['accID'];
 
-		$sql_account = "SELECT accountFN, accountLN FROM accounts WHERE accountID=?";
+		$sql_account = "SELECT accountFN, accountLN, positionID FROM accounts WHERE accountID=?";
 		$params_account = array($accID);
 		$stmt_account = sqlsrv_query($con, $sql_account, $params_account);
 
@@ -26,9 +26,16 @@
 		{
 			$accFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 			$accLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+			$accPos = $row['positionID'];
 		}
 
 		$displayName = $accLN . ', ' . $accFN;
+
+		$displayBilling = "";
+		if($accPos == 8)
+		{
+			$displayBilling = "style='display: none'";
+		}
 	}
 #	else 
 #	{

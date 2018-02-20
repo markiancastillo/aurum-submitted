@@ -33,7 +33,7 @@
 						{
 							echo "
 								<tr>
-									<td colspan='5' class='text-center'><h3>There are no accounts to display</h3></td>
+									<td colspan='6' class='text-center'><h3>There are no accounts to display</h3></td>
 								</tr>
 							";
 						}
