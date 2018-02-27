@@ -5,7 +5,7 @@
 
 	$accID = $_SESSION['accID'];
 	#get account information
-	$sql_account = "SELECT a.accountUsername, a.accountPhoto, a.accountFN, a.accountMN, a.accountLN, a.accountBirthdate, a.accountSex, a.accountSSSNo, a.accountTINNo, a.accountBIRNo, a.accountHDMFNo, a.accountEmail, a.accountBaseRate, c.cstatusID, p.positionID, d.departmentID 
+	$sql_account = "SELECT a.accountUsername, a.accountPhoto, a.accountFN, a.accountMN, a.accountLN, a.accountBirthdate, a.accountSex, a.accountSSSNo, a.accountTINNo, a.accountHDMFNo, a.accountEmail, a.accountBaseRate, c.cstatusID, p.positionID, d.departmentID 
 	                FROM accounts a 
 	                INNER JOIN civilstatuses c ON a.cstatusID = c.cstatusID 
 	                INNER JOIN positions p ON a.positionID = p.positionID
@@ -25,7 +25,6 @@
 		$accountSex = $row['accountSex'];
 		$accountSSSNo = openssl_decrypt(base64_decode($row['accountSSSNo']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountTINNo = openssl_decrypt(base64_decode($row['accountTINNo']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountBIRNo = openssl_decrypt(base64_decode($row['accountBIRNo']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountHDMFNo = openssl_decrypt(base64_decode($row['accountHDMFNo']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountEmail = openssl_decrypt(base64_decode($row['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountBaseRate = $row['accountBaseRate'];
@@ -86,7 +85,7 @@
 	#validations:
 	#username - at least 6 characters, not taken. Add tooltip
 	#email - must be a valid email
-	#SSS, TIN, BIR, HDMF - based on a valid number
+	#SSS, TIN, HDMF - based on a valid number
 	$msgDisplay = "";
 	$msgSuccess = "<div class='alert alert-success alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>

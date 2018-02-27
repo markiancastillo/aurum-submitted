@@ -49,7 +49,22 @@
 			$access = "disabled";
 		}
 		return $access;
+	}
 
+	function determineAccounting()
+	{
+		$posID = $_SESSION['posID'];
+
+		#if the user is not from accounting, 
+		#deny access to the process biling pages
+		if($posID == 9)
+		{
+			
+		}
+		else
+		{
+			header('location: index.php');
+		}
 	}
 
 	#get account details 

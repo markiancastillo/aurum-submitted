@@ -28,8 +28,8 @@
     		  	<a class="dropdown-toggle" data-toggle="dropdown">User Management <span class="caret"></span></a>
     		  	<ul class="dropdown-menu">
     		  		<li><a href="<?php echo app_path?>list_account.php">View Accounts List</a></li>
-    		      	<li><a href="<?php echo app_path?>create_user.php">Create an Account</a></li>
-    		      	<li><a href="">Page 1-3</a></li>
+    		      	<li><a href="<?php echo app_path?>create_user.php" <?php echo $displayCreate; ?>>Create an Account</a></li>
+    		      	<li><a href="<?php echo app_path?>create_client.php">Create Client Data (*)</a></li>
     		  	</ul>
     		</li>
             <li class="dropdown">

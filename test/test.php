@@ -50,6 +50,19 @@
 		$name = $_REQUEST['name'];
 		echo '<br><br><br>Request name: ' . $name . '<br>';
 	}
+
+	if(isset($_GET['num']))
+	{
+		$num = $_GET['num'];
+		if($num == 1)
+		{
+			echo '<br><br><br>The num is 1';
+		}
+		else 
+		{
+			header('location: test2.php');
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html>

@@ -31,10 +31,10 @@
 
 		$displayName = $accLN . ', ' . $accFN;
 
-		$displayBilling = "";
-		if($accPos == 8)
+		$displayBilling = "style='display: none'";
+		if($accPos == 9)
 		{
-			$displayBilling = "style='display: none'";
+			$displayBilling = "";
 		}
 	}
 #	else 

@@ -3,42 +3,91 @@
 	include('function.php');
 	include(loadHeader());
 
-	$sql_count = "SELECT COUNT (DISTINCT e.accountID) AS 'rowCount'
+	determineAccounting();
+
+	#get the number of valid reimbursement requests
+	$sql_rcount = "SELECT COUNT (DISTINCT e.accountID) AS 'rCount'
 				  FROM expenses e
 				  INNER JOIN cases c ON e.caseID = c.caseID
 				  WHERE e.expenseStatus = 'Approved' AND c.caseStatus = 'Active'";
-	$stmt_count = sqlsrv_query($con, $sql_count);
+	$stmt_rcount = sqlsrv_query($con, $sql_rcount);
 
-	while($rcount = sqlsrv_fetch_array($stmt_count))
+	while($rc = sqlsrv_fetch_array($stmt_rcount))
 	{
-		$rowCount = $rcount['rowCount'];
+		$rCount = $rc['rCount'];
 	}
 
+	#get the number of valid service fee requests
+	$sql_sfcount = "SELECT COUNT (DISTINCT s.accountID) AS 'sfCount'
+					FROM servicefees s 
+					INNER JOIN cases c ON s.caseID = c.caseID
+				  	WHERE s.sfStatus = 'Approved' AND c.caseStatus = 'Active'";
+	$stmt_sfcount = sqlsrv_query($con, $sql_sfcount);
+
+	while($sfc = sqlsrv_fetch_array($stmt_sfcount))
+	{
+		$sCount = $sfc['sfCount'];
+	}
+
+	#total of both = rowCount
+	#if rowCount == 0, display 'no records found' message
+	$rowCount = $rCount + $sCount;
 
 	#list the accounts with active cases & approved reimbursement requests
-	$sql_billing = "SELECT DISTINCT a.accountID, a.accountFN, a.accountMN, a.accountLN, c.caseTitle
+	$sql_rbilling = "SELECT DISTINCT a.accountID, a.accountFN, a.accountMN, a.accountLN, c.caseID, c.caseTitle
 					FROM expenses e
 					INNER JOIN accounts a ON e.accountID = a.accountID 
 					INNER JOIN cases c ON e.caseID = c.caseID
 					WHERE e.expenseStatus = 'Approved' AND c.caseStatus = 'Active'";
-	$stmt_billing = sqlsrv_query($con, $sql_billing);
+	$stmt_rbilling = sqlsrv_query($con, $sql_rbilling);
 
-
-	$list_billing = "";
-	while($row = sqlsrv_fetch_array($stmt_billing))
+	$list_rbilling = "";
+	while($row = sqlsrv_fetch_array($stmt_rbilling))
 	{
 		$accountID = $row['accountID'];
 		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountName = $accountLN . ', ' . $accountFN . ' ' . $accountMN;
+		$caseID = $row['caseID'];
 		$caseTitle = $row['caseTitle'];
-		$list_billing .= "
+		$list_rbilling .= "
 			<tr>
 				<td class='text-center'>$accountName</td>
 				<td class='text-center'>$caseTitle</td>
+				<td class='text-center'>Reimbursement</td>			
 				<td class='text-center'>
-					<a href='' class='btn btn-default btn-block'>View Details</a>
+					<a href='view_rbilling.php?id=$accountID&cid=$caseID' class='btn btn-default'>View Details</a>
+				</td>
+			</tr>
+		";
+	}
+
+	#list the accounts with active cases & approved service fee requests
+	$sql_sbilling = "SELECT DISTINCT a.accountID, a.accountFN, a.accountMN, a.accountLN, c.caseID, c.caseTitle
+					FROM servicefees s
+					INNER JOIN accounts a ON s.accountID = a.accountID 
+					INNER JOIN cases c ON s.caseID = c.caseID
+					WHERE s.sfStatus = 'Approved' AND c.caseStatus = 'Active'";
+	$stmt_sbilling = sqlsrv_query($con, $sql_sbilling);
+
+	$list_sbilling = "";
+	while($row = sqlsrv_fetch_array($stmt_sbilling))
+	{
+		$accountID = $row['accountID'];
+		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountName = $accountLN . ', ' . $accountFN . ' ' . $accountMN;
+		$caseID = $row['caseID'];
+		$caseTitle = $row['caseTitle'];
+		$list_sbilling .= "
+			<tr>
+				<td class='text-center'>$accountName</td>
+				<td class='text-center'>$caseTitle</td>
+				<td class='text-center'>Service Fee</td>			
+				<td class='text-center'>
+					<a href='view_sbilling.php?id=$accountID&cid=$caseID' class='btn btn-default'>View Details</a>
 				</td>
 			</tr>
 		";

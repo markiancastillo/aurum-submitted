@@ -206,12 +206,6 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-lg-3">BIR Number</label>
-								<div class="col-lg-8">
-									<input type="text" id="inpBIR" name="inpBIR" class="form-control" maxlength="25" value='<?php echo $accountBIRNo; ?>' placeholder="N/A" disabled />
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="control-label col-lg-3">HDMF Number</label>
 								<div class="col-lg-8">
 									<input type="text" id="inpHDMF" name="inpHDMF" class="form-control" maxlength="25" value='<?php echo $accountHDMFNo; ?>' placeholder="N/A" disabled />
