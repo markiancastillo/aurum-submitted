@@ -177,7 +177,7 @@
 			{
 				#username is valid 
 				$sql_update = "UPDATE accounts 
-						   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ? 
+						   SET accountUsername = ?, accountFN = ?, accountMN = ?, accountLN = ?, accountBirthDate = ?, accountSex = ?
 						   WHERE accountID = ?";
 				$params_update = array($inpUsername, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $accID);
 				$stmt_update = sqlsrv_query($con, $sql_update, $params_update);

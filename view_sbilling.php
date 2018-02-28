@@ -28,6 +28,7 @@
 			<table id="listTable" name="listTable" class="table table-hover">
 				<thead>
 					<th class="text-center">Date</th>
+					<th class="text-center">Type</th>
 					<th class="text-center">Remarks</th>
 					<th class="text-center">Amount (PHP)</th>
 				</thead>
@@ -36,20 +37,22 @@
 						<?php echo $list_details; ?>
 					</tr>
 					<tr>
-						<td class="text-right" colspan="2"><h4>TOTAL</h4></td>
+						<td class="text-right" colspan="3"><h4>TOTAL</h4></td>
 						<td class="text-center"><h4><?php echo $sfTotal; ?></h4></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="form-group">
-			<div class="col-lg-2 col-lg-offset-6">
-				<a href="process_billing.php" id="btnBack" name="btnBack" class="btn btn-default btn-block">Back</a>
+		<form class="form-horizontal" method="POST">
+			<div class="form-group">
+				<div class="col-lg-2 col-lg-offset-6">
+					<a href="process_billing.php" id="btnBack" name="btnBack" class="btn btn-default btn-block">Back</a>
+				</div>
+				<div class="col-lg-4">
+					<button type="submit" id="btnGenerate" name="btnGenerate" class="btn btn-primary btn-block pull-right">Generate Billing</button>
+				</div>
 			</div>
-			<div class="col-lg-4">
-				<button type="submit" id="btnGenerate" name="btnGenerate" class="btn btn-primary btn-block pull-right">Generate Billing</button>
-			</div>
-		</div>
+		</form>
 	</div>
 </body>
 </html>

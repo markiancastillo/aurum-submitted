@@ -8,10 +8,11 @@
 	$rID = $_GET['id'];
 	$cID = $_GET['cid'];
 
-	$sql_details = "SELECT a.accountFN, a.accountMN, a.accountLN, c.caseTitle, s.sfDate, s.sfAmount, s.sfRemarks 
+	$sql_details = "SELECT a.accountFN, a.accountMN, a.accountLN, c.caseTitle, s.sfDate, s.sfAmount, s.sfRemarks, t.stypeName
 					FROM servicefees s 
 					INNER JOIN accounts a ON s.accountID = a.accountID 
 					INNER JOIN cases c ON s.caseID = c.caseID
+					INNER JOIN servicetypes t ON s.stypeID = t.stypeID
 					WHERE s.accountID = ? AND s.sfStatus = 'Approved' AND c.caseID = ?";
 	$params_details = array($rID, $cID);
 	$stmt_details = sqlsrv_query($con, $sql_details, $params_details);
@@ -27,10 +28,12 @@
 		$sfDate = $row['sfDate']->format('M d, Y');
 		$sfAmount = $row['sfAmount'];
 		$sfRemarks = $row['sfRemarks'];
+		$stypeName = $row['stypeName'];
 
 		$list_details .= "
 			<tr>
 				<td class='text-center'>$sfDate</td>
+				<td class='text-center'>$stypeName</td>
 				<td class='text-center'>$sfRemarks</td>
 				<td class='text-center'>$sfAmount</td>
 			</tr>
@@ -46,5 +49,10 @@
 	while($rowtot = sqlsrv_fetch_array($stmt_stotal))
 	{
 		$sfTotal = $rowtot['sfTotal'];
+	}
+
+	if(isset($_POST['btnGenerate']))
+	{
+		header('location: controllers/generate_spdf.php?id=' . $rID . '&cid=' . $cID);
 	}
 ?>

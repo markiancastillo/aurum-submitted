@@ -82,7 +82,7 @@
 							<div class="form-group">
 								<label class="control-label col-lg-3">Password</label>
 								<div class="col-lg-8">
-									<a href="change_password.php" class="btn btn-default btn-block">Change Password</a>
+									<a href="change_password.php" class="btn btn-default btn-block" target="_blank">Change Password</a>
 								</div>
 							</div>
 							<hr />
