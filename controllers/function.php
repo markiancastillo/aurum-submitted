@@ -230,10 +230,19 @@
 		return $list_positions;
 	}
 
-	#function to send emails
-	function sendEmail()
+	function insertNotification($con, $rID, $notifText)
 	{
-		require '../PHPMailerAutoload.php';
+		$sql_notif = "INSERT INTO notifications (notificationMessage, notificationDate, notificationStatus, accountID) 
+					VALUES (?, CURRENT_TIMESTAMP, ?, ?)";
+		$accID = $rID;
+		$params_notif = array($notifText, 'Unread', $accID);
+		$stmt_notif = sqlsrv_query($con, $sql_notif, $params_notif);
+	}
+
+	#function to send emails
+	function sendNotificationEmail($accountEmail, $OR, $accountName, $caseTitle, $billType)
+	{
+		require $_SERVER['DOCUMENT_ROOT'] . '/aurum/lib/PHPMailer/PHPMailerAutoload.php';
 
 		# source:
 		# https://github.com/PHPMailer/PHPMailer/tree/5.2-stable
@@ -254,13 +263,40 @@
 		$mail->SMTPSecure = 'tls';                            		# Enable TLS encryption, `ssl` also accepted
 		$mail->Port = 587;                                    		# TCP port to connect to
 	
-		$mail->setFrom('aurum@example.com', 'Your Name'); 	  		# sender email that will appear, sender name that will be displayed
-		$mail->addAddress('mark05ian95@gmail.com', 'My Client');	# the address to which the email will be sent, name is optional
-		
+		$mail->setFrom('notification@aurum.com', 'Aurum System'); 	# sender email that will appear, sender name that will be displayed
+		#$mail->addAddress($accountEmail, $accountName);				# the address to which the email will be sent, name is optional
+		$mail->addAddress('mark05ian95@gmail.com', $accountName);
+
 		$mail->isHTML(true);
-		$mail->Subject = 'First PHPMailer Message'; 
-		$mail->Body = 'This is the HTML message body <b>in bold!</b>';
-		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+		$mail->Subject = 'Billing Notification'; 
+		$mail->Body = '
+			<p>Your billing for out of pocket expenses reimburemsent has been processed.</p>
+
+			<p>Details: </p>
+			<table width="50%">
+				<tr>
+					<td><strong>OR #</strong></td>
+					<td>' . $OR . '</td>
+				</tr>
+				<tr>
+					<td><strong>Date</strong></td>
+					<td>' . date('m/d/Y') . '</td>
+				</tr>
+				<tr>
+					<td><strong>Account</strong></td>
+					<td>' . $accountName . '</td>
+				</tr>
+					<td><strong>Case</strong></td>
+					<td>' . $caseTitle . '</td>
+				</tr>
+				<tr>
+					<td><strong>Type</strong></td>
+					<td>' . $billType . '</td>
+				</tr>
+			</table>
+		';
+		$mail->AltBody = '
+			Your billing for out of pocket expenses reimburemsent has been processed - OR# ' . $OR . ', processed on ' . date('m/d/Y') . '.';
 	
 		# allows insecure connections by using the SMTPOptions property
 		# taken from:

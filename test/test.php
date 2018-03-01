@@ -14,8 +14,8 @@
 		$iv = chr(0x74) . chr(0x68) . chr(0x69) . chr(0x73) . chr(0x49) . chr(0x73) . chr(0x41) . chr(0x53) . chr(0x65) . chr(0x63) . chr(0x72) . chr(0x65) . chr(0x74) . chr(0x4b) . chr(0x65) . chr(0x79);
 	
 		// av3DYGLkwBsErphcyYp+imUW4QKs19hUnFyyYcXwURU=
-		$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $password, OPENSSL_RAW_DATA, $iv));
-		#$encrypted = "+R6H8qVnsAtS+4BjOylE6A==";
+		#$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $password, OPENSSL_RAW_DATA, $iv));
+		$encrypted = "D3q2n08uyWwgdrfBUFuYZp132iMVRnXq7tpEUwNjzGc=";
 		
 		// My secret message 1234
 		$decrypted = openssl_decrypt(base64_decode($encrypted), $method, $password, OPENSSL_RAW_DATA, $iv);
@@ -75,5 +75,26 @@
 		<p>Plain Text: <input type="text" name="pt" id="pt"></p>
 		<p><input type="submit" name="submit" value="submit"></p>
 	</form>
+	<table width="50%">
+		<tr>
+			<td>OR #</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Date</td>
+			<td>03/01/2018</td>
+		</tr>
+		<tr>
+			<td>Account</td>
+			<td>Jane Lilith Doe</td>
+		</tr>
+			<td>Case</td>
+			<td>Sample Case 001</td>
+		</tr>
+		<tr>
+			<td>Type</td>
+			<td>Out of Pocket Expense Reimbursement</td>
+		</tr>
+	</table>
 </body>
 </html>

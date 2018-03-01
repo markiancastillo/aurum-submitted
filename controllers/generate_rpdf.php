@@ -14,7 +14,7 @@
 	$params_details = array($rID, $cID);
 	$stmt_details = sqlsrv_query($con, $sql_details, $params_details);
 
-	$sql_account = "SELECT accountFN, accountMN, accountLN FROM accounts WHERE accountID = ?";
+	$sql_account = "SELECT accountFN, accountMN, accountLN, accountEmail FROM accounts WHERE accountID = ?";
 	$params_account = array($rID);
 	$stmt_account = sqlsrv_query($con, $sql_account, $params_account);
 
@@ -52,6 +52,7 @@
 		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountEmail = openssl_decrypt(base64_decode($row['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountName = $accountLN . ', ' . $accountFN . ' ' . $accountMN;
 
 		$pdf->Cell(0, 5, 'Account: ' . $accountName, 0, 1, 'L');
@@ -63,7 +64,8 @@
 		$pdf->Cell(0, 5, 'Case: ' . $caseTitle, 0, 1, 'L');
 	}
 
-	$pdf->Cell(0, 5, 'Type: Out of Pocket Expense Reimbursement', 0, 1, 'L');
+	$billType = "Out of Pocket Expense Reimbursement";
+	$pdf->Cell(0, 5, 'Type: ' . $billType, 0, 1, 'L');
 
 	$pdf->Line(10,90,215.9-10,90);
 	$pdf->Ln(20);
@@ -104,9 +106,19 @@
 		$pdf->Cell(25, 8, $expenseTotal, 0, 1, 'R');
 	}
 
-	$saveDir = $_SERVER['DOCUMENT_ROOT'] . '/aurum/images/files/' . $OR . date('Hi') . '.pdf';
+	$saveName = $OR . date('Hi');
+	$saveDir = $_SERVER['DOCUMENT_ROOT'] . '/aurum/images/files/' . $saveName . '.pdf';
 	$pdf->Output('F', $saveDir);
 
-	#header('location: ../process_billing.php?rbilling=success');
-	header('location: ../process_billing.php?loc=' . $saveDir);
+	$accID = $_SESSION['accID'];
+	$txtEvent = "User with ID # " . $accID . " processed the reimbursement billing for " . $accountName . ".";
+	logEvent($con, $accID, $txtEvent);
+
+	$notifText = "Your billing has been processed (OR # " . $OR . ").";
+	insertNotification($con, $rID, $notifText);
+
+	sendNotificationEmail($accountEmail, $OR, $accountName, $caseTitle, $billType);
+
+	header('location: ../process_billing.php?rbilling=success');
+	#header('location: ../process_billing.php?loc=' . $txtEvent);
 ?>	
