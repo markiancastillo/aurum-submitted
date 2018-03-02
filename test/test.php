@@ -14,8 +14,8 @@
 		$iv = chr(0x74) . chr(0x68) . chr(0x69) . chr(0x73) . chr(0x49) . chr(0x73) . chr(0x41) . chr(0x53) . chr(0x65) . chr(0x63) . chr(0x72) . chr(0x65) . chr(0x74) . chr(0x4b) . chr(0x65) . chr(0x79);
 	
 		// av3DYGLkwBsErphcyYp+imUW4QKs19hUnFyyYcXwURU=
-		#$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $password, OPENSSL_RAW_DATA, $iv));
-		$encrypted = "D3q2n08uyWwgdrfBUFuYZp132iMVRnXq7tpEUwNjzGc=";
+		$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $password, OPENSSL_RAW_DATA, $iv));
+		#$encrypted = "D3q2n08uyWwgdrfBUFuYZp132iMVRnXq7tpEUwNjzGc=";
 		
 		// My secret message 1234
 		$decrypted = openssl_decrypt(base64_decode($encrypted), $method, $password, OPENSSL_RAW_DATA, $iv);

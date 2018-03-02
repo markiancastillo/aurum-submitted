@@ -92,4 +92,13 @@
 			</tr>
 		";
 	}
+
+	$msgDisplay = "";
+	if(isset($_GET['generated']))
+	{
+		$msgDisplay = "<div class='alert alert-success alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						Billing PDF file successfully saved to " . $_SERVER['DOCUMENT_ROOT'] . "/aurum/files/billing/" . $_GET['file'] . ".pdf
+					</div>";
+	}
 ?>

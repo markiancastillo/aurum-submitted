@@ -11,6 +11,7 @@
 		<div class="row">
 			<h1 class="text-center">Process Billing</h1>
 			<div class="col-lg-12">
+				<?php echo $msgDisplay; ?>
 				<table id="listTable" name="listTable" class="table table-hover">
 					<thead>
 						<th class="text-center">Account Name</th>

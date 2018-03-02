@@ -7,14 +7,14 @@
 	$rID = $_GET['id'];
 	$cID = $_GET['cid'];
 
-	$sql_details = "SELECT s.sfDate, s.sfAmount, s.sfRemarks, t.stypeName
+	$sql_details = "SELECT s.sfID, s.sfDate, s.sfAmount, s.sfRemarks, t.stypeName
 					FROM servicefees s 
 					INNER JOIN servicetypes t ON s.stypeID = t.stypeID
 					WHERE s.accountID = ? AND s.sfStatus = 'Approved' AND s.caseID = ?";
 	$params_details = array($rID, $cID);
 	$stmt_details = sqlsrv_query($con, $sql_details, $params_details);
 
-	$sql_account = "SELECT accountFN, accountMN, accountLN FROM accounts WHERE accountID = ?";
+	$sql_account = "SELECT accountFN, accountMN, accountLN, accountEmail FROM accounts WHERE accountID = ?";
 	$params_account = array($rID);
 	$stmt_account = sqlsrv_query($con, $sql_account, $params_account);
 
@@ -52,6 +52,7 @@
 		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountEmail = openssl_decrypt(base64_decode($row['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv);
 		$accountName = $accountLN . ', ' . $accountFN . ' ' . $accountMN;
 
 		$pdf->Cell(0, 5, 'Account: ' . $accountName, 0, 1, 'L');
@@ -63,7 +64,8 @@
 		$pdf->Cell(0, 5, 'Case: ' . $caseTitle, 0, 1, 'L');
 	}
 
-	$pdf->Cell(0, 5, 'Type: Service Fee', 0, 1, 'L');
+	$billType = "Service Fee";
+	$pdf->Cell(0, 5, 'Type: ' . $billType, 0, 1, 'L');
 
 	$pdf->Line(10,90,215.9-10,90);
 	$pdf->Ln(20);
@@ -80,6 +82,7 @@
 
 	while($row = sqlsrv_fetch_array($stmt_details))
 	{
+		$sfID = $row['sfID'];
 		$sfDate = $row['sfDate']->format('M d, Y');
 		$sfAmount = $row['sfAmount'];
 		$sfRemarks = $row['sfRemarks'];
@@ -91,6 +94,13 @@
 		$pdf->Cell(80.9, 5, $sfRemarks, 1, 0, 'C');
 		$pdf->Cell(10, 5, 'Php', 'LTB', 0, 'L');
 		$pdf->Cell(25, 5, $sfAmount, 'TRB', 1, 'R');
+
+		#update the record in the database as "Billed"
+		#as the record is being generated into the file
+		$sql_update = "UPDATE servicefees SET sfStatus = 'Billed' 
+					   WHERE sfID = ?";
+		$params_update = array($sfID);
+		$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
 	}
 
 	#compute for the total
@@ -104,8 +114,26 @@
 		$pdf->Cell(25, 8, $sfTotal, 0, 1, 'R');
 	}
 
-	$saveDir = $_SERVER['DOCUMENT_ROOT'] . '/aurum/images/files/' . $OR . date('Hi') . '.pdf';
+	#Generate the PDF and save it in a local directory
+	$saveName = $OR . date('Hi');
+	$saveDir = $_SERVER['DOCUMENT_ROOT'] . '/aurum/files/billing/' . $saveName . '.pdf';
 	$pdf->Output('F', $saveDir);
 
-	header('location: ../process_billing.php?sbilling=success');
+	#Insert the PDF in the receipts table
+	uploadReceipt($con, $saveName, $rID);
+
+	#Log the event 
+	$accID = $_SESSION['accID'];
+	$txtEvent = "User with ID # " . $accID . " processed the service fee billing for " . $accountName . ".";
+	logEvent($con, $accID, $txtEvent);
+
+	#Create a notification for the employee that filed the billing
+	#(In-system notification)
+	$notifText = "Your service fee billing has been processed (OR # " . $OR . ").";
+	insertNotification($con, $rID, $notifText);
+
+	#Send an email notification as well
+	sendNotificationEmail($accountEmail, $OR, $accountName, $caseTitle, $billType);
+
+	header('location: ../process_billing.php?generated=success&file=' . $saveName);
 ?>

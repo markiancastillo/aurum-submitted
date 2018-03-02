@@ -7,7 +7,7 @@
 	$rID = $_GET['id'];
 	$cID = $_GET['cid'];
 
-	$sql_details = "SELECT e.expenseDate, e.expenseAmount, e.expenseRemarks, t.etypeName
+	$sql_details = "SELECT e.expenseID, e.expenseDate, e.expenseAmount, e.expenseRemarks, t.etypeName
 					FROM expenses e 
 					INNER JOIN expensetypes t ON e.etypeID = t.etypeID
 					WHERE e.accountID = ? AND e.expenseStatus = 'Approved' AND e.caseID = ?";
@@ -82,6 +82,7 @@
 
 	while($row = sqlsrv_fetch_array($stmt_details))
 	{
+		$expenseID = $row['expenseID'];
 		$expenseDate = $row['expenseDate']->format('M d, Y');
 		$expenseAmount = $row['expenseAmount'];
 		$expenseRemarks = $row['expenseRemarks'];
@@ -93,6 +94,13 @@
 		$pdf->Cell(80.9, 5, $expenseRemarks, 1, 0, 'C');
 		$pdf->Cell(10, 5, 'Php', 'LTB', 0, 'L');
 		$pdf->Cell(25, 5, $expenseAmount, 'TRB', 1, 'R');
+
+		#update the record in the database as "Billed"
+		#as the record is being generated into the file
+		$sql_update = "UPDATE expenses SET expenseStatus = 'Billed' 
+					   WHERE expenseID = ?";
+		$params_update = array($expenseID);
+		$stmt_update = sqlsrv_query($con, $sql_update, $params_update);
 	}
 
 	#compute for the total
@@ -106,19 +114,26 @@
 		$pdf->Cell(25, 8, $expenseTotal, 0, 1, 'R');
 	}
 
+	#Generate the PDF and save it in a local directory
 	$saveName = $OR . date('Hi');
-	$saveDir = $_SERVER['DOCUMENT_ROOT'] . '/aurum/images/files/' . $saveName . '.pdf';
+	$saveDir = $_SERVER['DOCUMENT_ROOT'] . '/aurum/files/billing/' . $saveName . '.pdf';
 	$pdf->Output('F', $saveDir);
 
+	#Insert the PDF in the receipts table
+	uploadReceipt($con, $saveName, $rID);
+
+	#Log the event 
 	$accID = $_SESSION['accID'];
 	$txtEvent = "User with ID # " . $accID . " processed the reimbursement billing for " . $accountName . ".";
 	logEvent($con, $accID, $txtEvent);
 
-	$notifText = "Your billing has been processed (OR # " . $OR . ").";
+	#Create a notification for the employee that filed the billing
+	#(In-system notification)
+	$notifText = "Your reimbursement billing has been processed (OR # " . $OR . ").";
 	insertNotification($con, $rID, $notifText);
 
+	#Send an email notification as well
 	sendNotificationEmail($accountEmail, $OR, $accountName, $caseTitle, $billType);
 
-	header('location: ../process_billing.php?rbilling=success');
-	#header('location: ../process_billing.php?loc=' . $txtEvent);
+	header('location: ../process_billing.php?generated=success&file=' . $saveName);
 ?>	

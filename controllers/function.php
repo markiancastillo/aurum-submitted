@@ -270,7 +270,7 @@
 		$mail->isHTML(true);
 		$mail->Subject = 'Billing Notification'; 
 		$mail->Body = '
-			<p>Your billing for out of pocket expenses reimburemsent has been processed.</p>
+			<p>Your billing has been processed.</p>
 
 			<p>Details: </p>
 			<table width="50%">
@@ -416,6 +416,19 @@
 
 		$encrypt_img = base64_encode(openssl_encrypt($imgNew, $method, $password, OPENSSL_RAW_DATA, $iv));
 		return $encrypt_img;
+	}
+
+	#upload a receipt file into the database
+	function uploadReceipt($con, $saveName, $rID)
+	{
+		include ('security.php');
+
+		$receiptFile = base64_encode(openssl_encrypt($saveName . ".pdf", $method, $password, OPENSSL_RAW_DATA, $iv));
+
+		$sql_receipt = "INSERT INTO receipts (receiptFile, receiptDate, accountID) 
+						VALUES (?, CURRENT_TIMESTAMP, ?)";
+		$params_receipt = array($receiptFile, $rID);
+		$stmt_receipt = sqlsrv_query($con, $sql_receipt, $params_receipt);
 	}
 
 	#get the count of email input to check if it is valid
