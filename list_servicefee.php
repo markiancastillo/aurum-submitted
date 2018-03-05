@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<h1 class="text-center">Service Fee Applications</h1>
-
+			<p class="text-center"><a href="list_reimbursement.php" class="btn btn-default">Reimbursement Applications</a></p>
 			<div class="form-group">
 				<div class="input-group col-lg-8 col-lg-offset-2">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>

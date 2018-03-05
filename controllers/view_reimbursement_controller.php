@@ -35,27 +35,38 @@
 	{
 		#update the status of the reimbursement
 		#request to "approved"
-		$sql_approve = "UPDATE expenses SET expenseStatus = 'Approved' where expenseID = ?";
-		$params_approve = array($reqID);
+		$expenseNote = "Approved " . date('m/d/Y');
+		$sql_approve = "UPDATE expenses SET expenseStatus = 'Approved', expenseReviewedBy = ?, expenseNote = ? WHERE expenseID = ?";
+		$params_approve = array($accID, $expenseNote, $reqID);
 		$stmt_approve = sqlsrv_query($con, $sql_approve, $params_approve);
 
 		$txtEvent = "User with ID # " . $accID . " approved reimbursement request # " . $reqID . ".";
 		logEvent($con, $accID, $txtEvent);
-
+	
 		header('location: list_reimbursement.php?id=' . $reqID . '&approved=yes');
 	}
 
+	$setRequired = "";
 	if(isset($_POST['btnDeny']))
-	{
-		#update the status of the reimbursement
-		#request to "denied"
-		$sql_disapprove = "UPDATE expenses SET expenseStatus = 'Disapproved' WHERE expenseID = ?";
-		$params_disapprove = array($reqID);
-		$stmt_approve = sqlsrv_query($con, $sql_disapprove, $params_disapprove);
+	{	
+		$inpNote = $_POST['inpNote'];
 
-		$txtEvent = "User with ID # " . $accID . " denied reimbursement request # " . $reqID . ".";
-		logEvent($con, $accID, $txtEvent);
-
-		header('location: list_reimbursement.php?id=' . $reqID . '&approved=no');
+		if($inpNote != null || !empty($inpNote))
+		{
+			#update the status of the reimbursement
+			#request to "denied"
+			$sql_disapprove = "UPDATE expenses SET expenseStatus = 'Disapproved', expenseReviewedBy = ?, expenseNote = ? WHERE expenseID = ?";
+			$params_disapprove = array($accID, $inpNote, $reqID);
+			$stmt_approve = sqlsrv_query($con, $sql_disapprove, $params_disapprove);
+	
+			$txtEvent = "User with ID # " . $accID . " denied reimbursement request # " . $reqID . ".";
+			logEvent($con, $accID, $txtEvent);
+	
+			header('location: list_reimbursement.php?id=' . $reqID . '&approved=no');
+		}
+		else 
+		{
+			echo 'Please enter a reason for disapproval.';
+		}
 	}
 ?>

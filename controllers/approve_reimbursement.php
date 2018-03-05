@@ -7,8 +7,9 @@
 
 	#update the status of the reimbursement
 	#request to "approved"
-	$sql_approve = "UPDATE expenses SET expenseStatus = 'Approved' where expenseID = ?";
-	$params_approve = array($reqID);
+	$expenseNote = "Approved " . date('m/d/Y');
+	$sql_approve = "UPDATE expenses SET expenseStatus = 'Approved', expenseReviewedBy = ?, expenseNote = ? WHERE expenseID = ?";
+	$params_approve = array($accID, $expenseNote, $reqID);
 	$stmt_approve = sqlsrv_query($con, $sql_approve, $params_approve);
 
 	$txtEvent = "User with ID # " . $accID . " approved reimbursement request # " . $reqID . ".";

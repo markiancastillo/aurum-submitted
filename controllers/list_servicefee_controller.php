@@ -47,7 +47,6 @@
 				<td class='text-center'>
 					<a href='view_servicefee.php?id=$sfID' class='btn btn-default' data-toggle='tooltip' data-position='top' title='tiptip'>Details</a>
 					<a href='controllers/approve_servicefee.php?id=$sfID' class='btn btn-success'><span class='glyphicon glyphicon-ok'></span></a>
-					<a href='controllers/disapprove_servicefee.php?id=$sfID' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></a>
 				</td>
 			</tr>
 		";

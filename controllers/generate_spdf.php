@@ -6,6 +6,7 @@
 
 	$rID = $_GET['id'];
 	$cID = $_GET['cid'];
+	$accID = $_SESSION['accID'];
 
 	$sql_details = "SELECT s.sfID, s.sfDate, s.sfAmount, s.sfRemarks, t.stypeName
 					FROM servicefees s 
@@ -120,7 +121,7 @@
 	$pdf->Output('F', $saveDir);
 
 	#Insert the PDF in the receipts table
-	uploadReceipt($con, $saveName, $rID);
+	uploadReceipt($con, $accID, $saveName, $rID);
 
 	#Log the event 
 	$accID = $_SESSION['accID'];

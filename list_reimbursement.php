@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<h1 class="text-center">Reimbursement Applications</h1>
-
+			<p class="text-center"><a href="list_servicefee.php" class="btn btn-default">Service Fee Applications</a></p>
 			<div class="form-group">
 				<div class="input-group col-lg-8 col-lg-offset-2">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
@@ -71,5 +71,10 @@
 			</table>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function(){
+    		$('[data-toggle="tooltip"]').tooltip();
+		});
+</script>
 </body>
 </html>

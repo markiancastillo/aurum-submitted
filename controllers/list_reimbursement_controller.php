@@ -45,18 +45,14 @@
 				<td class='text-center'>$etypeName</td>
 				<td class='text-center'>$expenseRemarks</td>
 				<td class='text-center'>
-					<a href='view_reimbursement.php?id=$expenseID' class='btn btn-default' data-toggle='tooltip' data-position='top' title='View Details'>
+					<a href='view_reimbursement.php?id=$expenseID' class='btn btn-default'>
 						Details
 					</a>
-					<a href='controllers/approve_reimbursement.php?id=$expenseID' class='btn btn-success' onclick='return confirm('Confirm approval of request?');'>
+					<a href='controllers/approve_reimbursement.php?id=$expenseID' class='btn btn-success' data-toggle='tooltip' data-position='right' title='Approve Request'>
 						<span class='glyphicon glyphicon-ok'></span>
 					</a>
-					<a href='controllers/disapprove_reimbursement.php?id=$expenseID' class='btn btn-danger' onclick='return confirm('Confirm disapproval of request?');>
-						<span class='glyphicon glyphicon-remove'>
-					</a> 
 				</td>
 			</tr>
 		";
 	}
-
 ?>
