@@ -13,12 +13,12 @@
 			<br />
 			<table id="listTable" name="listTable" class="table table-hover">
 				<thead>
-					<th class="text-center">Date Requested</th>
-					<th class="text-center">Case</th>
-					<th class="text-center">Amount</th>
-					<th class="text-center">Expense Type</th>
-					<th class="text-center">Remarks</th>
+					<th class="text-center">Date</th>
+					<th class="text-center">Amount (Php)</th>
+					<th class="text-center">Service Type</th>
+					<th class="text-center">Reviewed By</th>
 					<th class="text-center">Status</th>
+					<th class="text-center">Remarks</th>
 				</thead>
 				<tbody>
 					<tr>

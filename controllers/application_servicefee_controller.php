@@ -37,8 +37,18 @@
 		}
 		else
 		{
-			$imgName = $_FILES["inpReceipt"]["name"];
-			$imgProof = uploadProof($con, $accID, $inpCase, $imgName);
+			#validate if the uploaded file is a valid image
+			#(accept it as valid if the type is a png, bmp, or jpg/jpeg)
+			$imgType = mime_content_type($_FILES["inpReceipt"]["tmp_name"]);
+			if($imgType == 'image/png' || $imgType == 'image/jpeg' || $imgType == 'image/bmp')
+			{
+				$imgName = $_FILES["inpReceipt"]["name"];
+				$imgProof = uploadProof($con, $accID, $inpCase, $imgName);
+			}
+			else 
+			{
+				die(header('location: application_servicefee.php?img=error'));
+			}
 		}
 
 		#insert the data intopop

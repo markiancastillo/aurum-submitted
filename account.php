@@ -10,7 +10,7 @@
 	<div class="row">
 		<h1 class="text-center">My Account</h1>
 		<?php
-			if(isset($_REQUEST['updated']))
+			if(isset($_GET['updated']))
 			{
 				echo "<div class='alert alert-success alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -18,7 +18,7 @@
 					</div>";
 			}
 
-			if(isset($_REQUEST['username']))
+			if(isset($_GET['username']))
 			{
 				echo "<div class='alert alert-danger alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -26,11 +26,19 @@
 					</div>";
 			}
 
-			if(isset($_REQUEST['email']))
+			if(isset($_GET['email']))
 			{
 				echo "<div class='alert alert-danger alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						That email address already exists. Please choose a different one.
+					</div>";
+			}
+
+			if(isset($_GET['img']))
+			{
+				echo "<div class='alert alert-danger alert-dismissable fade in'>
+						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						The image you selected is not valid. Please upload a valid image file.
 					</div>";
 			}
 		?>

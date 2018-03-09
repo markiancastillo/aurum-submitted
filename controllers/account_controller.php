@@ -105,9 +105,21 @@
 		}
 		else
 		{
-			#update the photo with the new input
-			$imgName = $_FILES["inpPhoto"]["name"];
-			uploadPhoto($con, $accID, $imgName);
+			#validate if the uploaded file is a valid image
+			#(accept it as valid if the type is a png, bmp, or jpg/jpeg)
+			$imgType = mime_content_type($_FILES["inpPhoto"]["tmp_name"]);
+			if($imgType == 'image/png' || $imgType == 'image/jpeg' || $imgType == 'image/bmp')
+			{
+				#update the photo with the new input
+				$imgName = $_FILES["inpPhoto"]["name"];
+	    		uploadPhoto($con, $accID, $imgName);
+			}
+			else
+			{
+				#display an error prompt
+	    		die(header('location: account.php?img=error'));
+			}
+			
 		}
 
 		#get the data from the form
@@ -140,7 +152,7 @@
 			{
 				#input emial already exists
 				#display an error
-				header('location: account.php?email=error');
+				die(header('location: account.php?email=error'));
 			}
 			else 
 			{

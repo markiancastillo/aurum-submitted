@@ -12,7 +12,17 @@
 			<h1 class="text-center">Service Fee Application Form</h1>
 			<form class="form-horizontal" method="POST" enctype="multipart/form-data">
 				<div class="col-lg-8 col-lg-offset-2 well">
-					<?php echo $dispMsg; ?>
+					<?php 
+						echo $dispMsg; 
+
+						if(isset($_GET['img']))
+						{
+							echo "<div class='alert alert-danger alert-dismissable fade in'>
+									<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+									The image you selected is not valid. Please upload a valid image file (jpg, bmp, or png formats only).
+								</div>";
+						}
+					?>
 					<div class="form-group">
 						<label class="control-label col-lg-4">Date</label>
 						<div class="col-lg-6">

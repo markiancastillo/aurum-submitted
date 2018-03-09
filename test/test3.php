@@ -44,13 +44,38 @@
 		$newImage = date('YmdHis-') . basename($image); # eg. 20170322051234-sample.jpg
 		$file = $upload . $newImage;
 
-		move_uploaded_file($_FILES["image"]["tmp_name"], $file);
+#		move_uploaded_file($_FILES["image"]["tmp_name"], $file);
 
-		$sql_insert = "UPDATE accounts SET accountPhoto = ? WHERE accountID = ?";
-		$params_insert = array($newImage, 1);
-		$stmt_insert = sqlsrv_query($con, $stmt_insert);
+#		$sql_insert = "UPDATE accounts SET accountPhoto = ? WHERE accountID = ?";
+#		$params_insert = array($newImage, 1);
+#		$stmt_insert = sqlsrv_query($con, $stmt_insert);
 
-		echo $stmt_insert;
+#		echo $stmt_insert;
+
+#	    $image = $_FILES["image"]["name"];
+#	    $checkImg = imagecreatefromstring(file_get_contents($image));
+#	    if($checkImg === false)
+#	    {
+#	    	throw new Exception("{$checkImg}: invalid image");
+#	    }
+#	    else
+#	    {
+#	    	echo "Valid image";
+#	    }
+
+	    $imgFileType = mime_content_type($_FILES["image"]["tmp_name"]);
+
+	    if($imgFileType == 'image/png' || $imgFileType == 'image/jpeg')
+	    {
+	    	echo "Image file type: " . $imgFileType . "<br>It is a valid image.";
+	    	move_uploaded_file($_FILES["image"]["tmp_name"], $file);
+	    	echo "<br>Image has been successfully uploaded!";
+	    }
+	    else 
+	    {
+	    	echo "Image file type: " . $imgFileType . "<br>";
+	    	echo $image . " is not a valid image.";
+	    }
 	}
 ?>
 <!DOCTYPE html>

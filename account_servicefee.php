@@ -10,14 +10,15 @@
 	<div class="container">
 		<div class="row">
 			<h1 class="text-center">My Service Fee Applications</h1>
+			<br />
 			<table id="listTable" name="listTable" class="table table-hover">
 				<thead>
-					<th class="text-center">Date Requested</th>
-					<th class="text-center">Case</th>
-					<th class="text-center">Amount</th>
+					<th class="text-center">Date</th>
+					<th class="text-center">Amount (Php)</th>
 					<th class="text-center">Service Type</th>
-					<th class="text-center">Remarks</th>
+					<th class="text-center">Reviewed By</th>
 					<th class="text-center">Status</th>
+					<th class="text-center">Remarks</th>
 				</thead>
 				<tbody>
 					<tr>

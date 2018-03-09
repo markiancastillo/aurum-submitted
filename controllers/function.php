@@ -396,6 +396,7 @@
 		#e.g. 1_photo.png
 		#this makes them unique for each user and prevents
 		#overwriting of files with the same name
+
 		$imgNew = $accID . "-" . basename($imgName);
 		$imgFile = $imgDir . $imgNew;
 

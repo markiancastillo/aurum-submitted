@@ -65,18 +65,20 @@
 						<a href='list_reimbursement.php' class="btn btn-block btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back to List</a>
 					</div>
 				</div>
-				<form class="col-lg-6" method="POST">
-					<div class="col-lg-7">
-						<button class="btn btn-block btn-success" id="btnApprove" name="btnApprove" onclick="return confirm('Confirm approval of reimbursement request #<?php echo $_REQUEST['id']; ?>?');">
-							<span class='glyphicon glyphicon-ok'></span> Approve
-						</button>
-					</div>
+				<div class="col-lg-6">
+					<form method="POST">
+						<div class="col-lg-7">
+							<button class="btn btn-block btn-success" id="btnApprove" name="btnApprove" onclick="return confirm('Confirm approval of reimbursement request #<?php echo $_REQUEST['id']; ?>?');">
+								<span class='glyphicon glyphicon-ok'></span> Approve
+							</button>
+						</div>
+					</form>
 					<div class="col-lg-5">
 						<button class="btn btn-block btn-danger" data-toggle="modal" data-target="#disapproveModal">
 							<span class='glyphicon glyphicon-remove'></span> Disapprove
 						</button>
 					</div>
-				</form>
+				</div>
 				<div id="disapproveModal" class="modal fade" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">

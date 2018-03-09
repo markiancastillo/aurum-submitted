@@ -12,10 +12,10 @@
 		$rowCount = $rowC['rowCount'];
 	}
 
-	$sql_getList = "SELECT s.sfID, s.sfAmount, s.sfDate, s.sfRemarks, s.stypeID, t.stypeName, s.caseID, c.caseTitle, s.sfStatus
+	$sql_getList = "SELECT s.sfID, s.sfAmount, s.sfDate, s.sfRemarks, s.sfReviewedBy, s.sfNote, s.stypeID, t.stypeName, s.sfStatus, a.accountFN, a.accountLN
 					FROM servicefees s 
 					INNER JOIN servicetypes t ON s.stypeID = t.stypeID 
-					INNER JOIN cases c ON s.caseID = c.caseID 
+					INNER JOIN accounts a ON s.sfReviewedBy = a.accountID 
 					WHERE s.accountID = ? 
 					ORDER BY s.sfDate ASC";
 	$params_getList = array($accID);
@@ -24,22 +24,29 @@
 	$list_servicefees = "";
 	while($row = sqlsrv_fetch_array($stmt_getList))
 	{
+		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountName = $accountLN . ', ' . $accountFN;
 		$sfID = $row['sfID'];
-		$caseTitle = $row['caseTitle'];
 		$sfDate = $row['sfDate']->format('m/d/Y');
 		$sfAmount = $row['sfAmount'];
 		$sfRemarks = $row['sfRemarks'];
 		$stypeName = $row['stypeName'];
 		$sfStatus = $row['sfStatus'];
+		$sfReviewedBy = $row['sfReviewedBy'];
+		$sfNote = $row['sfNote'];
 		
 		$list_servicefees .= "
 			<tr>
 				<td class='text-center'>$sfDate</td>
-				<td class='text-center'>$caseTitle</td>
-				<td class='text-center'>$sfAmount</td>
+				<td class='text-right'>$sfAmount</td>
 				<td class='text-center'>$stypeName</td>
-				<td class='text-center'>$sfRemarks</td>
+				<td class='text-center'>$accountName</td>
 				<td class='text-center'>$sfStatus</td>
+				<td class='text-center'>$sfNote</td>
+				<td class='text-center'>
+					<a href='' class='btn btn-default'>Review</a>
+				</td>
 			</tr>
 		";
 	}
