@@ -7,8 +7,10 @@
 	<title></title>
 </head>
 <body>
-	<div class="container">
-		<div class="row">
+<section id="main-content">
+	<section class="wrapper">
+		<div class="container">
+			<div class="row">
 			<h1 class="text-center">My Reimbursement Applications</h1>
 			<br />
 			<table id="listTable" name="listTable" class="table table-hover">
@@ -39,7 +41,9 @@
 					</tr>
 				</tbody>
 			</table>
+			</div>
 		</div>
-	</div>
+	</section>
+</section>
 </body>
 </html>

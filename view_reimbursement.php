@@ -7,7 +7,10 @@
 	<title></title>
 </head>
 <body>
-	<div class="container">
+	<section id="main-content">
+   <section class="wrapper">
+           
+	
 		<div class="row">
 			<h1 class="text-center">Reimbursement #<?php echo $_REQUEST['id']; ?> Details</h1>
 			<hr />

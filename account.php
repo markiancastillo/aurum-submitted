@@ -6,7 +6,8 @@
 <head>
 </head>
 <body>
-<div class="container">
+<section id="main-content">
+   	<section class="wrapper">
 	<div class="row">
 		<h1 class="text-center">My Account</h1>
 		<?php

@@ -18,18 +18,20 @@
 	{
 		$accID = $_SESSION['accID'];
 
-		$sql_account = "SELECT accountFN, accountLN, positionID FROM accounts WHERE accountID=?";
+		$sql_account = "SELECT accountPhoto, accountFN, accountLN, positionID  FROM accounts WHERE accountID=?";
 		$params_account = array($accID);
 		$stmt_account = sqlsrv_query($con, $sql_account, $params_account);
 
 		while($row = sqlsrv_fetch_array($stmt_account))
 		{
+			$accountPhoto = openssl_decrypt(base64_decode($row['accountPhoto']), $method, $password, OPENSSL_RAW_DATA, $iv);
 			$accFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 			$accLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
 			$accPos = $row['positionID'];
 		}
 
 		$displayName = $accLN . ', ' . $accFN;
+		$displayPhoto = $accountPhoto;
 
 		$displayBilling = "style='display: none'";
 		if($accPos == 9)
@@ -37,8 +39,8 @@
 			$displayBilling = "";
 		}
 	}
-#	else 
-#	{
-#		header('location: ' . app_path . 'controllers/login.php');
-#	}
+	else 
+	{
+		header('location: ' . app_path . 'login.php');
+	}
 ?>

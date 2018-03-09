@@ -86,8 +86,8 @@
 			$inpDepartment = $_POST['inpDepartment'];
 			$inpBaseRate = $_POST['inpBaseRate'];
 	
-			$sql_insert = "INSERT INTO accounts (accountUsername, accountPassword, accountFN, accountMN, accountLN, accountBirthDate, accountSex, accountSSSNo, accountTINNo, accountBIRNo, accountHDMFNo, accountEmail, accountBaseRate, accountStatus, cstatusID, positionID, departmentID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			$params_insert = array($defUsername, $defPassword, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpBIR, $inpHDMF, $inpEmail, $inpBaseRate, "Pending", $inpCivilStatus, $inpPosition, $inpDepartment);
+			$sql_insert = "INSERT INTO accounts (accountUsername, accountPassword, accountFN, accountMN, accountLN, accountBirthDate, accountSex, accountSSSNo, accountTINNo, accountHDMFNo, accountEmail, accountBaseRate, accountStatus, cstatusID, positionID, departmentID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$params_insert = array($defUsername, $defPassword, $inpFN, $inpMN, $inpLN, $inpBDay, $inpSex, $inpSSS, $inpTIN, $inpHDMF, $inpEmail, $inpBaseRate, "Pending", $inpCivilStatus, $inpPosition, $inpDepartment);
 	
 			if(isset($inpEmail))
 			{

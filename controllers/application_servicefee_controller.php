@@ -51,7 +51,7 @@
 			}
 		}
 
-		#insert the data intopop
+		#insert the data 
 		$sql_insert = "INSERT INTO servicefees (sfAmount, sfDate, sfProof, sfRemarks, sfStatus, stypeID, accountID, caseID) 
 					   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		$params_insert = array($inpAmount, $inpDate, $imgProof, $inpRemarks, 'Pending for Approval', $inpType, $accID, $inpCase);
@@ -62,7 +62,6 @@
 
 		if($stmt_insert === false)
 		{
-			#print_r(sqlsrv_error(), true);
 			$dispMsg = $errorMsg;
 		}
 		else 

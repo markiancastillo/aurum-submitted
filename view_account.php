@@ -6,7 +6,10 @@
 <head>
 </head>
 <body>
-<div class="container">
+<section id="main-content">
+   <section class="wrapper">
+           
+
 	<div class="row">
 		<h1 class="text-center"><?php echo $accountFN; ?>'s Account Details</h1>
 		<br />
@@ -55,7 +58,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-lg-3">Sex</label>
+								<label class="control-label col-lg-3">Gender</label>
 								<div class="col-lg-8">
 									<select id="inpSex" name="inpSex" class="form-control" <?php echo determineAccess(); ?>>
 										<option value="M" <?php echo $selectedM; ?>>Male</option>

@@ -37,7 +37,7 @@
 						<?php echo $list_details; ?>
 					</tr>
 					<tr>
-						<td class="text-right" colspan="3"><h4>TOTAL</h4></td>
+						<td class="text-right" colspan="2"><h4>TOTAL</h4></td>
 						<td class="text-center"><h4><?php echo $expenseTotal; ?></h4></td>
 					</tr>
 				</tbody>

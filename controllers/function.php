@@ -67,13 +67,6 @@
 		}
 	}
 
-	#prompt the user to input a remark on why the 
-	#reimbursement request was disapproved
-	function disapproveNote()
-	{
-
-	}
-
 	#get account details 
 	function getAccounts($con, $reqID)
 	{
@@ -86,6 +79,13 @@
 		$params_account = array($reqID);
 		$stmt_account = sqlsrv_query($con, $sql_account, $params_account);
 		return $stmt_account;	                	
+	}
+
+	function getlUnconsumed($con)
+	{
+		$sql_ltypes = "SELECT lcAmount FROM leavecounts WHERE ltypeID = 1";
+		$stmt_ltypes = sqlsrv_query($con, $sql_ltypes);
+		return $stmt_ltypes;
 	}
 
 	function getAddress($con, $reqID)
@@ -490,6 +490,71 @@
 
 		$valUsername = ($username_row_count > 0) ? "existing" : "available";
 		return $valUsername;
+	}
+
+	function getEmployees($con)
+	{
+		$sql_employees = "SELECT accountID, accountFN, accountLN FROM accounts";
+		$stmt_employees = sqlsrv_query($con, $sql_employees);
+		return $stmt_employees;
+	}
+
+	function getClients($con)
+	{
+		$sql_clients = "SELECT clientID, clientFN, clientLN FROM clients";
+		$stmt_clients = sqlsrv_query($con, $sql_clients);
+		return $stmt_clients;
+	}
+
+	function getltypes($con)
+	{
+		$sql_ltypes = "SELECT ltypeID, ltypeName FROM leavetypes";
+		$stmt_ltypes = sqlsrv_query($con, $sql_ltypes);
+		
+
+		$list_ltypes = "";
+		while($row = sqlsrv_fetch_array($stmt_ltypes))
+		{
+			$ltypeID = $row['ltypeID'];
+			$ltypeName = $row['ltypeName'];
+			$list_ltypes .= "<option value='$ltypeID'>$ltypeName</option>";
+		}
+
+		return $list_ltypes;
+	}
+
+	function getWorkingDays($startDate, $endDate)
+	{
+		$leaveFrom = strtotime($startDate);
+		$leaveTo = strtotime($endDate);
+		if($leaveFrom > $leaveTo)
+		{
+			return 0;
+		}
+		else
+		{
+			$no_days = 0;
+			$weekends = 0;
+			
+			while($leaveFrom <= $leaveTo)
+			{
+				#no of days in the given interval
+				$no_days++; 
+				$what_day = date("N", $leaveFrom);
+				
+				if($what_day > 5) 
+				{ 
+					#6 and 7 are weekend days
+		     		$weekends++;
+				};
+				
+				#+1 day
+				$leaveFrom += 86400; 
+			};
+			
+			$working_days = $no_days - $weekends;
+			return $working_days;
+		}
 	}
 
 	function logEvent($con, $accID, $txtEvent)

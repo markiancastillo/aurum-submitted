@@ -63,6 +63,7 @@
 			header('location: test2.php');
 		}
 	}
+	echo $_SERVER['DOCUMENT_ROOT'] . '/css/bootstrap.css';
 ?>
 <!DOCTYPE html>
 <html>

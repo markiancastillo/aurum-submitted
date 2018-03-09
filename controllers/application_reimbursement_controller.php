@@ -17,7 +17,7 @@
 	$errorMsg = "<div class='alert alert-danger alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						Failed to submit reimbursement request! Please check your input and try again.
-					</div>";
+					</div>";					
 
 	if(isset($_POST['btnSubmit']))
 	{

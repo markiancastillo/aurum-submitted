@@ -7,6 +7,8 @@
 	<title></title>
 </head>
 <body>
+<section id="main-content">
+   	<section class="wrapper">       
 	<div class="container">
 		<div class="row">
 			<h1 class="text-center">Service Fee Application Form</h1>

@@ -9,7 +9,7 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<h1 class="text-center">Create Client Data (*)</h1>
+			<h1 class="text-center">Create Client Data</h1>
 			<hr />
 			<form class="form-horizontal" method="POST" enctype="multipart/form-data">
 				<div class="col-lg-8 col-lg-offset-2">

@@ -4,54 +4,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Forgot Password</title>
-	<!-- CDN -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<!-- Local files -->
-	<link rel="stylesheet" href="css/bootstrap.css" />
-	<link rel="stylesheet" href="css/font-awesome.min.css" />
-	<link rel="stylesheet" href="js/bootstrap.min.js" />
-	<link rel="stylesheet" href="js/jquery.min.js" />
-	<style>
-		h1 {
-			padding-top: 10%;
-			padding-bottom: 10px;
-		}
-	</style>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/style-responsive.css">
+    <link rel="stylesheet" href="assets/css/style1.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/set1.css">
+
+    <!--Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<div class="container">
-	<div class="row">
-		<h1 class="text-center">Password Reset Request</h1>
-		<div class="col-lg-6 col-lg-offset-3 well">
-			<?php echo $msgDisplay; ?>
-			<form class="form-horizontal" method="POST">
-				<div class="form-group">
-					<label class="control-label col-lg-3">Email Address</label>
-					<div class="col-lg-8">
-						<input type="email" id="inpEmail" name="inpEmail" class="form-control" maxlength="50" placeholder="A valid email address" required="true" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-lg-3">Re-enter Email</label>
-					<div class="col-lg-8">
-						<input type="email" id="inpCEmail" name="inpCEmail" class="form-control" maxlength="50" placeholder="Enter your email again" required="true" />
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-lg-3 col-lg-offset-3">
-						<a href="login.php" id="btnBack" name="btnBack" class="btn btn-default btn-block pull-left">Cancel</a>
-					</div>
-					<div class="col-lg-5">
-						<button type="submit" id="btnReset" name="btnReset" class="btn btn-primary btn-block pull-right">Reset Password</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
+<form method ="POST">
+    <div id="main-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 left-side">
+                    <header>
+                        <h2><img src="images/aurumlogo.png" heigh="180" width="180" ></h2>  
+                    </header>
+                </div>
+                <div class="col-md-6 right-side">
+                    <h2>Reyes Francisco Tecson Sabado<br>and Associates</h2>
+                    <br><br><br>
+                    <span class="input input--hoshi">
+                        <input class="input__field input__field--hoshi" type="email" id="inpEmail" name="inpEmail" maxlength="100" />
+                        <label class="input__label input__label--hoshi input__label--hoshi-color-3" for="name">
+                            <span class="input__label-content input__label-content--hoshi">Email</span>   
+                        </label>
+                    </span>
+                    <span class="input input--hoshi">
+                        <input class="input__field input__field--hoshi" type="email" id="inpCEmail" name="inpCEmail" maxlength="100" />
+                        <label class="input__label input__label--hoshi input__label--hoshi-color-3" for="email">
+                            <span class="input__label-content input__label-content--hoshi">Re-enter email</span>
+                        </label>
+                    </span>
+                    <?php echo $msgDisplay; ?>
+                    <div class="cta">
+                        <button class="btn btn-primary pull-left" type="submit" id="btnReset" name="btnReset">
+                            Reset Password
+                        </button>
+                        <span><a href="login.php">Back</a></span>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="js/scripts.js"></script>
+<script src="js/classie.js"></script>
+<script>
+  (function() {
+    // Reference: 
+    // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+    if (!String.prototype.trim) {
+      (function() {
+        // Make sure we trim BOM and NBSP
+        var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+        String.prototype.trim = function() {
+          return this.replace(rtrim, '');
+        };
+      })();
+    }
+
+    [].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
+      // in case the input is already filled..
+      if( inputEl.value.trim() !== '' ) {
+        classie.add( inputEl.parentNode, 'input--filled' );
+      }
+
+      // events:
+      inputEl.addEventListener( 'focus', onInputFocus );
+      inputEl.addEventListener( 'blur', onInputBlur );
+    } );
+
+    function onInputFocus( ev ) {
+      classie.add( ev.target.parentNode, 'input--filled' );
+    }
+
+    function onInputBlur( ev ) {
+      if( ev.target.value.trim() === '' ) {
+        classie.remove( ev.target.parentNode, 'input--filled' );
+      }
+    }
+  })();
+</script>
+
 </body>
 </html>

@@ -6,9 +6,10 @@
 <head>
 </head>
 <body>
-<div class="container">
+<section id="main-content">
+   <section class="wrapper">
 	<div class="row">
-		<h1 class="text-center">Create a New User Account</h1>
+		<h1 class="text" align="left">Create a user</h1>
 		<hr />
 		<?php 
 			/*if(isset($_POST['btnSubmit']))
@@ -67,7 +68,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-3">Sex</label>
+					<label class="control-label col-lg-3">Gender</label>
 					<div class="col-lg-8">
 						<select id="inpSex" name="inpSex" class="form-control">
 							<option disabled selected>Choose...</option>
