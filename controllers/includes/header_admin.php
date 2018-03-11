@@ -35,11 +35,10 @@
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
                 <ul class="nav top-menu">
-                    <!-- settings start -->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.php">
                             <i class="fa fa-tasks"></i>
-                            <span class="badge bg-theme">2</span>
+                            <span class="badge bg-theme"><?php echo $notifCount; ?></span>
                         </a>
                         <ul class="dropdown-menu extended tasks-bar">
                             <div class="notify-arrow notify-arrow-green"></div>
@@ -47,25 +46,10 @@
                                 <p class="green">Notifications</p>
                             </li>
                             <li>
-                                <a href="requestto_admin.php">
-                                    <div class="task-info">
-                                        <div class="desc">Leave Request</div>
-                                        <div class="percent">Mark Castro</div>
-                                    </div>
-                                    
-                                </a>
-                            </li>
-                            <li>
-                                <a href="account_reimbursement.php">
-                                    <div class="task-info">
-                                        <div class="desc">Approved Reimbursement</div>
-                                        <div class="percent">Admin</div>
-                                    </div>
-                                </a>
+                                <?php echo $list_notif; ?>
                             </li>
                         </ul>
                     </li>
-                    <!-- settings end -->
                 <!--  notification end -->
             </div>
             <div class="top-menu">
@@ -102,9 +86,11 @@
                             <span>User Management</span>
                         </a>
                         <ul class="sub">
-                            <li><a href="<?php echo app_path?>list_account.php">View Accounts List</a></li>
                             <li><a href="<?php echo app_path?>create_user.php" <?php echo $displayCreate; ?>>Create an Account</a></li>
                             <li><a href="<?php echo app_path?>create_client.php">Create Client Data</a></li>
+                            <li class="divider">__________________</li>
+                            <li><a href="<?php echo app_path?>list_account.php">View Accounts List</a></li>
+                            <li><a href="<?php echo app_path?>list_account.php">View Clients List</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu dcjq-parent-li" >

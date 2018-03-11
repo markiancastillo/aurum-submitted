@@ -38,6 +38,40 @@
 		{
 			$displayBilling = "";
 		}
+
+		#get the count of new notifications
+		$sql_notifCount = "SELECT COUNT(notificationID) AS 'notifCount' FROM notifications
+						   WHERE notificationStatus = 'Unread' AND accountID = ?";
+		$params_notifCount = array($accID);
+		$stmt_notifCount = sqlsrv_query($con, $sql_notifCount, $params_notifCount);
+
+		while($nCount = sqlsrv_fetch_array($stmt_notifCount))
+		{
+			$notifCount = $nCount['notifCount'];
+		}
+
+		#get the top 5 latest notifications
+		$sql_notification = "SELECT TOP 5 notificationMessage, notificationDate FROM notifications
+							 WHERE notificationStatus = 'Unread' AND accountID = ? 
+							 ORDER BY notificationDate DESC";
+		$params_notification = array($accID);
+		$stmt_notification = sqlsrv_query($con, $sql_notification, $params_notification);
+
+		$list_notif = "";
+		while($nrow = sqlsrv_fetch_array($stmt_notification))
+		{
+			$notificationMessage = $nrow['notificationMessage'];
+			$notificationDate = $nrow['notificationDate']->format('m/d/Y');
+
+			$list_notif .= "
+				<a>
+                    <div class='task-info'>
+                        <div class='desc'>$notificationMessage</div>
+                        <div class='percent'>$notificationDate</div>
+                    </div>   
+                </a>
+			";
+		}
 	}
 	else 
 	{

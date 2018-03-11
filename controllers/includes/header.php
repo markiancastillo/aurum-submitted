@@ -39,28 +39,16 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.php">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-theme">2</span>
+                        <span class="badge bg-theme"><?php echo $notifCount; ?></span>
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
-                        <li><p class="green">Notifications</p></li>
                         <li>
-                            <a href="confirmRequest.php">
-                                <div class="task-info">
-                                    <div class="desc">Approved Leave</div>
-                                    <div class="percent">Admin</div>
-                                </div>
-                             
-                            </a>
+                            <p class="green">Notifications</p>
                         </li>
                         <li>
-                            <a href="account_reimbursement.php">
-                                <div class="task-info">
-                                    <div class="desc">Approved Reimbursement</div>
-                                    <div class="percent">Admin</div>
-                                </div>
-                            </a>
-                        </li>         
+                            <?php echo $list_notif; ?>
+                        </li>
                     </ul>
                 </li>
         <!-- settings end -->      
