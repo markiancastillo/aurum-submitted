@@ -10,7 +10,7 @@
     <meta name="author" content="Team Paragon - Mark Castillo, Gian Estera, Josh Manalo - DLS-CSB">
     <meta name="keyword" content="CAPSTONE, CAPSTONE2, ISPROJ, ISPROJ2, De la Salle, DLS-CSB, Team Paragon, Thesis, Aurum, Legal Billing, Time Keeping, Payroll">
 
-    <title>Aurum System</title>
+    <title><?php echo $pageTitle; ?></title>
 
     <!-- Local Files -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -47,7 +47,10 @@
                             <p class="green">Notifications</p>
                         </li>
                         <li>
-                            <?php echo $list_notif; ?>
+                            <?php 
+                                echo $btnDismiss;
+                                echo $list_notif; 
+                            ?>
                         </li>
                     </ul>
                 </li>

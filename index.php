@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title></title>
 
 
     <!-- Custom CSS -->
@@ -29,9 +29,6 @@
 <body>	
 <section id="main-content">
    <section class="wrapper">
-   	
-
-
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Dashboard</h1>

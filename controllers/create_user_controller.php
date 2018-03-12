@@ -79,7 +79,6 @@
 			$inpSex = $_POST['inpSex'];
 			$inpSSS = base64_encode(openssl_encrypt($_POST['inpSSS'], $method, $password, OPENSSL_RAW_DATA, $iv));
 			$inpTIN = base64_encode(openssl_encrypt($_POST['inpTIN'], $method, $password, OPENSSL_RAW_DATA, $iv));
-			$inpBIR = base64_encode(openssl_encrypt($_POST['inpBIR'], $method, $password, OPENSSL_RAW_DATA, $iv));
 			$inpHDMF = base64_encode(openssl_encrypt($_POST['inpHDMF'], $method, $password, OPENSSL_RAW_DATA, $iv));
 			$inpCivilStatus = $_POST['inpCivilStatus'];
 			$inpPosition = $_POST['inpPosition'];
@@ -136,6 +135,39 @@
 					logEvent($con, $accID, $txtEvent);
 				}
 			}
+
+			$sql_recent = "SELECT TOP 1 accountID, accountSex FROM accounts ORDER BY accountID DESC";
+			$stmt_recent = sqlsrv_query($con, $sql_recent);
+			while($row = sqlsrv_fetch_array($stmt_recent))
+			{
+				$recentID = $row['accountID'];
+				$recentSex = $row['accountSex'];
+			}
+
+			$sql_insSL = "INSERT INTO leavecounts (lcAmount, accountID, ltypeID) 
+								  VALUES (?, ?, ?)";
+			$params_insSL = array(0, $recentID, 1);
+			$stmt_insSL = sqlsrv_query($con, $sql_insSL, $params_insSL);
+
+			$sql_insML = "INSERT INTO leavecounts (lcAmount, accountID, ltypeID) 
+						  VALUES (?, ?, ?)";
+			$params_insML = array(0, $recentID, 2);
+			$stmt_insML = sqlsrv_query($con, $sql_insML, $params_insML);
+
+			$sql_insVL = "INSERT INTO leavecounts (lcAmount, accountID, ltypeID) 
+						  VALUES (?, ?, ?)";
+			$params_insVL = array(0, $recentID, 3);
+			$stmt_insVL = sqlsrv_query($con, $sql_insVL, $params_insVL);
+
+			$sql_insEL = "INSERT INTO leavecounts (lcAmount, accountID, ltypeID) 
+						  VALUES (?, ?, ?)";
+			$params_insEL = array(0, $recentID, 4);
+			$stmt_insEL = sqlsrv_query($con, $sql_insEL, $params_insEL);
+
+			$sql_insPL = "INSERT INTO leavecounts (lcAmount, accountID, ltypeID) 
+						  VALUES (?, ?, ?)";
+			$params_insPL = array(0, $recentID, 5);
+			$stmt_insPL = sqlsrv_query($con, $sql_insPL, $params_insPL);
 		}
 	}
 	else

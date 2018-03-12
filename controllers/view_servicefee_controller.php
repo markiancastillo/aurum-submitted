@@ -46,9 +46,15 @@
 		header('location: list_servicefee.php?id=' . $reqID . '&approved=yes');
 	}
 
+	$msgDisplay = "";
+	$msgError = "<div class='alert alert-danger alert-dismissable fade in'>
+					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+					Please enter a valid disapproval reason.
+				</div>";
+
 	if(isset($_POST['btnDeny']))
 	{
-		$inpNote = $_POST['inpNote'];
+		$inpNote = trim($_POST['inpNote']);
 
 		if($inpNote != null || !empty($inpNote))
 		{
@@ -65,7 +71,7 @@
 		}
 		else 
 		{
-			echo 'Please enter a reason for disapproval.';
+			$msgDisplay = $msgError;
 		}
 	}
 ?>

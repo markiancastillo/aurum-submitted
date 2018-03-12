@@ -25,10 +25,12 @@
 			<tbody>
 				<tr>
 					<?php
-						
-							echo $displayemployeeRequest;
-						
+						echo $displayemployeeRequest;
 					?>
 				</tr>
 			</tbody>
+		</table>
+	</div>
 </div>
+</body>
+</html>

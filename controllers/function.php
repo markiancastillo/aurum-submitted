@@ -387,6 +387,24 @@
 		}
 	}
 
+	function uploadLeaveProof($con, $accID, $imgName)
+	{
+		include('security.php');
+		#directory where the image will be stored
+		$imgDir = $_SERVER["DOCUMENT_ROOT"] . "/aurum/images/leaveproof/";
+		#filename will be uploader's ID + image name
+		#e.g. 1_photo.png
+		#this makes them unique for each user and prevents
+		#overwriting of files with the same name
+		$imgNew = $accID . "-" . date('YmdHis') . "-" . basename($imgName);
+		$imgFile = $imgDir . $imgNew;
+
+		move_uploaded_file($_FILES["inpProof"]["tmp_name"], $imgFile);
+
+		$encrypt_img = base64_encode(openssl_encrypt($imgNew, $method, $password, OPENSSL_RAW_DATA, $iv));
+		return $encrypt_img;
+	}
+
 	function uploadPhoto($con, $accID, $imgName)
 	{
 		include('security.php');

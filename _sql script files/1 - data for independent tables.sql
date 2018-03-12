@@ -41,11 +41,12 @@ INSERT INTO expensetypes (etypeName) VALUES ('Facilitation');
 INSERT INTO expensetypes (etypeName) VALUES ('Others');
 
 /* populate the leavetypes table */
-INSERT INTO leavetypes (ltypeName) VALUES ('Vacation');
+
 INSERT INTO leavetypes (ltypeName) VALUES ('Sick');
 INSERT INTO leavetypes (ltypeName) VALUES ('Maternity');
-INSERT INTO leavetypes (ltypeName) VALUES ('Paternity');
+INSERT INTO leavetypes (ltypeName) VALUES ('Vacation');
 INSERT INTO leavetypes (ltypeName) VALUES ('Emergency');
+INSERT INTO leavetypes (ltypeName) VALUES ('Paternity');
 
 /* populate the positions table */
 INSERT INTO positions (positionName, positionDescription)

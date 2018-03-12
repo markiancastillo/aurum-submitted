@@ -46,7 +46,10 @@
                                 <p class="green">Notifications</p>
                             </li>
                             <li>
-                                <?php echo $list_notif; ?>
+                                <?php 
+                                    echo $btnDismiss;
+                                    echo $list_notif; 
+                                ?>
                             </li>
                         </ul>
                     </li>
@@ -90,7 +93,7 @@
                             <li><a href="<?php echo app_path?>create_client.php">Create Client Data</a></li>
                             <li class="divider">__________________</li>
                             <li><a href="<?php echo app_path?>list_account.php">View Accounts List</a></li>
-                            <li><a href="<?php echo app_path?>list_account.php">View Clients List</a></li>
+                            <li><a href="<?php echo app_path?>list_client.php">View Clients List</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu dcjq-parent-li" >
@@ -132,6 +135,13 @@
                             <i class="fa fa-book"></i>
                             <span>Attendance</span>
                         </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" ><i class="fa fa-cogs"></i><span>Requests</span></a>
+                        <ul class="sub">
+                            <li><a href="requestleave.php">Leave Application</a></li>
+                            <li><a href="list_requestleave.php">Your Requests</a></li>
+                        </ul>
                     </li>
                 </ul>
                 <!-- sidebar menu end-->

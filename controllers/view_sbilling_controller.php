@@ -2,7 +2,6 @@
 	$pageTitle = "Reimbursement Details";
 	include('function.php');
 	include(loadHeader());
-
 	determineAccounting();
 
 	$rID = $_GET['id'];

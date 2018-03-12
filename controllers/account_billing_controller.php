@@ -14,7 +14,8 @@
 	}
 
 	$sql_list = "SELECT receiptFile, receiptDate, receiptRemarks FROM receipts 
-				 WHERE accountID = ?";
+				 WHERE accountID = ? 
+				 ORDER BY receiptDate DESC";
 	$params_list = array($accID);
 	$stmt_list = sqlsrv_query($con, $sql_list, $params_list);
 

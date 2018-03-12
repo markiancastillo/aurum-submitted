@@ -33,13 +33,6 @@
 			</td>
 		</tr>
 		";
-
-	#	$displayList .= "
-	#	<tr>
-	#		<td class='text-center'>$contactNumber</td>
-	#		<td class='text-center'>$selectedTypeName</td>
-	#	</tr>
-	#	";
 	}
 
 	$list_cTypes = "";

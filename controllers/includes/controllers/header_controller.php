@@ -50,27 +50,42 @@
 			$notifCount = $nCount['notifCount'];
 		}
 
-		#get the top 5 latest notifications
-		$sql_notification = "SELECT TOP 5 notificationMessage, notificationDate FROM notifications
-							 WHERE notificationStatus = 'Unread' AND accountID = ? 
-							 ORDER BY notificationDate DESC";
-		$params_notification = array($accID);
-		$stmt_notification = sqlsrv_query($con, $sql_notification, $params_notification);
-
+		$btnDismiss = "<a href='' class='text-center'>DISMISS ALL</a>";
 		$list_notif = "";
-		while($nrow = sqlsrv_fetch_array($stmt_notification))
+		if($notifCount == 0)
 		{
-			$notificationMessage = $nrow['notificationMessage'];
-			$notificationDate = $nrow['notificationDate']->format('m/d/Y');
-
-			$list_notif .= "
-				<a>
-                    <div class='task-info'>
-                        <div class='desc'>$notificationMessage</div>
-                        <div class='percent'>$notificationDate</div>
-                    </div>   
-                </a>
+			$btnDismiss = "";
+			$list_notif = "
+					<a>
+	                    <div class='task-info'>
+	                        <div class='desc'>No new notifications.</div>
+	                    </div>   
+	                </a>
 			";
+		}
+		else
+		{
+			#get the top 5 latest notifications
+			$sql_notification = "SELECT TOP 5 notificationMessage, notificationDate FROM notifications
+								 WHERE notificationStatus = 'Unread' AND accountID = ? 
+								 ORDER BY notificationDate DESC";
+			$params_notification = array($accID);
+			$stmt_notification = sqlsrv_query($con, $sql_notification, $params_notification);
+	
+			while($nrow = sqlsrv_fetch_array($stmt_notification))
+			{
+				$notificationMessage = $nrow['notificationMessage'];
+				$notificationDate = $nrow['notificationDate']->format('m/d/Y');
+	
+				$list_notif .= "
+					<a>
+	                    <div class='task-info'>
+	                        <div class='desc'>$notificationMessage</div>
+	                        <div class='percent'>$notificationDate</div>
+	                    </div>   
+	                </a>
+				";
+			}
 		}
 	}
 	else 

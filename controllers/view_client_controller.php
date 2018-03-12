@@ -48,13 +48,10 @@
 			}
 			else
 			{
-				$msgDisplay = "<div class='alert alert-success alert-dismissable fade in'>
-									<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-									Client information successfully updated.
-								</div>";
-
 				$txtEvent = "User with ID # " . $accID . " updated the details of client # " . $reqID . ".";
 				logEvent($con, $accID, $txtEvent);
+
+				header('location: list_client.php?update=success');
 			}
 		}
 	}
