@@ -24,10 +24,10 @@
 
 		while($row = sqlsrv_fetch_array($stmt_account))
 		{
-			$accountPhoto = openssl_decrypt(base64_decode($row['accountPhoto']), $method, $password, OPENSSL_RAW_DATA, $iv);
-			$accFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-			$accLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-			$accPos = $row['positionID'];
+			$accountPhoto = htmlspecialchars(openssl_decrypt(base64_decode($row['accountPhoto']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+			$accFN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+			$accLN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+			$accPos = htmlspecialchars($row['positionID'], ENT_QUOTES, 'UTF-8');
 		}
 
 		$displayName = $accLN . ', ' . $accFN;

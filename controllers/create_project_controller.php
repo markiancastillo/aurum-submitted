@@ -9,8 +9,8 @@
 	while($row = sqlsrv_fetch_array($employees))
 	{
 		$accountID = $row['accountID'];
-		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountFN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountLN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$employeeName = $accountFN . ' ' . $accountLN;
 		$list_employees .= "<option value='$accountID'>$employeeName</option>";
 	}
@@ -20,8 +20,8 @@
 	while($row = sqlsrv_fetch_array($clients))
 	{
 		$clientID = $row['clientID'];
-		$clientFN = openssl_decrypt(base64_decode($row['clientFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$clientLN = openssl_decrypt(base64_decode($row['clientLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$clientFN = htmlspecialchars(openssl_decrypt(base64_decode($row['clientFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$clientLN = htmlspecialchars(openssl_decrypt(base64_decode($row['clientLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$clientFullName = $clientFN . ' ' . $clientLN;
 		$list_clients .= "<option value='$clientID'>$clientFullName</option>";
 	}

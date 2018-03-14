@@ -26,11 +26,11 @@
 	{
 		$sfID = $row['sfID'];
 		$sfDate = $row['sfDate']->format('m/d/Y');
-		$sfAmount = $row['sfAmount'];
-		$sfRemarks = $row['sfRemarks'];
+		$sfAmount = htmlspecialchars($row['sfAmount'], ENT_QUOTES, 'UTF-8');
+		$sfRemarks = htmlspecialchars($row['sfRemarks'], ENT_QUOTES, 'UTF-8');
 		$stypeName = $row['stypeName'];
 		$sfStatus = $row['sfStatus'];
-		$sfNote = $row['sfNote'];
+		$sfNote = htmlspecialchars($row['sfNote'], ENT_QUOTES, 'UTF-8');
 		
 		$list_servicefees .= "
 			<tr>

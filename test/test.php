@@ -64,6 +64,22 @@
 		}
 	}
 	echo $_SERVER['DOCUMENT_ROOT'] . '/css/bootstrap.css';
+
+	$date1 = new DateTime("2018-03-30");
+	$date2 = new DateTime("2018-03-13");
+
+	$diff = $date2->diff($date1)->format("%a");
+
+	echo '<br><BR>date difference: ' . $diff;
+
+	if($date1 >= $date2)
+	{
+		echo '<br>invalid coverage';
+	}
+	else
+	{
+		echo '<br>date valid';
+	}
 ?>
 <!DOCTYPE html>
 <html>

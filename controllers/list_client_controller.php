@@ -11,11 +11,11 @@
 	{
 		$clientID = $row['clientID'];
 		$accountPhoto = openssl_decrypt(base64_decode($row['clientPhoto']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$clientFN = openssl_decrypt(base64_decode($row['clientFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$clientMN = openssl_decrypt(base64_decode($row['clientMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$clientLN = openssl_decrypt(base64_decode($row['clientLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$clientFN = htmlspecialchars(openssl_decrypt(base64_decode($row['clientFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$clientMN = htmlspecialchars(openssl_decrypt(base64_decode($row['clientMN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$clientLN = htmlspecialchars(openssl_decrypt(base64_decode($row['clientLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$clientName = $clientLN . ", " . $clientFN . " " . $clientMN;
-		$clientEmail = openssl_decrypt(base64_decode($row['clientEmail']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$clientEmail = htmlspecialchars(openssl_decrypt(base64_decode($row['clientEmail']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		#$path = $_SERVER['DOCUMENT_ROOT'] . '/aurum/images/profile/' . $clientPhoto;
 
 		$image = getPhoto($accountPhoto);

@@ -56,16 +56,16 @@
 				while($det = sqlsrv_fetch_array($stmt_account))
 				{
 					$accountID = base64_encode(openssl_encrypt($det['accountID'], $method, $password, OPENSSL_RAW_DATA, $iv));
-					$accountFN = $det['accountFN'];
-					$accountMN = $det['accountMN'];
-					$accountLN = $det['accountLN'];
-					$accountEmail = $det['accountEmail'];
+					$accountFN = htmlspecialchars($det['accountFN'], ENT_QUOTES, 'UTF-8');
+					$accountMN = htmlspecialchars($det['accountMN'], ENT_QUOTES, 'UTF-8');
+					$accountLN = htmlspecialchars($det['accountLN'], ENT_QUOTES, 'UTF-8');
+					$accountEmail = htmlspecialchars($det['accountEmail'], ENT_QUOTES, 'UTF-8');
 
-					$displayFN = openssl_decrypt(base64_decode($det['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-					$displayMN = openssl_decrypt(base64_decode($det['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-					$displayLN = openssl_decrypt(base64_decode($det['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+					$displayFN = htmlspecialchars(openssl_decrypt(base64_decode($det['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+					$displayMN = htmlspecialchars(openssl_decrypt(base64_decode($det['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+					$displayLN = htmlspecialchars(openssl_decrypt(base64_decode($det['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 					$displayName = $displayFN . ' ' . $displayLN;
-					$displayEmail = openssl_decrypt(base64_decode($det['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv);
+					$displayEmail = htmlspecialchars(openssl_decrypt(base64_decode($det['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 
 					$link = 'http://localhost:8088/aurum/reset_password.php?id=' . urlencode($accountID) . '&request=' . urlencode($accountEmail) . '&user=' . urlencode($accountLN);
 

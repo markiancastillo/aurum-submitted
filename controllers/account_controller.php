@@ -16,18 +16,18 @@
 	$stmt_account = sqlsrv_query($con, $sql_account, $params_account, $options_account);
 	while($row = sqlsrv_fetch_array($stmt_account))
 	{
-		$accountUsername = openssl_decrypt(base64_decode($row['accountUsername']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountUsername = htmlspecialchars(openssl_decrypt(base64_decode($row['accountUsername']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$accountPhoto = openssl_decrypt(base64_decode($row['accountPhoto']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountFN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountMN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountLN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$accountBirthdate = $row['accountBirthdate']->format('Y-m-d');
 		$accountSex = $row['accountSex'];
-		$accountSSSNo = openssl_decrypt(base64_decode($row['accountSSSNo']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountTINNo = openssl_decrypt(base64_decode($row['accountTINNo']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountHDMFNo = openssl_decrypt(base64_decode($row['accountHDMFNo']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountEmail = openssl_decrypt(base64_decode($row['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountBaseRate = $row['accountBaseRate'];
+		$accountSSSNo = htmlspecialchars(openssl_decrypt(base64_decode($row['accountSSSNo']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountTINNo = htmlspecialchars(openssl_decrypt(base64_decode($row['accountTINNo']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountHDMFNo = htmlspecialchars(openssl_decrypt(base64_decode($row['accountHDMFNo']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountEmail = htmlspecialchars(openssl_decrypt(base64_decode($row['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountBaseRate = htmlspecialchars($row['accountBaseRate'], ENT_QUOTES, 'UTF-8');
 		$selectedcsID = $row['cstatusID'];
 		$selectedposID = $row['positionID'];
 		$selecteddeptID = $row['departmentID'];
@@ -64,7 +64,7 @@
 	while($rowNum = sqlsrv_fetch_array($stmt_getNumber))
 	{
 		$numberID = $rowNum['contactID'];
-		$contactNumber = openssl_decrypt(base64_decode($rowNum['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$contactNumber = htmlspecialchars(openssl_decrypt(base64_decode($rowNum['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8');
 	}
 
 	#get adress
@@ -76,10 +76,10 @@
 	while($rowAddress = sqlsrv_fetch_array($stmt_getAddress))
 	{
 		$addressID = $rowAddress['addressID'];
-		$addressL1 = openssl_decrypt(base64_decode($rowAddress['addressL1']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$addressL2 = openssl_decrypt(base64_decode($rowAddress['addressL2']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$addressCity = openssl_decrypt(base64_decode($rowAddress['addressCity']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$addressZip = trim($rowAddress['addressZip']);
+		$addressL1 = htmlspecialchars(openssl_decrypt(base64_decode($rowAddress['addressL1']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$addressL2 = htmlspecialchars(openssl_decrypt(base64_decode($rowAddress['addressL2']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$addressCity = htmlspecialchars(openssl_decrypt(base64_decode($rowAddress['addressCity']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$addressZip = htmlspecialchars(trim($rowAddress['addressZip']), ENT_QUOTES, 'UTF-8');
 	}
 
 	#validations:

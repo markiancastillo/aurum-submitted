@@ -26,11 +26,11 @@
 	{
 		$expenseID = $row['expenseID'];
 		$expenseDate = $row['expenseDate']->format('m/d/Y');
-		$expenseAmount = $row['expenseAmount'];
-		$expenseRemarks = $row['expenseRemarks'];
+		$expenseAmount = htmlspecialchars($row['expenseAmount'], ENT_QUOTES, 'UTF-8');
+		$expenseRemarks = htmlspecialchars($row['expenseRemarks'], ENT_QUOTES, 'UTF-8');
 		$etypeName = $row['etypeName'];
 		$expenseStatus = $row['expenseStatus'];
-		$expenseNote = $row['expenseNote'];
+		$expenseNote = htmlspecialchars($row['expenseNote'], ENT_QUOTES, 'UTF-8');
 		
 		$list_reimbursements .= "
 			<tr>

@@ -9,13 +9,13 @@
 
 	while($row = sqlsrv_fetch_array($detAccount))
 	{
-		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountFN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountMN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountLN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 
 		$accountName = $accountFN . " " . $accountMN . " " . $accountLN;
 
-		$accountEmail = openssl_decrypt(base64_decode($row['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountEmail = htmlspecialchars(openssl_decrypt(base64_decode($row['accountEmail']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$accountStatus = $row['accountStatus'];
 		$positionName = $row['positionName'];
 		$departmentName = $row['departmentName'];
@@ -25,7 +25,7 @@
 	$accountNumbers = "";
 	while($row = sqlsrv_fetch_array($detContact))
 	{
-		$contactNumber = openssl_decrypt(base64_decode($row['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$contactNumber = htmlspecialchars(openssl_decrypt(base64_decode($row['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$ctypeName = $row['ctypeName'];
 		$accountNumbers .= "$contactNumber ($ctypeName) <br/>";
 	}
