@@ -5,7 +5,7 @@
 <html>
 <head>
 	<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=5iyso3f5zg58ld5wqj8dw0ctl2a13x98zgwx1urb7hgtc415"></script> 
-  <script>tinymce.init({ selector:'textarea' });</script>
+  	<script>tinymce.init({ selector:'textarea' });</script>
 </head>
 <body>
 <section id="main-content">
@@ -89,8 +89,6 @@
 							<label class="control-label col-lg-3">Project Remarks</label>
 							<div class="col-lg-8">
 							<input type="text" name="cRemarks" class="form-control" required="true">
-							
-
 						</div>
 					</div>
 						<div class="form-group">
@@ -112,10 +110,8 @@
 					</div>
 				</div>
 			</div>
-				</form>
-				</div>
-			</div>
-
-
+		</form>
+	</div>
+</div>
 </body>
 </html>

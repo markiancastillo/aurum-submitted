@@ -33,7 +33,7 @@ include('controllers/requestleave_controller.php');
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-lg-3">Filing Date</label>
+										<label class="control-label col-lg-3">Date Prepared</label>
 										<div class="col-lg-8">
 											<input type='date' class="form-control" id="leaveFileDate" name="leaveFileDate" value='<?php echo date('Y-m-d');?>' readonly >
 										</div>
@@ -62,31 +62,33 @@ include('controllers/requestleave_controller.php');
 								</div>	
 								<div class="col-lg-6">							
 									<div class="form-group">
-										<label class="control-label col-lg-4">Sick leave unconsumed</label>
+										<label class="control-label col-lg-4">Sick leave Consumed</label>
 										<div class="col-lg-3">
 											<input type="text" id="sickUnconsumed" name="sickLeave" class="form-control" value="<?php echo $sickUnconsumed; ?>" disabled />
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-lg-4">Maternity uncomsumed</label>
+									
+									<div class="form-group" style="<?php echo $dispMaternity; ?>">
+										<label class="control-label col-lg-4">Maternity Consumed</label>
 										<div class="col-lg-3">
 											<input type="text" id="vacationUnconsumed" name="vacation" class="form-control" value="<?php echo $maternityUnconsumed; ?>" disabled/>
 										</div>
 									</div>
+									
 									<div class="form-group">
-										<label class="control-label col-lg-4">Vacation uncomsumed</label>
+										<label class="control-label col-lg-4">Vacation Consumed</label>
 										<div class="col-lg-3">
 											<input type="text" id="maternityUnconsumed" name="maternity" class="form-control" value="<?php echo $vacationUnconsumed; ?>" disabled />
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-lg-4">Emergency uncomsumed</label>
+										<label class="control-label col-lg-4">Emergency Consumed</label>
 										<div class="col-lg-3">
 											<input type="text" id="emergencyUnconsumed" name="emergency" class="form-control" value="<?php echo $emergencyUnconsumed; ?>" disabled />
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-lg-4">Paternity uncomsumed</label>
+									<div class="form-group" style="<?php echo $dispPaternity ?>">
+										<label class="control-label col-lg-4">Paternity Consumed</label>
 										<div class="col-lg-3">
 											<input type="text" id="paternityUnconsumed" name="paternity" class="form-control" value="<?php echo $paternityUnconsumed; ?>" disabled />
 										</div>

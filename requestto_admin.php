@@ -11,7 +11,7 @@
 			<div class="row mt">
 				<div class="col-lg-12">
 					<div class="form-panel">
-						<form class="form-horizontal style-form" method="POST" enctype="multipart/form-data">
+						<form class="form-horizontal style-form">
 							<fieldset>
 								<legend>Requests</legend>
 								<?php 
@@ -54,17 +54,14 @@
 											{
 												echo "
 												<tr>
-												<td colspan='12' class='text-center'><h3>No Pending Requests</h3></td>
+												<td colspan='7' class='text-center'><h3>No Pending Requests</h3></td>
 												</tr>
 												";
 											}
 											else 
 											{
-
 												echo $listRequest;
-
 											}
-
 											?>
 										</tr>
 									</tbody>

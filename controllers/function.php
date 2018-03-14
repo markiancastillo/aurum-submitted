@@ -272,7 +272,7 @@
 	
 		$mail->setFrom('notification@aurum.com', 'Aurum System'); 	# sender email that will appear, sender name that will be displayed
 		#$mail->addAddress($accountEmail, $accountName);				# the address to which the email will be sent, name is optional
-		$mail->addAddress('mark05ian95@gmail.com', $accountName);
+		$mail->addAddress($accountEmail, $accountName);
 
 		$mail->isHTML(true);
 		$mail->Subject = 'Billing Notification'; 
@@ -526,18 +526,36 @@
 
 	function getltypes($con)
 	{
-		$sql_ltypes = "SELECT ltypeID, ltypeName FROM leavetypes";
-		$stmt_ltypes = sqlsrv_query($con, $sql_ltypes);
-		
+		$sql_account = "SELECT accountSex FROM accounts 
+						WHERE accountID = ?";
+		$params_account = array($accID);
+		$stmt_account = sqlsrv_query($con, $sql_account, $params_account);
+		while($racc = sqlsrv_fetch_array($stmt_account))
+		{
+			$accountSex = $racc['accountSex'];
+		}
 
+		$sql_ltypes = "SELECT ltypeID, ltypeName FROM leavetypes";
+		$stmt_ltypes = sqlsrv_query($con, $sql_ltypes);			
 		$list_ltypes = "";
 		while($row = sqlsrv_fetch_array($stmt_ltypes))
 		{
 			$ltypeID = $row['ltypeID'];
 			$ltypeName = $row['ltypeName'];
-			$list_ltypes .= "<option value='$ltypeID'>$ltypeName</option>";
-		}
+			
+			$opMaternity = "";
+			$opPaternity = "";
+			if($ltypeID == 2 && strcasecmp(trim($accountSex), "M") == 0)
+			{
+				$opMaternity = "display:none";
+			}
+			else if($ltypeID == 5 && strcasecmp(trim($accountSex), "F") == 0)
+			{
+				$opPaternity = "display:none";
+			}
 
+			$list_ltypes .= "<option value='$ltypeID' style='$opMaternity $opPaternity'>$ltypeName</option>";
+		}
 		return $list_ltypes;
 	}
 

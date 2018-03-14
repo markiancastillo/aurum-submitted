@@ -11,8 +11,8 @@
 		$rowCount = $rowC['rowCount'];
 	}
 
-	$sql_listRequest= "SELECT leaveID, leaveFileDate, leaveFrom, leaveTo, leaveReason, leaveStatus FROM leaves"; 
-	
+	$sql_listRequest= "SELECT leaveID, leaveFileDate, leaveFrom, leaveTo, leaveReason, leaveStatus 
+					   FROM leaves"; 
 	$stmt_listRequest = sqlsrv_query($con, $sql_listRequest);
 
 	$listRequest = "";
@@ -25,11 +25,7 @@
 		$leaveReason = $row['leaveReason'];
 		$leaveStatus = $row['leaveStatus'];
 
-		
-
-		$nr_work_days = getWorkingDays($leaveFrom,$leaveTo);
-		
-		
+		$nr_work_days = getWorkingDays($leaveFrom, $leaveTo);
 
 		$listRequest .= "
 			<tr>
@@ -38,13 +34,7 @@
 				<td class='text-center'>$leaveTo</td>
 				<td class='text-center'>$nr_work_days</td>
 				<td class='text-center'>$leaveReason</td>
-				<td class='text-center'>$leaveStatus</td>
-				
-
-				
-				
+				<td class='text-center'>$leaveStatus</td>	
 			</tr>";
 	}
-
-
 ?>
