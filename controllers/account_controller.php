@@ -64,7 +64,7 @@
 	while($rowNum = sqlsrv_fetch_array($stmt_getNumber))
 	{
 		$numberID = $rowNum['contactID'];
-		$contactNumber = htmlspecialchars(openssl_decrypt(base64_decode($rowNum['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8');
+		$contactNumber = htmlspecialchars(openssl_decrypt(base64_decode($rowNum['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 	}
 
 	#get adress
