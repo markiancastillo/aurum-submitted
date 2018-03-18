@@ -25,7 +25,7 @@
 	$sql_lt = "SELECT ltypeName FROM leavetypes WHERE ltypeID = ?";
 	$params_lt = array($ltypeID);
 	$stmt_lt = sqlsrv_query($con, $sql_lt, $params_lt);
-	while($row = sqlsrv_fetch_array($stmt_ltypes1))
+	while($row = sqlsrv_fetch_array($stmt_lt))
 	{
 		$ltypeID = $row['ltypeID'];
 	}
@@ -44,7 +44,7 @@
 		$leaveFileDate = $row['leaveFileDate']->format('Y/m/d');
 		$leaveFrom = $row['leaveFrom']->format('Y/m/d');
 		$leaveTo = $row['leaveTo']->format('Y/m/d');
-		$leaveReason = $row['leaveReason'];
+		$leaveReason = htmlspecialchars($row['leaveReason'], ENT_QUOTES, 'UTF-8');
 		$leaveStatus = $row['leaveStatus'];
 		$accountID = $row['accountID'];
 		

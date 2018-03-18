@@ -1,5 +1,5 @@
 <?php
-	$pageTitle = "Manage Services List";
+	$pageTitle = "Create Project";
 	include('function.php');
 	include(loadHeader());
 	$accID = $_SESSION['accID'];

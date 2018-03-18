@@ -114,11 +114,10 @@
                     <li class="sub-menu dcjq-parent-li">
                         <a class="dcjq-parent" href="javascript:;" >
                             <i class="fa fa-th"></i>
-                            <span>Administration</span>
+                            <span>Payroll</span>
                         </a>
-                        <ul class="sub" style="display: block;"">
-                            <li><a href="#">Manage Services List</a></li>
-                            <li><a href="#">Manage Positions List</a></li>
+                        <ul class="sub">
+                            <li><a href="account_payroll.php">My Payroll</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu dcjq-parent-li">
@@ -130,8 +129,8 @@
                             <li><a href="<?php echo app_path?>create_project.php">Cases</a></li>
                         </ul>
                     </li>
-                    <li class="sub-menu dcjq-parent-li">
-                        <a href="attendance.php" >
+                    <li class="sub-menu dcjq-parent-li" <?php echo $displayAttendance; ?>>
+                        <a href="attendance.php">
                             <i class="fa fa-book"></i>
                             <span>Attendance</span>
                         </a>
@@ -140,6 +139,8 @@
                         <a href="javascript:;" ><i class="fa fa-cogs"></i><span>Requests</span></a>
                         <ul class="sub">
                             <li><a href="requestleave.php">Leave Application</a></li>
+                            <li><a href="requestto_admin.php">Leave Requests</a></li>
+                            <li class="divider">__________________</li>
                             <li><a href="list_requestleave.php">Your Requests</a></li>
                         </ul>
                     </li>

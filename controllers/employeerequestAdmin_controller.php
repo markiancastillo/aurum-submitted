@@ -3,8 +3,6 @@
 	include('function.php');
 	include(loadHeader());
 	include($_SERVER['DOCUMENT_ROOT'] . '/aurum/css/search.css');
-
-
 	
 	$sql_countRows = "SELECT COUNT(leaveID) AS 'rowCount' FROM requestLeave 
 					  WHERE statusLeave != 'Approved' AND statusLeave != 'Disapproved' AND accountID != $accID";
@@ -34,9 +32,6 @@
 		$durationfromLeave = $row['durationfromLeave']->format('d/m/Y');
 		$durationtoLeave = $row['durationtoLeave']->format('d/m/Y');
 		$reasonLeave = $row['reasonLeave'];
-
-
-		
 		
 		$displayemployeeRequest .= "
 			<tr>

@@ -119,7 +119,6 @@
 				#display an error prompt
 	    		die(header('location: account.php?img=error'));
 			}
-			
 		}
 
 		#get the data from the form

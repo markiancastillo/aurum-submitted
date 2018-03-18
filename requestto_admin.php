@@ -14,7 +14,7 @@
 						<form class="form-horizontal style-form">
 							<fieldset>
 								<legend>Requests</legend>
-								<?php 
+								<?php  
 								if(isset($_REQUEST['approved']))
 								{
 									$msgApprove = $_REQUEST['approved'];
@@ -23,7 +23,7 @@
 										echo "
 										<div class='alert alert-success alert-dismissable fade in'>
 										<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-										Successfully approved the service fee request!
+										Successfully approved the leave request!
 										</div>";
 									}
 									else if(strcasecmp($msgApprove, "no") == 0)
@@ -31,7 +31,7 @@
 										echo "
 										<div class='alert alert-warning alert-dismissable fade in'>
 										<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-										Successfully disapproved the service fee request.
+										Successfully disapproved the leave request.
 										</div>";
 									}
 								}

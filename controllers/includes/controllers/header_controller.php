@@ -34,9 +34,12 @@
 		$displayPhoto = $accountPhoto;
 
 		$displayBilling = "style='display: none'";
+		$displayPayroll = "style='display: none'";
 		if($accPos == 9)
 		{
+			#user is in accounting
 			$displayBilling = "";
+			$displayPayroll = "";
 		}
 
 		#get the count of new notifications

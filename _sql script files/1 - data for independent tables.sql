@@ -83,6 +83,10 @@ INSERT INTO servicetypes (stypeName) VALUES ('Litigation and Dispute Resolution'
 INSERT INTO servicetypes (stypeName) VALUES ('Telecommunications');
 INSERT INTO servicetypes (stypeName) VALUES ('Tax');
 
+/* populate HDMF table */
+INSERT INTO hdmfs (hdmfAmount)
+VALUES (100);
+
 /* populate the clients table */
 /* name: Kevin Smith, kevinsmith@mail.com */
 INSERT INTO clients (clientFN, clientMN, clientLN, clientEmail)

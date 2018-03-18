@@ -22,7 +22,7 @@
 		$leaveFileDate = $row['leaveFileDate']->format('Y/m/d');
 		$leaveFrom = $row['leaveFrom']->format('Y/m/d');
 		$leaveTo = $row['leaveTo']->format('Y/m/d');
-		$leaveReason = $row['leaveReason'];
+		$leaveReason = htmlspecialchars($row['leaveReason'], ENT_QUOTES, 'UTF-8');
 		$leaveStatus = $row['leaveStatus'];
 
 		$nr_work_days = getWorkingDays($leaveFrom, $leaveTo);

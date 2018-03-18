@@ -13,7 +13,7 @@
 	$displayList = "";
 	while($row = sqlsrv_fetch_array($stmt_listNumbers))
 	{
-		$contactNumber = openssl_decrypt(base64_decode($row['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$contactNumber = htmlspecialchars(openssl_decrypt(base64_decode($row['contactNumber']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$selectedTypeID = $row['ctypeID'];
 		$selectedTypeName = $row['ctypeName'];
 

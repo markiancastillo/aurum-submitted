@@ -12,7 +12,7 @@
         <div class="container">
 			<div class="row mt">
 				<div class="form-panel">
-					<legend>My Service Fee Applications</legend>
+					<h1 class="text-center">My Service Fee Applications</h1>
 					<br />
 					<table id="listTable" name="listTable" class="table table-hover">
 						<thead>

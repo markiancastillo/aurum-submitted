@@ -12,7 +12,20 @@
                 <div class="row">
                     <form class="form-horizontal" action="" method="post" name="upload_excel" enctype="multipart/form-data">
                         <fieldset>
-                            <legend>Form Name</legend>
+                            <legend>Attendance CSV Upload</legend>
+                            <?php
+                                if(isset($_GET['upload']))
+                                {
+                                    echo "
+                                        <div class='col-lg-10 col-lg-offset-1'>
+                                            <div class='alert alert-danger alert-dismissable fade in'>
+                                                 <a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                                                Please upload a valid CSV file.
+                                            </div>
+                                        </div>
+                                    ";
+                                }
+                            ?>
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="filebutton">Select File</label>
                                 <div class="col-md-4">
@@ -20,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="singlebutton">Import data</label>
+                                <label class="col-md-4 control-label" for="singlebutton"></label>
                                 <div class="col-md-4">
                                     <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Import</button>
                                 </div>

@@ -17,7 +17,7 @@
 
 	$sql_listRequest= "SELECT leaveID, ltypeID, leaveFileDate, leaveFrom, leaveTo, leaveReason, leaveStatus FROM leaves WHERE accountID = ? AND ltypeID =?";
 	$params_listRequest = array($reqID, $lID);
-	$stmt_listRequest = sqlsrv_query($con, $sql_listRequest);
+	$stmt_listRequest = sqlsrv_query($con, $sql_listRequest, $params_listRequest);
 
 	$listRequest = "";
 	while($row = sqlsrv_fetch_array($stmt_listRequest))
@@ -27,7 +27,7 @@
 		$leaveFileDate = $row['leaveFileDate']->format('Y/m/d');
 		$leaveFrom = $row['leaveFrom']->format('Y/m/d');
 		$leaveTo = $row['leaveTo']->format('Y/m/d');
-		$leaveReason = $row['leaveReason'];
+		$leaveReason = htmlspecialchars($row['leaveReason'], ENT_QUOTES, 'UTF-8');
 		$leaveStatus = $row['leaveStatus'];	
 	}
 

@@ -19,14 +19,14 @@
 	$list_details = "";
 	while($row = sqlsrv_fetch_array($stmt_details))
 	{
-		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountFN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountMN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountLN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$accountName = $accountLN . ', ' . $accountFN . ' ' . $accountMN;
-		$caseTitle = $row['caseTitle'];
+		$caseTitle = htmlspecialchars($row['caseTitle'], ENT_QUOTES, 'UTF-8');
 		$expenseDate = $row['expenseDate']->format('M d, Y');
-		$expenseAmount = $row['expenseAmount'];
-		$expenseRemarks = $row['expenseRemarks'];
+		$expenseAmount = htmlspecialchars($row['expenseAmount'], ENT_QUOTES, 'UTF-8');
+		$expenseRemarks = htmlspecialchars($row['expenseRemarks'], ENT_QUOTES, 'UTF-8');
 		$etypeName = $row['etypeName'];
 
 		$list_details .= "

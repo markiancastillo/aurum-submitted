@@ -85,21 +85,33 @@
                 </li>
                 <li class="sub-menu">
                     <a href="javascript:;" class="dcjq-parent"><i class="fa fa-cogs"></i><span>Legal Billing</span></a>
-                    <ul class="sub" style="display: block;">
+                    <ul class="sub">
                         <li class="active">
                             <li><a href="application_billing.php">Legal Billing Application</a></li>
                             <li><a href="process_billing.php" <?php echo $displayBilling; ?>>Process Billing</a></li>
-                            <li class="divider"></li>
+                            <li class="divider">__________________</li>
                             <li><a href="account_billing.php">My Billing Records</a></li>
                             <li><a href="account_reimbursement.php">My Reimbursement Applications</a></li>
                             <li><a href="account_servicefee.php">My Service Fee Applications</a></li>
                         </li>
                     </ul>
                 </li>
+                <li class="sub-menu dcjq-parent-li">
+                    <a class="dcjq-parent" href="javascript:;" >
+                        <i class="fa fa-th"></i>
+                        <span>Payroll</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="payroll.php" <?php echo $displayPayroll; ?>>Manage Payroll</a></li>
+                        <li class="divider" <?php echo $displayPayroll; ?>>__________________</li>
+                        <li><a href="account_payroll.php">My Payroll</a></li>
+                    </ul>
+                </li>
                 <li class="sub-menu">
                     <a href="javascript:;" ><i class="fa fa-cogs"></i><span>Requests</span></a>
                     <ul class="sub">
                         <li><a href="requestleave.php">Leave Application</a></li>
+                        <li class="divider">__________________</li>
                         <li><a href="list_requestleave.php">Your Requests</a></li>
                     </ul>
                 </li>

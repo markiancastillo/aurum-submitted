@@ -25,10 +25,10 @@
 							<table id="listTable" name="listTable" class="table table-hover">
 								<thead>
 									<th class="text-center"></th>
-									<th class="text-center">Account Owner</th>
+									<th class="text-center">ID</th>
+									<th class="text-center">Name</th>
 									<th class="text-center">Position</th>
 									<th class="text-center">Department</th>
-									<th class="text-center">Account Status</th>
 									<th class="text-center">Actions</th>
 								</thead>
 								<tbody>
@@ -38,7 +38,7 @@
 										{
 											echo "
 											<tr>
-											<td colspan='5' class='text-center'><h3>There are no accounts to display</h3></td>
+											<td colspan='6' class='text-center'><h3>There are no accounts to display</h3></td>
 											</tr>
 											";
 										}

@@ -58,12 +58,12 @@
 					</div>
 					<div class="col-lg-6">
 						<div class="col-lg-7">
-							<button class="btn btn-block btn-success" id="btnApprove" name="btnApprove" onclick="return confirm('Confirm approval of service fee request #<?php echo $_REQUEST['id']; ?>?');">
+							<button class="btn btn-block btn-success" id="btnApprove" name="btnApprove" onclick="return confirm('Confirm approval of leave request #<?php echo $_REQUEST['id']; ?>?');">
 								<span class='glyphicon glyphicon-ok'></span> Approve</button>
 							</button>
 						</div>
 						<div class="col-lg-5">
-							<button class="btn btn-block btn-danger" id="btnDeny" name="btnDeny" onclick="return confirm('Confirm disapproval of service fee request #<?php echo $_REQUEST['id']; ?>?');">
+							<button class="btn btn-block btn-danger" id="btnDeny" name="btnDeny" onclick="return confirm('Confirm disapproval of leave request #<?php echo $_REQUEST['id']; ?>?');">
 								<span class='glyphicon glyphicon-remove'></span> Disapprove
 							</button>
 						</div>

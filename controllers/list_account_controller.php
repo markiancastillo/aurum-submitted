@@ -38,10 +38,10 @@
 		$displayList .= "
 			<tr>
 				<td class='text-center'><img src='images/profile/$image' width='50px' alt='img'></td>
+				<td class='text-center'>$accountID</td>
 				<td class='text-center'>$accountName</td>
 				<td class='text-center'>$positionName</td>
 				<td class='text-center'>$departmentName</td>
-				<td class='text-center'>$accountStatus</td>
 				<td class='text-center'>
 					<a href='view_account.php?id=$accountID' class='btn btn-sm btn-default'>View Details</a>
 					<a class='btn btn-sm btn-danger' $disableButton>Archive</a>

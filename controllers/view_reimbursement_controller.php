@@ -17,15 +17,15 @@
 
 	while($row = sqlsrv_fetch_array($stmt_details))
 	{
-		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountFN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountMN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountLN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$accountName = $accountLN . ', ' . $accountFN . ' ' . $accountMN;
-		$caseTitle = $row['caseTitle'];
+		$caseTitle = htmlspecialchars($row['caseTitle'], ENT_QUOTES, 'UTF-8');
 		$expenseDate = $row['expenseDate']->format('m/d/Y');
-		$expenseAmount = $row['expenseAmount'];
+		$expenseAmount = htmlspecialchars($row['expenseAmount'], ENT_QUOTES, 'UTF-8');
 		$etypeName = $row['etypeName'];
-		$expenseRemarks = $row['expenseRemarks'];
+		$expenseRemarks = htmlspecialchars($row['expenseRemarks'], ENT_QUOTES, 'UTF-8');
 
 		#assign expenseProof to variable accountPhoto for reuse of function
 		$accountPhoto = openssl_decrypt(base64_decode($row['expenseProof']), $method, $password, OPENSSL_RAW_DATA, $iv);

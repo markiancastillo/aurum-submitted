@@ -4,6 +4,10 @@
 	include('function.php');
 	include(loadHeader());
 
+	#user should be in accounting; else deny access
+	#(posID is taken from the header function)
+	determineAccounting();
+
 	//view list of accounts eligible for payroll generation - Active statuses
 	$sql_listAccounts = "SELECT a.accountID, a.accountFN, a.accountMN, a.accountLN, a.accountStatus, p.positionName, d.departmentName 
 						FROM accounts a 
@@ -17,9 +21,9 @@
 	while($row = sqlsrv_fetch_array($stmt_listAccounts))
 	{
 		$accountID = $row['accountID'];
-		$accountFN = openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountMN = openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv);
-		$accountLN = openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv);
+		$accountFN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountFN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountMN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountMN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
+		$accountLN = htmlspecialchars(openssl_decrypt(base64_decode($row['accountLN']), $method, $password, OPENSSL_RAW_DATA, $iv), ENT_QUOTES, 'UTF-8');
 		$accountStatus = $row['accountStatus'];
 		$positionName = $row['positionName'];
 		$departmentName = $row['departmentName'];

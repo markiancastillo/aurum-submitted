@@ -39,9 +39,6 @@
 				<td class='text-center'>$stypeName</td>
 				<td class='text-center'>$sfStatus</td>
 				<td class='text-center'>$sfNote</td>
-				<td class='text-center'>
-					<a href='' class='btn btn-default'>Review</a>
-				</td>
 			</tr>
 		";
 	}

@@ -18,6 +18,14 @@
 			$accID = $_SESSION['accID'];
 			$posID = $_SESSION['posID'];
 
+#			$sql_pos = "SELECT positionID FROM accounts WHERE accountID = ?";
+#			$params_pos = array($accID);
+#			$stmt_pos = sqlsrv_query($con, $sql_pos, $params_pos);
+#			while($rowpos = sqlsrv_fetch_array($stmt_pos))
+#			{
+#				$posID = $rowpos['positionID'];
+#			}
+
 			if($posID == 1 || $posID == 6 || $posID == 8)
 			{
 				#load header_admin when account's position is either:
@@ -56,7 +64,7 @@
 		$posID = $_SESSION['posID'];
 
 		#if the user is not from accounting, 
-		#deny access to the process biling pages
+		#deny access to the process biling/payroll pages
 		if($posID == 9)
 		{
 			
@@ -249,7 +257,7 @@
 	#function to send emails
 	function sendNotificationEmail($accountEmail, $OR, $accountName, $caseTitle, $billType)
 	{
-		require $_SERVER['DOCUMENT_ROOT'] . '/aurum/lib/PHPMailer/PHPMailerAutoload.php';
+		require_once $_SERVER['DOCUMENT_ROOT'] . '/aurum/lib/PHPMailer/PHPMailerAutoload.php';
 
 		# source:
 		# https://github.com/PHPMailer/PHPMailer/tree/5.2-stable
@@ -524,7 +532,7 @@
 		return $stmt_clients;
 	}
 
-	function getltypes($con)
+	function getltypes($con, $accID)
 	{
 		$sql_account = "SELECT accountSex FROM accounts 
 						WHERE accountID = ?";

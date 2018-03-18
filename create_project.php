@@ -97,7 +97,7 @@
 							<select id="cStatus" name="cStatus" class="form-control">
 								<option disabled selected>Choose...</option>
 								<option value="Closed">Closed</option>
-								<option value="On-going">On-going</option>
+								<option value="Active">Active</option>
 								<option value="Pending">Pending</option>
 							</select>
 						</div>

@@ -530,13 +530,14 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 .dropdown-menu.extended li a {
     border-bottom: 1px solid #EBEBEB !important;
     font-size: 12px;
-    list-style: none;
+    white-space: normal;
 }
 
 .dropdown-menu.extended li a {
     padding: 15px 10px !important;
     width: 100%;
     display: inline-block;
+    white-space: normal;
 }
 
 .dropdown-menu.extended li a:hover {
@@ -547,6 +548,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 .dropdown-menu.tasks-bar .task-info .desc {
     font-size: 13px;
     font-weight: normal;
+    
 }
 
 .dropdown-menu.tasks-bar .task-info .percent {

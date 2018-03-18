@@ -39,9 +39,6 @@
 				<td class='text-center'>$etypeName</td>
 				<td class='text-center'>$expenseStatus</td>
 				<td class='text-center'>$expenseNote</td>
-				<td class='text-center'>
-					<a href='' class='btn btn-default'>Review</a>
-				</td>
 			</tr>
 		";
 	}

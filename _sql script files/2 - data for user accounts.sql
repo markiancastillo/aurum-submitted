@@ -17,6 +17,22 @@ VALUES('jL4taYR+A3vNqE8TYzTRQg==', 'jL4taYR+A3vNqE8TYzTRQg==', 'UphLbpZ4X29CE7j0
 	   1, 1, 1);
 
 /* 
+	username:			gianestera	
+	password:			gianestera
+	complete name:		Gian B. Estera
+	email address:		gian.estera@benilde.edu.ph 
+	position:			Accounting Head
+*/
+INSERT INTO accounts (accountUsername, accountPassword, accountFN, accountMN, 
+					  accountLN, accountBirthDate, accountSex, accountSSSNo, accountTINNo, 
+					  accountHDMFNo, accountEmail, accountBaseRate, accountStatus, 
+					  cstatusID, positionID, departmentID)
+VALUES('dTYgZZ1jzYWj5+XtvdMkcw==', 'dTYgZZ1jzYWj5+XtvdMkcw==', 'OBu1w0ZwzRfxNVufOdqV4g==', 'mSbnTBQXkfiMoE/d2ezX/Q==', 
+	   'tcFwoq7NXmgENcZseAfIug==', '1995-03-28', 'F', '7Nz6cENZH2RgzHuX0LdANA==', 'LgN0BAO2uT3zTuzrcHp4ew==', 
+	   'ogdI4MvrV54PkWqD6fbqIsBOTIFlW/4+sD8mWHkXiFM=', 'lbNI+E10ErQalZDI36Yirq1mrIRrWNi6Q3AUp3pH1Dc=', 37000.00, 'Active', 
+	   1, 9, 4);
+
+/* 
 	username:			joshmanalo
 	password:			joshmanalo
 	complete name:		Josh Benjamin D Manalo

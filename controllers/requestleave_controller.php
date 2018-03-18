@@ -6,6 +6,7 @@
 	$list_ltypes = getltypes($con, $accID);
 
 	$dispMsg = "";
+	$valMsg = "";
 	$successMsg = "<div class='alert alert-success alert-dismissable fade in'>
 						<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						Successfully filed a leave request.
@@ -24,11 +25,11 @@
 					</div>";
 	$maternityerrorMsg = "<div class='alert alert-danger alert-dismissable fade in'>
 					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-					Duration should be less or within 60 days.
+					mDuration should be less or within 60 days.
 					</div>";
 	$vacationerrorMsg = "<div class='alert alert-danger alert-dismissable fade in'>
 					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-					Duration should be less or within 60 days.
+					vDuration should be less or within 60 days.
 					</div>";
 	$emergencyerrorMsg ="<div class='alert alert-danger alert-dismissable fade in'>
 					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -57,6 +58,14 @@
 	$paternityconsumederrorMsg ="<div class='alert alert-danger alert-dismissable fade in'>
 					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 					You have already maximized 'paternity' leave.
+					</div>";
+	$requiredPhotoError ="<div class='alert alert-danger alert-dismissable fade in'>
+					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+					For a sick/maternity leave, please upload an image as proof of the stated reason.
+					</div>";
+	$photoFileError = "<div class='alert alert-danger alert-dismissable fade in'>
+					<a href='' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+					Please make sure that you are uploading a valid image file.
 					</div>";
 	
 	//View leave unconsumed
@@ -164,19 +173,43 @@ if(isset($_POST['btnRequest']))
 	        {
 	            if($dayDifference>=1)
 	  			{
-					$sql_insert = "INSERT INTO leaves (leaveReason, leaveFileDate, leaveFrom, leaveTo, leaveProof, leaveStatus, accountID, ltypeID) 
-								   VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-					$params_insert = array($leaveReason, $leaveFileDate, $leaveFrom,  $leaveTo, $imgProof, 'Pending for Approval', $accID, $ltypeID);	
-					$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
-		
-					if($stmt_insert === false) 
+	  				//photo proof of medical certificate required
+	  				if(!isset($_FILES['inpProof']) || $_FILES['inpProof']['error'])
 					{
-						#die(print_r(sqlsrv_errors(), true));
-						$dispMsg = $errorMsg;
+						#display an error message
+						$valMsg = $requiredPhotoError;
 					}
-					else 
+					else
 					{
-						$dispMsg = $successMsg;
+						#validate if the uploaded file is a valid image
+						#(accept it as valid if the type is a png, bmp, or jpg/jpeg)
+						$imgType = mime_content_type($_FILES["inpProof"]["tmp_name"]);
+						if($imgType == 'image/png' || $imgType == 'image/jpeg' || $imgType == 'image/bmp')
+						{
+							#update the photo with the new input
+							$imgName = $_FILES["inpProof"]["name"];
+				    		$imgProof = uploadLeaveProof($con, $accID, $imgName);
+
+				    		$sql_insert = "INSERT INTO leaves (leaveReason, leaveFileDate, leaveFrom, leaveTo, leaveProof, leaveStatus, accountID, ltypeID) 
+								   VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+							$params_insert = array($leaveReason, $leaveFileDate, $leaveFrom,  $leaveTo, $imgProof, 'Pending for Approval', $accID, $ltypeID);	
+							$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
+				
+							if($stmt_insert === false) 
+							{
+								#die(print_r(sqlsrv_errors(), true));
+								$dispMsg = $errorMsg;
+							}
+							else 
+							{
+								$dispMsg = $successMsg;
+							}
+						}
+						else
+						{
+							#display an error prompt
+				    		$valMsg = $photoFileError;
+						}
 					}
 				}	
 				else 
@@ -192,6 +225,69 @@ if(isset($_POST['btnRequest']))
 		else
 		{
 			$dispMsg = $sickerrorMsg;
+		}
+	}
+
+	//If Maternity Leave is chosen
+	if($ltypeID == 2)
+	{
+		//Validation for date	 
+		$dayDifference = date_diff($leaveFrom, $leaveTo)->format('%d');
+	    $yearDifference = date_diff($leaveFrom, $leaveTo)->format('%y');
+	    $monthDifference = date_diff($leaveFrom, $leaveTo)->format('%m');
+
+    	if($yearDifference==0)
+    	{
+    	    if($monthDifference==0)
+    	    {
+    	        if($dayDifference<=61 && $dayDifference>=1)
+  			    {
+  			    	//photo proof of medical certificate required
+	  				if(!isset($_FILES['inpProof']) || $_FILES['inpProof']['error'])
+					{
+						#display an error message
+						$valMsg = $requiredPhotoError;
+					}
+					else
+					{
+						#validate if the uploaded file is a valid image
+						#(accept it as valid if the type is a png, bmp, or jpg/jpeg)
+						$imgType = mime_content_type($_FILES["inpProof"]["tmp_name"]);
+						if($imgType == 'image/png' || $imgType == 'image/jpeg' || $imgType == 'image/bmp')
+						{
+							#update the photo with the new input
+							$imgName = $_FILES["inpProof"]["name"];
+				    		$imgProof = uploadLeaveProof($con, $accID, $imgName);
+
+				    		$sql_insert = "INSERT INTO leaves (leaveReason, leaveFileDate, leaveFrom, leaveTo, leaveProof, leaveStatus, accountID, ltypeID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+							$params_insert = array($leaveReason, $leaveFileDate, $leaveFrom,  $leaveTo, $imgProof, 'Pending for Approval', $accID, $ltypeID);
+							$stmt_insert = sqlsrv_query($con, $sql_insert, $params_insert);
+		
+							if($stmt_insert === false) 
+							{
+								$dispMsg = $maternityerrorMsg;
+							}
+							else 
+							{
+								$dispMsg = $successMsg;
+							}
+				    	}
+				    	else
+						{
+							#display an error prompt
+				    		$valMsg = $photoFileError;
+						}
+				    }	
+				}
+			}
+			else
+			{
+				$dispMsg = $maternityerrorMsg;
+			}
+		}
+		else
+		{
+			$dispMsg = $maternityerrorMsg;
 		}
 	}
 			
@@ -324,5 +420,7 @@ if(isset($_POST['btnRequest']))
 			$dispMsg = $paternityerrorMsg;
 		}
 	}
+}
+}
 }										
 ?>

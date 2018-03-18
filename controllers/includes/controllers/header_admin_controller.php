@@ -39,9 +39,12 @@
 		$displayPhoto = $accountPhoto;
 
 		$displayCreate = "style='display: none'";
+		$displayAttendance = "style='display: none'";
 		if($accPos == 8)
 		{
+			#user's position is HR
 			$displayCreate = "";
+			$displayAttendance = "";
 		}
 
 		#get the count of new notifications

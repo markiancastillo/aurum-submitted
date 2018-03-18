@@ -15,7 +15,10 @@ include('controllers/requestleave_controller.php');
 					<div class="form-panel">
 						<fieldset>
 							<legend>Leave Application</legend>
-							<form class="form-horizontal" method="POST">
+							<form class="form-horizontal" method="POST" enctype="multipart/form-data">
+								<div class="col-lg-10 col-lg-offset-1">
+									<?php echo $valMsg; ?>
+								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label class="control-label col-lg-3">Type of Leave</label>
@@ -98,7 +101,9 @@ include('controllers/requestleave_controller.php');
 						</fieldset>
 					</div>
 				</div>
-				<?php echo $dispMsg; ?>
+				<div class="row col-lg-10 col-lg-offset-1">
+					<?php echo $dispMsg; ?>
+				</div>
 			</div>
 		</section>
 	</section>
